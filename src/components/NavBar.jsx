@@ -1,4 +1,5 @@
 import React from 'react';
+import {UserAuth} from '../contexts/AuthContext';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,8 +10,19 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 
 export default function NavBar() {
+
+    const {user, logOut} = UserAuth();
+
+    const handleSignOut = async () =>{
+        try {
+            await logOut()
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     return(
-    <AppBar position="static">
+    <AppBar position="static" sx ={{bgcolor: "darkblue"}}>
         <Toolbar>
             <IconButton
             size="large"
@@ -19,8 +31,17 @@ export default function NavBar() {
             aria-label="menu"
             sx={{ mr: 2 }}>
         </IconButton>
-        <Avatar/>
-        <h3>Name</h3>
+        {user ? 
+        <div id ="profile-items">
+            <Avatar src = {user.photoURL}/>
+            <h3>{user.displayName}</h3>
+            <Button variant ="contained" onClick = {handleSignOut} color = "primary"> Log Out </Button>
+        </div> :
+        <h3>Log In to view stats</h3>
+
+        }
+       
+
         </Toolbar>
     </AppBar>
     )

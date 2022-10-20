@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext, createContext, useEffect, useState} from "react";
 import { auth } from "../firebase";
+
 import { 
     GoogleAuthProvider, 
     signInWithPopup, 
@@ -27,7 +28,6 @@ export const AuthContextProvider = ( {children} ) => {
     useEffect(()=> {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
-            console.log('User', user)
         });
         return () => {
             unsubscribe();

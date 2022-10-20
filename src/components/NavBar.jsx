@@ -1,5 +1,4 @@
 import React from 'react';
-import {UserAuth} from '../contexts/AuthContext';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -9,10 +8,13 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 
+import {UserAuth} from '../contexts/AuthContext';
+
+
 export default function NavBar() {
 
     const {user, logOut} = UserAuth();
-
+    console.log(user)
     const handleSignOut = async () =>{
         try {
             await logOut()
@@ -37,8 +39,7 @@ export default function NavBar() {
             <h3>{user.displayName}</h3>
             <Button variant ="contained" onClick = {handleSignOut} color = "primary"> Log Out </Button>
         </div> :
-        <h3>Log In to view stats</h3>
-
+        <h3>You are not logged in</h3>
         }
        
 

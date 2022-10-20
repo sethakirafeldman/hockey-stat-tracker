@@ -1,18 +1,29 @@
 import '../App.css';
-// import { Container } from'@mui/material';
 import SignUp from "./SignUp";
 import NavBar from "./NavBar";
+import Dashboard from "./Dashboard";
+
+import SportsHockeyIcon from '@mui/icons-material/SportsHockey';
+
 import { AuthContextProvider } from "../contexts/AuthContext";
+import {UserAuth} from '../contexts/AuthContext';
 
 function App() {
+  const {user, logOut} = UserAuth();
+
   return (
-    <AuthContextProvider>
+    
       <div className="App">
-        <NavBar/>
+        <NavBar />
+        <SportsHockeyIcon/>
         <h1>Hockey Stat Tracker</h1>
-        <SignUp />
+        {!user ? 
+        <SignUp /> :
+        <Dashboard />
+        }        
+        
       </div>
-    </AuthContextProvider>
+    
   );
 }
 

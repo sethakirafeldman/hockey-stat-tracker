@@ -10,11 +10,9 @@ import Avatar from '@mui/material/Avatar';
 
 import {UserAuth} from '../contexts/AuthContext';
 
-
 export default function NavBar() {
 
     const {user, logOut} = UserAuth();
-    console.log(user)
     const handleSignOut = async () =>{
         try {
             await logOut()

@@ -8,8 +8,10 @@ import SportsHockeyIcon from '@mui/icons-material/SportsHockey';
 import { AuthContextProvider } from "../contexts/AuthContext";
 import {UserAuth} from '../contexts/AuthContext';
 
+
 function App() {
   const {user, logOut} = UserAuth();
+ 
 
   return (
     

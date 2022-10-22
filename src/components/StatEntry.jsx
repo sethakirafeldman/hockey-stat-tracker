@@ -8,15 +8,14 @@ import {Button, Grid, GridItem} from "@mui/material";
 import Box from '@mui/material/Box';
 
 
-export default function StatEntry() {
+export default function StatEntry(props) {
 
+const [statsValue, setStatsValue] = React.useState({});
 const [dateValue, setDateValue] = React.useState();
 
-  const handleChange = (newValue) => {
-    setDateValue(newValue);
-  };
-
-console.log(dateValue);
+const handleChange = (newValue) => {
+  setDateValue(newValue);
+};
 
     return (
         <>

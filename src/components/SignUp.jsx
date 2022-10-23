@@ -18,8 +18,8 @@ export default function SignUp() {
 
     return (
         <section id ="login-container"> 
-        <h2>Sign Up</h2>
-        <GoogleButton onClick = {handleGoogleSignIn}/>
+            <h2>Sign Up or Sign In</h2>
+            <GoogleButton onClick = {handleGoogleSignIn}/>
         </section>
     )
 }

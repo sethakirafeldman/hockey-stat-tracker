@@ -3,30 +3,43 @@ import SignUp from "./SignUp";
 import NavBar from "./NavBar";
 import Dashboard from "./Dashboard";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 
 import SportsHockeyIcon from '@mui/icons-material/SportsHockey';
 
 import { AuthContextProvider } from "../contexts/AuthContext";
 import {UserAuth} from '../contexts/AuthContext';
+import { collection, query, where, getDocs, docs, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 
 function App() {
   const {user, logOut} = UserAuth();
 
   // temporarily set current user to be one of test cases
-  const [activeUser, setActiveUser] = React.useState(
-  {
-    creation_date:"2022-10-22",
-    id:"79f82061-c348-43d9-bf89-523ecfb6a923",
-    name:"Ed Yip",
-    player_id: "f1e39716-ddf8-44b1-83a4-b6d396c85c98"
-  });
+  const [activeUser, setActiveUser] = useState({});
 
-  // console.log(activeUser);
-  // create user in firestore using this data.
-  
+  let playerData = {};
+  async function getPlayer() {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("email", "==", user.email));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      playerData = doc.data();
+    });
 
+    setActiveUser({
+      creation_date: playerData.creation_date,
+      id: playerData.id,
+      name: playerData.name,
+      player_id: playerData.player_id
+    });
+  }
+
+  useEffect(() => {
+    getPlayer();
+  }, [user])
   
   return (
     

@@ -37,20 +37,19 @@ export default function PointHistory(props) {
 
     let ptsArr = [];
     async function getPlayerHistory() {
-        const q = query(collection(db, "points-history"), where("player_id", "==", 'f1e39716-ddf8-44b1-83a4-b6d396c85c98'));
+        console.log(props.activeUser);
+        const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-            // console.log(doc.id, " => ", doc.data());
-            // doc.data returned values to go into table. store in array
+            // store doc.data in array.
             ptsArr.push(doc.data());
         });
         createTableData();
     }
 
     useEffect(() => {
-        getPlayerHistory();
-    }, [])
+        getPlayerHistory(props.activeUser);
+    }, [props.activeUser])
 
     return (
         <><h3>Current Season Stats</h3>
@@ -60,7 +59,7 @@ export default function PointHistory(props) {
             <TableRow>
               <TableCell>Date (YYYY-MM-DD)</TableCell>
               <TableCell align="left">Goals</TableCell>
-              <TableCell align="left">Assists&nbsp;</TableCell>
+              <TableCell align="left">Assists</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -1,6 +1,6 @@
 //react
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 //firebase
 import { db } from "../firebase";
@@ -19,13 +19,14 @@ import Paper from '@mui/material/Paper';
 export default function PointHistory(props) {
     //db rule temporarily set to 'true' to allow localhost dev.
     const [rows, setRows] = useState([]);
- 
+
     function createData(date, goals , assists) {
         return { date, goals, assists };
     }
 
     function createTableData() {
-        ptsArr.forEach((entry)=> {
+        let ptsSet = new Set(ptsArr) // in case of duplicates
+        ptsSet.forEach((entry)=> {
             let tempArr = [];
             let tempObj = {date: entry.date, goals: entry.goals, assists: entry.assists, id: entry.id};
             setRows(prevState => 
@@ -37,7 +38,6 @@ export default function PointHistory(props) {
 
     let ptsArr = [];
     async function getPlayerHistory() {
-        console.log(props.activeUser);
         const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -46,11 +46,18 @@ export default function PointHistory(props) {
         });
         createTableData();
     }
-
+    
+    const initialRender = useRef(true);
     useEffect(() => {
-        getPlayerHistory(props.activeUser);
+        // prevents duplicate render on refresh.
+        if(!initialRender.current) {
+            getPlayerHistory(props.activeUser);
+        }
+        else {
+            initialRender.current = false; 
+        } 
     }, [props.activeUser])
-
+    
     return (
         <><h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>

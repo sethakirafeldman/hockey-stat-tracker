@@ -21,7 +21,7 @@ export default function PointHistory(props) {
     const [rows, setRows] = useState([]);
 
     function createData(date, goals , assists) {
-        return { date, goals, assists };
+        return { date, goals, assists};
     }
 
     function createTableData() {
@@ -46,7 +46,7 @@ export default function PointHistory(props) {
         });
         createTableData();
     }
-    
+
     const initialRender = useRef(true);
     useEffect(() => {
         // prevents duplicate render on refresh.
@@ -56,8 +56,12 @@ export default function PointHistory(props) {
         else {
             initialRender.current = false; 
         } 
-    }, [props.activeUser])
+    }, [props.activeUser]);
+
+    console.log(rows);
     
+
+
     return (
         <><h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>

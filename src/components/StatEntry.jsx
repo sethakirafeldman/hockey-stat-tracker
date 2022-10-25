@@ -1,16 +1,18 @@
 import React from 'react';
+import uuid from 'react-uuid';
 
 import TextField from '@mui/material/TextField';
-import  {DesktopDatePicker}  from '@mui/x-date-pickers/DesktopDatePicker';
+import  { DesktopDatePicker }  from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import {Button, Grid, GridItem} from "@mui/material";
+import Box from '@mui/material/Box';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs'
 
-import {Button, Grid, GridItem} from "@mui/material";
-import Box from '@mui/material/Box';
+import { doc, addDoc, collection } from "firebase/firestore"; 
+import { db } from "../firebase";
 
 export default function StatEntry(props) {
-
 
 const dateToday = () => {
   let year = dayjs().year();
@@ -28,11 +30,23 @@ const dateToday = () => {
     month = `0${month}`;
   }
   return `${year}-${month}-${day}`;
-}  
+};  
 
 const [goalValue, setGoalValue] = React.useState({});
 const [assistValue, setAssistValue] = React.useState({});
 const [dateValue, setDateValue] = React.useState(dateToday());
+
+const addStats = async () =>  {
+  await addDoc(collection(db, "points-history"), {
+    // grab from state and props
+    player_id: props.activeUser.player_id,
+    name: props.activeUser.name,
+    goals: goalValue,
+    assists: assistValue,
+    date: dateValue,
+    id: uuid()
+  });
+};
 
 const handleGoals = (event) => {
   setGoalValue(event.target.value);
@@ -51,7 +65,8 @@ const handleDate = (date) => {
 const handleSubmit = (event) => {
   // needs to handle goals, assists and date fields and store in state.
   event.preventDefault();
-  console.log(goalValue, assistValue, dateValue)
+  // console.log(goalValue, assistValue, dateValue)
+  addStats();
 }
 
     return (
@@ -75,7 +90,7 @@ const handleSubmit = (event) => {
           inputFormat="YYYY/MM/DD"
           value= {dateValue}
           onChange={(date) => {
-            setDateValue(date);
+            handleDate(date);
           }}
           renderInput={(params) => <TextField {...params} />}
         />

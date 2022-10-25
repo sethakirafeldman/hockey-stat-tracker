@@ -32,8 +32,8 @@ const dateToday = () => {
   return `${year}-${month}-${day}`;
 };  
 
-const [goalValue, setGoalValue] = React.useState({});
-const [assistValue, setAssistValue] = React.useState({});
+const [goalValue, setGoalValue] = React.useState();
+const [assistValue, setAssistValue] = React.useState();
 const [dateValue, setDateValue] = React.useState(dateToday());
 
 const addStats = async () =>  {
@@ -46,7 +46,7 @@ const addStats = async () =>  {
     date: dateValue,
     id: uuid()
   });
-};
+}
 
 const handleKey = (event) => {
   if (event.key == "e" || event.key == "-" || event. key == "."){
@@ -55,7 +55,6 @@ const handleKey = (event) => {
 }
 
 const handleGoals = (event) => {
-  // if (event.taget.value ==)
   setGoalValue(event.target.value);
 };
 
@@ -65,15 +64,37 @@ const handleAssists = (event) => {
 
 const handleDate = (date) => {
   // need to grab current date(could be today)
-  // date selector not working now. 
-  setDateValue(date);
+  let day = date.$D;
+  let month = date.$M;
+  let year = date.$y;
+
+  if (date.$M < 10 && date.$D < 10 ) {
+    month = `0${month}`;
+    day = `0${day}`;
+  }
+  else if (date.$D < 10) {
+    day = `0${day}`;
+  }
+  else if (date.$M < 10) {
+    month = `0${month}`;
+  }
+  let YYYYMMDD = `${year}-${month}-${day}`;
+  setDateValue(YYYYMMDD);
 };
 
 const handleSubmit = (event) => {
-  // needs to handle goals, assists and date fields and store in state.
   event.preventDefault();
-  addStats();
-}
+  if (assistValue && goalValue) {
+    addStats();
+  }
+
+  else {
+    console.log('error')
+    // ideally this would cause red validation errors on form.
+  }
+};
+
+console.log(dateValue);
 
     return (
         <>
@@ -87,9 +108,8 @@ const handleSubmit = (event) => {
           noValidate
           autoComplete="off"
         >
-        <div>
+        <div class ="stat-fields">
         <TextField 
-          defaultValue="Hello World"
           inputProps={{
             step: 1,
             placeholder: 0,
@@ -101,6 +121,7 @@ const handleSubmit = (event) => {
           label="Goals" 
           variant="outlined" 
           type = "number" 
+          required
           onKeyDown = {handleKey}
           onChange = {handleGoals}
         />
@@ -115,6 +136,7 @@ const handleSubmit = (event) => {
           label="Assists" 
           variant="outlined" 
           type = "number" 
+          required
           onKeyDown = {handleKey}
           onChange = {handleAssists} 
         />

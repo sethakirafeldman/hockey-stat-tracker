@@ -20,9 +20,9 @@ export default function PointHistory(props) {
     //db rule temporarily set to 'true' to allow localhost dev.
     const [rows, setRows] = useState([]);
 
-    function createData(date, goals , assists) {
-        return { date, goals, assists};
-    }
+    // function createData(date, goals , assists) {
+    //     return { date, goals, assists};
+    // }
 
     function createTableData() {
         let ptsSet = new Set(ptsArr) // in case of duplicates
@@ -56,11 +56,7 @@ export default function PointHistory(props) {
         else {
             initialRender.current = false; 
         } 
-    }, [props.activeUser]);
-
-    console.log(rows);
-    
-
+    }, [props.activeUser, props.detectChange]);
 
     return (
         <><h3>Current Season Stats</h3>

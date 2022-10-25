@@ -41,14 +41,21 @@ const addStats = async () =>  {
     // grab from state and props
     player_id: props.activeUser.player_id,
     name: props.activeUser.name,
-    goals: goalValue,
-    assists: assistValue,
+    goals: Number(goalValue),
+    assists: Number(assistValue),
     date: dateValue,
     id: uuid()
   });
 };
 
+const handleKey = (event) => {
+  if (event.key == "e" || event.key == "-" || event. key == "."){
+    event.preventDefault();
+  }
+}
+
 const handleGoals = (event) => {
+  // if (event.taget.value ==)
   setGoalValue(event.target.value);
 };
 
@@ -65,7 +72,6 @@ const handleDate = (date) => {
 const handleSubmit = (event) => {
   // needs to handle goals, assists and date fields and store in state.
   event.preventDefault();
-  // console.log(goalValue, assistValue, dateValue)
   addStats();
 }
 
@@ -82,8 +88,36 @@ const handleSubmit = (event) => {
           autoComplete="off"
         >
         <div>
-        <TextField id="outlined-basic" label="Goals" variant="outlined" type = "number" onChange = {handleGoals}/>
-        <TextField id="outlined-basic" label="Assists" variant="outlined" type = "number" onChange = {handleAssists} />
+        <TextField 
+          defaultValue="Hello World"
+          inputProps={{
+            step: 1,
+            placeholder: 0,
+            min: 0,
+            max: 15,
+            type: 'number'
+          }}
+          id="outlined-basic" 
+          label="Goals" 
+          variant="outlined" 
+          type = "number" 
+          onKeyDown = {handleKey}
+          onChange = {handleGoals}
+        />
+        <TextField 
+           inputProps={{
+            step: 1,
+            placeholder: 0,
+            min: 0,
+            max: 15,
+            type: 'number'
+          }}
+          label="Assists" 
+          variant="outlined" 
+          type = "number" 
+          onKeyDown = {handleKey}
+          onChange = {handleAssists} 
+        />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DesktopDatePicker
           label="Date of Game"

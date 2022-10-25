@@ -50,11 +50,12 @@
     align-items: center;
 }
 
-#stat-entry {
+.stat-fields {
   display: flex;
   flex-direction: column;
-  width: 50%;
-  margin-bottom: 2%;
+  flex-wrap: wrap;
+  /* width: 50%; */
+  margin: auto;
   justify-content: center;
   align-items: center;
 }

@@ -17,12 +17,14 @@ function App() {
 
   const [activeUser, setActiveUser] = useState({});
 
+  // retrieve player data from firestore
   let playerData = {};
   async function getPlayer() {
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("email", "==", user.email));
     //const q = query(usersRef, where("email", "==", test email));
     const querySnapshot = await getDocs(q);
+
     querySnapshot.forEach((doc) => {
       playerData = doc.data();
     });
@@ -31,13 +33,16 @@ function App() {
       creation_date: playerData.creation_date,
       id: playerData.id,
       name: playerData.name,
-      player_id: playerData.player_id
-    });
-  }
+      player_id: playerData.player_id,
+    })
+  };
 
   useEffect(() => {
     getPlayer();
   }, [user])
+  
+
+  // global functions for handling deleting/editing 
   
   return (
     

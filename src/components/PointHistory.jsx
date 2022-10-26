@@ -2,6 +2,8 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
+import EditorPopUp from "./EditorPopUp";
+
 //firebase
 import { db } from "../firebase";
 import { collection, query, where, getDocs, docs, getDoc } from "firebase/firestore";
@@ -41,7 +43,6 @@ export default function PointHistory(props) {
         const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            // store doc.data in array.
             ptsArr.push(doc.data());
         });
         createTableData();
@@ -59,7 +60,8 @@ export default function PointHistory(props) {
     }, [props.activeUser, props.detectChange]);
 
     return (
-        <><h3>Current Season Stats</h3>
+        <>
+        <h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>
         <Table sx={{ minWidth: 450}} aria-label="simple table">
           <TableHead>
@@ -80,6 +82,7 @@ export default function PointHistory(props) {
                 </TableCell>
                 <TableCell align="left">{row.goals}</TableCell>
                 <TableCell align="left">{row.assists}</TableCell>
+                <EditorPopUp />
               </TableRow>
             )) 
             :

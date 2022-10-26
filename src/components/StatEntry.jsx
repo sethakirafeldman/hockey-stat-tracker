@@ -86,15 +86,17 @@ const handleSubmit = (event) => {
   event.preventDefault();
   if (assistValue && goalValue) {
     addStats();
+    setGoalValue('');
+    setAssistValue('');
+    setDateValue(dateToday());
   }
 
   else {
     console.log('error')
     // ideally this would cause red validation errors on form.
   }
-};
 
-console.log(dateValue);
+};
 
     return (
         <>
@@ -108,7 +110,7 @@ console.log(dateValue);
           noValidate
           autoComplete="off"
         >
-        <div class ="stat-fields">
+        <div className ="stat-fields">
         <TextField 
           inputProps={{
             step: 1,
@@ -121,6 +123,7 @@ console.log(dateValue);
           label="Goals" 
           variant="outlined" 
           type = "number" 
+          value = {goalValue}
           required
           onKeyDown = {handleKey}
           onChange = {handleGoals}
@@ -137,6 +140,7 @@ console.log(dateValue);
           variant="outlined" 
           type = "number" 
           required
+          value = {assistValue}
           onKeyDown = {handleKey}
           onChange = {handleAssists} 
         />

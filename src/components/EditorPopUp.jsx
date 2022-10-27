@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -9,8 +9,11 @@ import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
-
 export default function EditorPopUp(props) {
+
+    const ref = useRef();
+    const closeMenu = () => ref.current.close();
+
     // uses empty string as this is required for rendering as value in Textfields
     // may be better to set to current values pre edit.
     const [editValues, setEditValues] = React.useState({
@@ -39,20 +42,21 @@ export default function EditorPopUp(props) {
     };
 
     const handleEditSubmit = (event) => {
-        // event.preventDefault();
         editStats(editValues.entryId);
+        closeMenu();
     };
 
     return( 
     <Popup
+        ref = {ref}
         trigger={open => (
             <Button className="button">Edit</Button>
         )}
         position="left center"
         closeOnDocumentClick
+        closeOnEscape
         >
         <span> 
-            
              <TextField 
                 label ="Date"
                 variant = "outlined"

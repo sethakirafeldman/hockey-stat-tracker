@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs'
 
-import { doc, addDoc, collection } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
 export default function StatEntry(props) {
@@ -37,14 +37,15 @@ const [assistValue, setAssistValue] = React.useState();
 const [dateValue, setDateValue] = React.useState(dateToday());
 
 const addStats = async () =>  {
-  await addDoc(collection(db, "points-history"), {
+  let uniqid = uuid();
+  await setDoc(doc(db, "points-history", uniqid), {
     // grab from state and props
     player_id: props.activeUser.player_id,
     name: props.activeUser.name,
     goals: Number(goalValue),
     assists: Number(assistValue),
     date: dateValue,
-    id: uuid()
+    id: uniqid
   });
 }
 

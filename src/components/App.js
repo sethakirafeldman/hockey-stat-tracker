@@ -24,26 +24,29 @@ function App() {
     const q = query(usersRef, where("email", "==", user.email));
     //const q = query(usersRef, where("email", "==", test email));
     const querySnapshot = await getDocs(q);
+    try {
+      querySnapshot.forEach((doc) => {
+        playerData = doc.data();
+        setActiveUser({
+          creation_date: playerData.creation_date,
+          id: playerData.id,
+          name: playerData.name,
+          player_id: playerData.player_id,
+        })
+      });
+  
+    }
 
-    querySnapshot.forEach((doc) => {
-      playerData = doc.data();
-    });
-
-    setActiveUser({
-      creation_date: playerData.creation_date,
-      id: playerData.id,
-      name: playerData.name,
-      player_id: playerData.player_id,
-    })
+    catch(err) {
+      console.log(err)
+    }
+    
   };
 
   useEffect(() => {
     getPlayer();
   }, [user])
-  
-
-  // global functions for handling deleting/editing 
-  
+    
   return (
     
       <div className="App">
@@ -51,8 +54,9 @@ function App() {
         <SportsHockeyIcon/>
         <h1>Hockey Stat Tracker</h1>
         {!user ? 
-        <SignUp /> :
-        <Dashboard activeUser = {activeUser} />
+          <SignUp /> 
+          :
+          <Dashboard activeUser = {activeUser} />
         }        
         
       </div>

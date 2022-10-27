@@ -2,6 +2,7 @@
 import React from 'react';
 import { useEffect, useState, useRef } from 'react';
 
+
 import EditorPopUp from "./EditorPopUp";
 
 //firebase
@@ -16,7 +17,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
 
 export default function PointHistory(props) {
     //db rule temporarily set to 'true' to allow localhost dev.
@@ -77,18 +77,15 @@ export default function PointHistory(props) {
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.date}
-                </TableCell>
+                <TableCell component="th" scope="row">{row.date}</TableCell>
                 <TableCell align="left">{row.goals}</TableCell>
                 <TableCell align="left">{row.assists}</TableCell>
-                <EditorPopUp />
+                <td><EditorPopUp rowId = {row.id} /></td>
               </TableRow>
             )) 
             :
             null
         }
-
           </TableBody>
         </Table>
       </TableContainer>

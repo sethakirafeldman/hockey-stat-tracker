@@ -2,38 +2,57 @@ import React from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
+import { doc, addDoc, collection, setDoc } from "firebase/firestore"; 
+import { db } from "../firebase";
+
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+
 
 export default function EditorPopUp(props) {
+    // uses empty string as this is required for rendering as value in Textfields
+    // may be better to set to current values pre edit.
     const [editValues, setEditValues] = React.useState({
-        date: "",
-        goals: "",
-        assists: ""        
+        date: '',
+        goals: '',
+        assists: '',
+        entryId: ''        
     });
 
-    const handleEdit = (event) => {
-        try {
-            setEditValues( {
-                ...editValues,
-                [event.target.name]: event.target.value
-            })
-            console.log(editValues);
-        }
-        catch {
+    const editStats = async (entry) => {
+        console.log(entry);
+        const statRef = doc(db, "points-history", entry);
+        await setDoc(statRef, {
+            date: editValues.date,
+            goals: editValues.goals,
+            assists: editValues.assists
+        }, {merge: true})
+    };
 
-        }
+    const handleEdit = (event) => {
+        setEditValues( {
+            ...editValues,
+            [event.target.name]: event.target.value,
+            entryId: props.rowId
+        })        
+    };
+
+    const handleEditSubmit = (event) => {
+        // event.preventDefault();
+        editStats(editValues.entryId);
     };
 
     return( 
     <Popup
         trigger={open => (
-            <Button className="button">Edit {open ? null : null}</Button>
+            <Button className="button">Edit</Button>
         )}
         position="left center"
         closeOnDocumentClick
         >
         <span> 
+            
              <TextField 
                 label ="Date"
                 variant = "outlined"
@@ -74,7 +93,7 @@ export default function EditorPopUp(props) {
                 required
                 onChange = {handleEdit}
              />
-             <Button type = "submit" variant = "outlined">Submit Change</Button>
+             <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined">Submit Change</Button>
              <Button type = "button">Delete Entry</Button>
         </span>
     </Popup>

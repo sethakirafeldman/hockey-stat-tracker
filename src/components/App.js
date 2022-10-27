@@ -20,9 +20,11 @@ function App() {
   // retrieve player data from firestore
   let playerData = {};
   async function getPlayer() {
+  
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("email", "==", user.email));
     //const q = query(usersRef, where("email", "==", test email));
+  
     const querySnapshot = await getDocs(q);
     try {
       querySnapshot.forEach((doc) => {
@@ -34,19 +36,15 @@ function App() {
           player_id: playerData.player_id,
         })
       });
-  
     }
-
-    catch(err) {
+    catch (err) {
       console.log(err)
     }
-    
-  };
-
+  }
   useEffect(() => {
     getPlayer();
-  }, [user])
-    
+  }, [user]);
+
   return (
     
       <div className="App">
@@ -57,10 +55,9 @@ function App() {
           <SignUp /> 
           :
           <Dashboard activeUser = {activeUser} />
-        }        
+        }            
         
       </div>
-    
   );
 }
 

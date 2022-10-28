@@ -1,13 +1,12 @@
 //react
 import React from 'react';
-import { useEffect, useState, useRef } from 'react';
-
+import { useEffect, useState, useRef, useContext } from 'react';
 
 import EditorPopUp from "./EditorPopUp";
 
 //firebase
 import { db } from "../firebase";
-import { collection, query, where, getDocs, docs, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, docs, getDoc, onSnapshot, doc } from "firebase/firestore";
 
 // material ui
 import Table from '@mui/material/Table';
@@ -21,11 +20,8 @@ import Paper from '@mui/material/Paper';
 export default function PointHistory(props) {
     //db rule temporarily set to 'true' to allow localhost dev.
     const [rows, setRows] = useState([]);
-
-    // function createData(date, goals , assists) {
-    //     return { date, goals, assists};
-    // }
-
+    const [refresh, setRefresh] = useState('');
+      
     function createTableData() {
         let ptsSet = new Set(ptsArr) // in case of duplicates
         ptsSet.forEach((entry)=> {
@@ -48,7 +44,10 @@ export default function PointHistory(props) {
         createTableData();
     }
 
+    // look at https://firebase.google.com/docs/firestore/query-data/listen#listen_to_multiple_documents_in_a_collection 
+
     const initialRender = useRef(true);
+
     useEffect(() => {
         // prevents duplicate render on refresh.
         if(!initialRender.current) {
@@ -57,7 +56,20 @@ export default function PointHistory(props) {
         else {
             initialRender.current = false; 
         } 
-    }, [props.activeUser, props.detectChange]);
+    }, [props.activeUser]);
+
+    // useEffect(()=>{
+    //   let points = [];
+    //   if (props.activeUser.player_id) {
+    //     console.log(props.activeUser.player_id);
+    //     const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
+    //     const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    //     points.push(doc.data())
+    //     });
+    //     console.log(points);
+    //     createTableData();
+    //   }
+    // }, [])
 
     return (
         <>

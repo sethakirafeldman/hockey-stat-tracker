@@ -24,7 +24,6 @@ export default function EditorPopUp(props) {
     });
 
     const editStats = async (entry) => {
-        console.log(entry);
         const statRef = doc(db, "points-history", entry);
         await setDoc(statRef, {
             date: editValues.date,
@@ -44,7 +43,11 @@ export default function EditorPopUp(props) {
     const handleEditSubmit = (event) => {
         editStats(editValues.entryId);
         closeMenu();
+        // props.getPlayerHistory();
+        // not the best way to do this, but it works. 
+        // window.location.reload(true);
     };
+
 
     return( 
     <Popup

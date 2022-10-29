@@ -38,6 +38,7 @@ const [dateValue, setDateValue] = React.useState(dateToday());
 
 const addStats = async () =>  {
   let uniqid = uuid();
+  
   await setDoc(doc(db, "points-history", uniqid), {
     // grab from state and props
     player_id: props.activeUser.player_id,

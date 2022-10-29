@@ -36,16 +36,14 @@ export default function EditorPopUp(props) {
         setEditValues( {
             ...editValues,
             [event.target.name]: event.target.value,
-            entryId: props.rowId
+            entryId: props.entryId
         })        
     };
 
     const handleEditSubmit = (event) => {
+        console.log(editValues.entryId)
         editStats(editValues.entryId);
         closeMenu();
-        // props.getPlayerHistory();
-        // not the best way to do this, but it works. 
-        // window.location.reload(true);
     };
 
 

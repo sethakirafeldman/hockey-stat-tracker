@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 
 import SportsHockeyIcon from '@mui/icons-material/SportsHockey';
 
-import { AuthContextProvider } from "../contexts/AuthContext";
+// import { AuthContextProvider } from "../contexts/AuthContext";
 import {UserAuth} from '../contexts/AuthContext';
 import { collection, query, where, getDocs, docs, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -19,8 +19,8 @@ function App() {
 
   // retrieve player data from firestore
   let playerData = {};
+
   async function getPlayer() {
-  
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("email", "==", user.email));
     //const q = query(usersRef, where("email", "==", test email));
@@ -44,6 +44,8 @@ function App() {
   useEffect(() => {
     getPlayer();
   }, [user]);
+
+  // console.log(activeUser);
 
   return (
     

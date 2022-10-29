@@ -21,6 +21,16 @@ export default function PointHistory(props) {
     //db rule temporarily set to 'true' to allow localhost dev.
     const [rows, setRows] = useState([]);
     const [refresh, setRefresh] = useState('');
+
+    useEffect(() => {
+        // prevents duplicate render on refresh.
+        if(!initialRender.current) {
+            getPlayerHistory(props.activeUser);
+        }
+        else {
+            initialRender.current = false; 
+        } 
+    }, [props.activeUser]);
       
     function createTableData() {
         let ptsSet = new Set(ptsArr) // in case of duplicates
@@ -38,6 +48,7 @@ export default function PointHistory(props) {
     async function getPlayerHistory() {
         const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
         const querySnapshot = await getDocs(q);
+
         querySnapshot.forEach((doc) => {
             ptsArr.push(doc.data());
         });
@@ -48,28 +59,6 @@ export default function PointHistory(props) {
 
     const initialRender = useRef(true);
 
-    useEffect(() => {
-        // prevents duplicate render on refresh.
-        if(!initialRender.current) {
-            getPlayerHistory(props.activeUser);
-        }
-        else {
-            initialRender.current = false; 
-        } 
-    }, [props.activeUser]);
-
-    // useEffect(()=>{
-    //   let points = [];
-    //   if (props.activeUser.player_id) {
-    //     console.log(props.activeUser.player_id);
-    //     const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
-    //     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    //     points.push(doc.data())
-    //     });
-    //     console.log(points);
-    //     createTableData();
-    //   }
-    // }, [])
 
     return (
         <>
@@ -92,7 +81,7 @@ export default function PointHistory(props) {
                 <TableCell component="th" scope="row">{row.date}</TableCell>
                 <TableCell align="left">{row.goals}</TableCell>
                 <TableCell align="left">{row.assists}</TableCell>
-                <td><EditorPopUp rowId = {row.id} /></td>
+                <td><EditorPopUp rowId = {row.id} createTableData = {createTableData} /></td>
               </TableRow>
             )) 
             :

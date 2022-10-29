@@ -32,21 +32,27 @@ const dateToday = () => {
   return `${year}-${month}-${day}`;
 };  
 
-const [goalValue, setGoalValue] = React.useState();
-const [assistValue, setAssistValue] = React.useState();
+const [goalValue, setGoalValue] = React.useState('');
+const [assistValue, setAssistValue] = React.useState('');
 const [dateValue, setDateValue] = React.useState(dateToday());
 
 const addStats = async () =>  {
   let uniqid = uuid();
-  await setDoc(doc(db, "points-history", uniqid), {
-    // grab from state and props
-    player_id: props.activeUser.player_id,
-    name: props.activeUser.name,
-    goals: Number(goalValue),
-    assists: Number(assistValue),
-    date: dateValue,
-    id: uniqid
-  });
+  try {
+    await setDoc(doc(db, "points-history", uniqid), {
+      // grab from state and props
+      player_id: props.activeUser.player_id,
+      name: props.activeUser.name,
+      goals: Number(goalValue),
+      assists: Number(assistValue),
+      date: dateValue,
+      id: uniqid
+    });
+  }
+  catch(err) {
+    console.log(err)
+  }
+  
 }
 
 const handleKey = (event) => {
@@ -56,7 +62,7 @@ const handleKey = (event) => {
 }
 
 const handleGoals = (event) => {
-  setGoalValue(event.target.value);
+    setGoalValue(event.target.value);
 };
 
 const handleAssists = (event) => {
@@ -64,7 +70,6 @@ const handleAssists = (event) => {
 };
 
 const handleDate = (date) => {
-  // need to grab current date(could be today)
   let day = date.$D;
   let month = date.$M;
   let year = date.$y;

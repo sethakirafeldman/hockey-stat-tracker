@@ -13,6 +13,7 @@ import {UserAuth} from '../contexts/AuthContext';
 export default function NavBar() {
 
     const {user, logOut} = UserAuth();
+    
     const handleSignOut = async () =>{
         try {
             await logOut()

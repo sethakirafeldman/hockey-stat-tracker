@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-import { doc, addDoc, collection, setDoc } from "firebase/firestore"; 
+import { doc, addDoc, collection, setDoc, deleteDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
 import {Button} from "@mui/material";
@@ -46,6 +46,10 @@ export default function EditorPopUp(props) {
         closeMenu();
     };
 
+    const deleteItem = async (event) => {        
+        await deleteDoc(doc(db, "points-history", props.entryId));
+    };
+
 
     return( 
     <Popup
@@ -65,6 +69,7 @@ export default function EditorPopUp(props) {
                 type = "date"
                 value = {editValues.date}
                 onChange = {handleEdit}
+                
              />
              <TextField 
                 inputProps={{
@@ -79,7 +84,7 @@ export default function EditorPopUp(props) {
                 type = "number" 
                 name = "goals"
                 value = {editValues.goals}
-                required
+                
                 onChange = {handleEdit}
              />
              <TextField 
@@ -95,11 +100,10 @@ export default function EditorPopUp(props) {
                 type = "number" 
                 name = "assists"
                 value = {editValues.assists}
-                required
                 onChange = {handleEdit}
              />
              <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined">Submit Change</Button>
-             <Button type = "button">Delete Entry</Button>
+             <Button type = "button" onClick = {deleteItem} >Delete Entry</Button>
         </span>
     </Popup>
     )

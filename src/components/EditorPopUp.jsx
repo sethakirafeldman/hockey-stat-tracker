@@ -41,7 +41,6 @@ export default function EditorPopUp(props) {
     };
 
     const handleEditSubmit = (event) => {
-        console.log(editValues.entryId)
         editStats(editValues.entryId);
         closeMenu();
     };
@@ -50,61 +49,60 @@ export default function EditorPopUp(props) {
         await deleteDoc(doc(db, "points-history", props.entryId));
     };
 
-
     return( 
-    <Popup
-        ref = {ref}
-        trigger={open => (
-            <Button className="button">Edit</Button>
-        )}
-        position="left center"
-        closeOnDocumentClick
-        closeOnEscape
-        >
-        <span> 
-             <TextField 
-                label ="Date"
-                variant = "outlined"
-                name = "date"
-                type = "date"
-                value = {editValues.date}
-                onChange = {handleEdit}
-                
-             />
-             <TextField 
-                inputProps={{
-                    step: 1,
-                    placeholder: 0,
-                    min: 0,
-                    max: 15,
-                    type: 'number'
-                }}
-                label="Goals" 
-                variant="outlined" 
-                type = "number" 
-                name = "goals"
-                value = {editValues.goals}
-                
-                onChange = {handleEdit}
-             />
-             <TextField 
-                inputProps={{
-                    step: 1,
-                    placeholder: 0,
-                    min: 0,
-                    max: 15,
-                    type: 'number'
-                }}
-                label="Assists" 
-                variant="outlined" 
-                type = "number" 
-                name = "assists"
-                value = {editValues.assists}
-                onChange = {handleEdit}
-             />
-             <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined">Submit Change</Button>
-             <Button type = "button" onClick = {deleteItem} >Delete Entry</Button>
-        </span>
-    </Popup>
+        <Popup
+            ref = {ref}
+            trigger={open => (
+                <Button className="button">Edit</Button>
+            )}
+            position="left center"
+            closeOnDocumentClick
+            closeOnEscape
+            >
+            <span> 
+                <TextField 
+                    label ="Date"
+                    variant = "outlined"
+                    name = "date"
+                    type = "date"
+                    value = {editValues.date}
+                    onChange = {handleEdit}
+                    
+                />
+                <TextField 
+                    inputProps={{
+                        step: 1,
+                        placeholder: 0,
+                        min: 0,
+                        max: 15,
+                        type: 'number'
+                    }}
+                    label="Goals" 
+                    variant="outlined" 
+                    type = "number" 
+                    name = "goals"
+                    value = {editValues.goals}
+                    
+                    onChange = {handleEdit}
+                />
+                <TextField 
+                    inputProps={{
+                        step: 1,
+                        placeholder: 0,
+                        min: 0,
+                        max: 15,
+                        type: 'number'
+                    }}
+                    label="Assists" 
+                    variant="outlined" 
+                    type = "number" 
+                    name = "assists"
+                    value = {editValues.assists}
+                    onChange = {handleEdit}
+                />
+                <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined">Submit Change</Button>
+                <Button type = "button" onClick = {deleteItem} >Delete Entry</Button>
+            </span>
+        </Popup>
     )
 };

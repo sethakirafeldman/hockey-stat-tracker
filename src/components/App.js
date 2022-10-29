@@ -5,8 +5,6 @@ import Dashboard from "./Dashboard";
 
 import React, { useState, useEffect } from 'react';
 
-import SportsHockeyIcon from '@mui/icons-material/SportsHockey';
-
 // import { AuthContextProvider } from "../contexts/AuthContext";
 import {UserAuth} from '../contexts/AuthContext';
 import { collection, query, where, getDocs, docs, getDoc } from "firebase/firestore";
@@ -51,8 +49,6 @@ function App() {
     
       <div className="App">
         <NavBar />
-        <SportsHockeyIcon/>
-        <h1>Hockey Stat Tracker</h1>
         {!user ? 
           <SignUp /> 
           :

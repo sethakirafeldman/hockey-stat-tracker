@@ -2,8 +2,10 @@ import '../App.css';
 import SignUp from "./SignUp";
 import NavBar from "./NavBar";
 import Dashboard from "./Dashboard";
+import Sharpens from "./Sharpens";
 
 import React, { useState, useEffect } from 'react';
+import {BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // import { AuthContextProvider } from "../contexts/AuthContext";
 import {UserAuth} from '../contexts/AuthContext';
@@ -43,19 +45,20 @@ function App() {
     getPlayer();
   }, [user]);
 
-  // console.log(activeUser);
-
   return (
-    
-      <div className="App">
+      <BrowserRouter>
+       <div className="App">
         <NavBar />
-        {!user ? 
+        <Routes>
+          <Route path = "/" element = { !user ? 
           <SignUp /> 
           :
           <Dashboard activeUser = {activeUser} />
-        }            
-        
-      </div>
+          }  />
+          <Route path = "/sharpens" element = { <Sharpens />} />
+        </Routes>
+        </div>
+      </BrowserRouter>
   );
 }
 

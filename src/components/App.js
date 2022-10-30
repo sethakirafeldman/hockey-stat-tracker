@@ -5,7 +5,7 @@ import Dashboard from "./Dashboard";
 import Sharpens from "./Sharpens";
 
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 // import { AuthContextProvider } from "../contexts/AuthContext";
 import {UserAuth} from '../contexts/AuthContext';
@@ -50,7 +50,8 @@ function App() {
        <div className="App">
         <NavBar />
         <Routes>
-          <Route path = "/" element = { !user ? 
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path = "/dashboard" element = { !user ? 
           <SignUp /> 
           :
           <Dashboard activeUser = {activeUser} />

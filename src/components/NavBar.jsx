@@ -21,7 +21,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {UserAuth} from '../contexts/AuthContext';
 
 const pages = ['Dashboard', 'Sharpens','Graphs','About'];
+const pageObjs = [];
+
+pages.forEach((page) => {
+    pageObjs.push(
+        {name:page,
+         path: `/${page.toLowerCase()}`
+        }
+    )
+})
+
 const settings = ['Profile', 'Dashboard', 'Logout'];
+console.log(Object.values(pageObjs))
 
 export default function NavBar() {
 
@@ -107,11 +118,20 @@ export default function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {/* {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
+
+            {Object.values(pageObjs).map((page) => (
+                <Link to = {page.path} className = 'nav-menu'
+                    key={page.name}
+                    onClick={handleCloseNavMenu}
+                >
+                {page.name}
+              </Link>
+            ) )}
             </Menu>
           </Box>
           <Typography
@@ -133,7 +153,7 @@ export default function NavBar() {
             Stat Tracker
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -141,7 +161,16 @@ export default function NavBar() {
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
+
+            {Object.values(pageObjs).map((page) => (
+                <Link to = {page.path} className = 'nav-btn'
+                    key={page.name}
+                    onClick={handleCloseNavMenu}
+                >
+                {page.name}
+              </Link>
+            ) )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

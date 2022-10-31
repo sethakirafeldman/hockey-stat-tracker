@@ -43,11 +43,23 @@
   align-items: center;
 }
 
-#login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.nav-btn {
+  color: white;
+  display: block;
+  padding: 2%;
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  padding: 0px 20px 0px 20px;
+  color: darkblue;
+}
+
+.nav-menu:hover {
+  background-color: #1989fa;
 }
 
 .stat-fields {

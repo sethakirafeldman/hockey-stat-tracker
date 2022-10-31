@@ -1,19 +1,58 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
+//mui
+import {
+    AppBar, 
+    Box, 
+    MenuItem, 
+    Toolbar, 
+    Tooltip,  
+    Typography,  
+    IconButton, 
+    Avatar, 
+    Container,
+} 
+from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import {UserAuth} from '../contexts/AuthContext';
 
+const pages = ['Dashboard', 'Sharpens','Graphs','About'];
+const pageObjs = [];
+
+pages.forEach((page) => {
+    pageObjs.push(
+        {name:page,
+         path: `/${page.toLowerCase()}`
+        }
+    )
+})
+
 export default function NavBar() {
 
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };    
+
     const {user, logOut} = UserAuth();
-    
+
     const handleSignOut = async () =>{
         try {
             await logOut()
@@ -22,27 +61,172 @@ export default function NavBar() {
             console.log(err);
         }
     }
-    return(
-    <AppBar position="static" sx ={{bgcolor: "darkblue"}}>
-        <Toolbar>
+    return (
+    <> 
+     {user ?
+     <AppBar position="sticky">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Stat Tracker
+          </Typography>
+           
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}>
-        </IconButton>
-        {user ? 
-        <div id ="profile-items">
-            <Avatar src = {user.photoURL}/>
-            <h3>{user.displayName}</h3>
-            <Button variant ="contained" onClick = {handleSignOut} color = "primary"> Log Out </Button>
-        </div> :
-        <h3>You are not logged in</h3>
-        }
-       
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {/* {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))} */}
 
+            {Object.values(pageObjs).map((page) => (
+                <Link to = {page.path} className = 'nav-menu'
+                    key={page.name}
+                    onClick={handleCloseNavMenu}
+                >
+                {page.name}
+              </Link>
+            ) )}
+            </Menu>
+          </Box>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Stat Tracker
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+    
+            {Object.values(pageObjs).map((page) => (
+                <Link to = {page.path} className = 'nav-btn'
+                    key={page.name}
+                    onClick={handleCloseNavMenu}
+                >
+                {page.name}
+              </Link>
+            ) )}
+          </Box>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+        
+              <MenuItem onClick ={handleSignOut}>Log Out</MenuItem>
+              
+            </Menu>
+            
+          </Box>
+          
         </Toolbar>
+      </Container>
+      
     </AppBar>
+    : 
+    <AppBar position="static">
+    <Container maxWidth="xl">
+      <Toolbar disableGutters>
+        <Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href="/"
+          sx={{
+            mr: 2,
+            display: { xs: 'none', md: 'flex' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.3rem',
+            color: 'inherit',
+            textDecoration: 'none',
+          }}
+        >
+          Stat Tracker
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+        </IconButton>
+        </Box>
+        </Toolbar>
+        </Container>
+        </AppBar> } 
+        </>
     )
 }

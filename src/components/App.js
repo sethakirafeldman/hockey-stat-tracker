@@ -7,13 +7,12 @@ import Sharpens from "./Sharpens";
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-// import { AuthContextProvider } from "../contexts/AuthContext";
 import {UserAuth} from '../contexts/AuthContext';
-import { collection, query, where, getDocs, docs, getDoc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
 function App() {
-  const {user, logOut} = UserAuth();
+  const {user} = UserAuth();
 
   const [activeUser, setActiveUser] = useState({});
 
@@ -59,6 +58,7 @@ function App() {
           <Route path = "/sharpens" element = { <Sharpens />} />
         </Routes>
         </div>
+       
       </BrowserRouter>
   );
 }

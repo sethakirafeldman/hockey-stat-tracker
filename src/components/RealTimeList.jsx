@@ -3,7 +3,6 @@ import EditorPopUp from "./EditorPopUp";
 
 import { db } from "../firebase";
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import {UserAuth} from '../contexts/AuthContext';
 
 // material ui
 import Table from '@mui/material/Table';
@@ -16,19 +15,18 @@ import Paper from '@mui/material/Paper';
 
 export default function RealTimeList(props) {
     
-    const {user, logOut} = UserAuth();
     const [pointsHistory, setPointsHistory] = useState([]);
     
     const calcTotals = (type, arr) => {
 
-      if (type == 'goals') {
+      if (type === 'goals') {
         let goals = 0;
         arr.forEach((entry) => {
           goals += entry.goals;
         })
         return goals;
       }
-      else if (type == 'assists') {
+      else if (type === 'assists') {
         let assists = 0;
         arr.forEach((entry) => {
           assists += entry.assists;
@@ -38,7 +36,6 @@ export default function RealTimeList(props) {
     
     };
 
-    let ptsArr = [];
     useEffect(() => {
         try {
             const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
@@ -64,8 +61,8 @@ export default function RealTimeList(props) {
         <h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>
         <Table sx={{ minWidth: 450}} aria-label="simple table">
-          <TableHead>
-            <TableRow sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
+          <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
+            <TableRow >
               <TableCell>Date (YYYY-MM-DD)</TableCell>
               <TableCell align="left">Goals</TableCell>
               <TableCell align="left">Assists</TableCell>

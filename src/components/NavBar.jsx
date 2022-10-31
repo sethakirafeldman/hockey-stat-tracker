@@ -8,8 +8,7 @@ import {
     MenuItem, 
     Toolbar, 
     Tooltip,  
-    Typography, 
-    Button, 
+    Typography,  
     IconButton, 
     Avatar, 
     Container,
@@ -30,9 +29,6 @@ pages.forEach((page) => {
         }
     )
 })
-
-const settings = ['Profile', 'Dashboard', 'Logout'];
-console.log(Object.values(pageObjs))
 
 export default function NavBar() {
 
@@ -68,7 +64,7 @@ export default function NavBar() {
     return (
     <> 
      {user ?
-     <AppBar position="static">
+     <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -153,16 +149,7 @@ export default function NavBar() {
             Stat Tracker
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))} */}
-
+    
             {Object.values(pageObjs).map((page) => (
                 <Link to = {page.path} className = 'nav-btn'
                     key={page.name}
@@ -175,7 +162,7 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={user.photoURL} />
+                <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
               </IconButton>
             </Tooltip>
             <Menu

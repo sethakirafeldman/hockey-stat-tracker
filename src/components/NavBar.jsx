@@ -227,6 +227,8 @@ export default function NavBar() {
         </Toolbar>
         </Container>
         </AppBar> } 
+        {' '}
         </>
+        
     )
 }

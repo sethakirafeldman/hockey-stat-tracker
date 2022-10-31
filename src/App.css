@@ -76,3 +76,10 @@
   margin: auto;
   /* background: rgb(255, 255, 255); */
 }
+
+#stats-table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

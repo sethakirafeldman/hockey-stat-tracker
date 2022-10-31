@@ -51,6 +51,7 @@ function App() {
       <BrowserRouter>
        <div className="App">
         <NavBar />
+       
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path = "/dashboard" element = { !user ? 

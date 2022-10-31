@@ -2,8 +2,7 @@ import React from 'react';
 import StatEntry from "./StatEntry";
 import RealTimeList from "./RealTimeList";
 
-import Box from '@mui/material/Box';
-
+import {Box, Typography } from '@mui/material';
 
 export default function Dashboard(props) {
     // at dashboard level, get player_id from users table
@@ -11,7 +10,18 @@ export default function Dashboard(props) {
     return (
         <>
         <Box sx = {{flexDirection: 'column'}}>
-            <p>Welcome, {props.activeUser.name}</p>
+            <Typography variant = 'body' type = "center" paragraph = 'true'>
+                <h2>Dashboard</h2>
+                { props.activeUser.name ? 
+                <>
+                {' '}
+                <h3>{`Welcome, ${props.activeUser.name}.`}</h3> 
+                <p>This is your dashboard. It gives you a place where you may enter your stats. You can always go back and edit afterwards.</p>
+                </>
+                :
+                null
+                }
+            </Typography>
             <StatEntry activeUser = {props.activeUser} />
             <RealTimeList activeUser = {props.activeUser} />
          </Box>

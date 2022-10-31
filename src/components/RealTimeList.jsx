@@ -57,7 +57,7 @@ export default function RealTimeList(props) {
     }, [props.activeUser]);  
 
     return (
-        <>
+        <section id ="stats-table">
         <h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>
         <Table sx={{ minWidth: 450}} aria-label="simple table">
@@ -91,6 +91,6 @@ export default function RealTimeList(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      </> 
+      </section>
     )
 }

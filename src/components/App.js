@@ -3,9 +3,13 @@ import SignUp from "./SignUp";
 import NavBar from "./NavBar";
 import Dashboard from "./Dashboard";
 import Sharpens from "./Sharpens";
+import About from "./About";
+import Graphs from "./Graphs";
 
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+
+import Box from '@mui/material/Box';
 
 import {UserAuth} from '../contexts/AuthContext';
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -49,20 +53,26 @@ function App() {
 
   return (
       <BrowserRouter>
+        <Box>
+
        <div className="App">
         <NavBar />
-       
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path = "/dashboard" element = { !user ? 
+          <Box >
           <SignUp /> 
+          </Box>
           :
           <Dashboard activeUser = {activeUser} />
           }  />
           <Route path = "/sharpens" element = { <Sharpens />} />
+          <Route path = "/about" element = {<About />} />
+          <Route path = "/graphs" element = { <Graphs /> } />
         </Routes>
         </div>
-       
+        </Box>
+
       </BrowserRouter>
   );
 }

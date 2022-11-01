@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function About() {
-     return (
+    return (
         <section>
             <h3>About</h3>
             <p>This site was built by Seth Feldman. 

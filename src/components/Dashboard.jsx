@@ -5,12 +5,13 @@ import RealTimeList from "./RealTimeList";
 import {Box, Typography } from '@mui/material';
 
 export default function Dashboard(props) {
+    console.log(props.activeUser);
     // at dashboard level, get player_id from users table
     // pass in as props to StatEntry and PointHistory   
     return (
         <>
         <Box sx = {{flexDirection: 'column'}}>
-            <Typography variant = 'body' type = "center" paragraph = 'true'>
+            <Typography variant = 'body' type = "center">
                 <h2>Dashboard</h2>
                 { props.activeUser.name ? 
                 <>

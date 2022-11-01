@@ -2,12 +2,11 @@ import React, {useRef} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-import { doc, addDoc, collection, setDoc, deleteDoc } from "firebase/firestore"; 
+import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 
 export default function EditorPopUp(props) {
 

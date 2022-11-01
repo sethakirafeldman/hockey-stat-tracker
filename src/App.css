@@ -37,6 +37,13 @@ body {
   background-color: #1989fa;
 }
 
+#login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .stat-fields {
   display: flex;
   flex-direction: column;

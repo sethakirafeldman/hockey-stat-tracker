@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function About() {
+    return (
     <section>
     <h3>About</h3>
     <p>This site was built by Seth Feldman. 
@@ -13,4 +14,5 @@ export default function About() {
         for its backend. 
     </p>
     </section>
+    )
 }

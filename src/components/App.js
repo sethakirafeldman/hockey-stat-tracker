@@ -6,7 +6,7 @@ import Sharpens from "./Sharpens";
 import About from "./About";
 import Graphs from "./Graphs";
 
-import React, { useState, useEffect, useLayoutEffect  } from 'react';
+import React, { useState, useEffect  } from 'react';
 import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -50,13 +50,12 @@ function App() {
 
     getPlayer();
   
-  }, []);
+  }, [user]);
 
   return (
     <div className="App">
-
+      <Box>
       <BrowserRouter>
-        {/* <Box> */}
         <NavBar />
         <Routes>
        {user === null  ? 
@@ -74,8 +73,8 @@ function App() {
           </>
         }
          </Routes>
-        {/* </Box> */}
       </BrowserRouter>
+      </Box>
       </div>
   );
 }

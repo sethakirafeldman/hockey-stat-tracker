@@ -6,7 +6,7 @@ import Sharpens from "./Sharpens";
 import About from "./About";
 import Graphs from "./Graphs";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect  } from 'react';
 import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -17,23 +17,21 @@ import { db } from "../firebase";
 
 function App() {
   const {user} = UserAuth();
-
+  
   const [activeUser, setActiveUser] = useState({});
 
   // retrieve player data from firestore
  
-
-  
-  useEffect(() => {
+  useEffect (() => {
     let playerData = {};
     async function getPlayer() {
       const usersRef = collection(db, "users");
-      try {
-        const q = query(usersRef, where("email", "===", user.email));
+     
+        const q = query(usersRef, where("email", "==", user.email));
         //const q = query(usersRef, where("email", "==", test email));
-      
+        try {
         const querySnapshot = await getDocs(q);
- 
+      
         querySnapshot.forEach((doc) => {
           playerData = doc.data();
           setActiveUser({
@@ -43,6 +41,7 @@ function App() {
             player_id: playerData.player_id,
           })
         });
+        
       }
       catch (err) {
         console.log(err)
@@ -50,35 +49,34 @@ function App() {
     };
 
     getPlayer();
-  }, [user]);
+  
+  }, []);
 
   return (
+    <div className="App">
+
       <BrowserRouter>
-        <Box>
-       <div className="App">
-       {!user ? 
-       <>
+        {/* <Box> */}
         <NavBar />
         <Routes>
-          <Route path="/" exact={true} element={<Navigate to="/dashboard" replace />} />
-          <Route path = "/dashboard" element = {<SignUp /> } />
-        </Routes>
-        </>
+       {user === null  ? 
+          <>
+            <Route path="/dashboard" element={<Navigate replace to="/"  />} />
+            <Route path = "*" element = {<SignUp />} />
+          </>
           :
-        <>
-        <NavBar />
-        <Routes>
-          <Route path="/"  exact={true} element={<Navigate to="/dashboard" replace />} />
-          <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} /> } />
-          <Route path = "/sharpens" element = { <Sharpens />} />
-          <Route path = "/about" element = {<About />} />
-          <Route path = "/graphs" element = { <Graphs /> } />
-        </Routes>
-        </>
+          <>
+            <Route path="/" element={<Navigate replace to="/dashboard" />} />
+            <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} /> } />
+            <Route path = "/sharpens" element = { <Sharpens />} />
+            <Route path = "/about" element = {<About />} />
+            <Route path = "/graphs" element = { <Graphs /> } />
+          </>
         }
-        </div>
-        </Box>
+         </Routes>
+        {/* </Box> */}
       </BrowserRouter>
+      </div>
   );
 }
 

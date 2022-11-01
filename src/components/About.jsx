@@ -12,5 +12,5 @@ export default function About() {
         including MUI, React, React Router, and it uses Firebase 
         for its backend. 
     </p>
-</section>
+    </section>
 }

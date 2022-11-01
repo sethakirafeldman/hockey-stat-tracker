@@ -81,8 +81,7 @@ export default function NavBar() {
               color: 'inherit',
               textDecoration: 'none',
             }}
-          >
-            Stat Tracker
+          >Stat Tracker   
           </Typography>
            
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -114,12 +113,6 @@ export default function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {/* {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))} */}
-
             {Object.values(pageObjs).map((page) => (
                 <Link to = {page.path} className = 'nav-menu'
                     key={page.name}
@@ -145,8 +138,8 @@ export default function NavBar() {
               color: 'inherit',
               textDecoration: 'none',
             }}
-          >
-            Stat Tracker
+          > Stat Tracker
+            
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
     
@@ -203,7 +196,7 @@ export default function NavBar() {
           href="/"
           sx={{
             mr: 2,
-            display: { xs: 'none', md: 'flex' },
+            display: { xs: 'flex', md: 'flex' },
             fontFamily: 'monospace',
             fontWeight: 700,
             letterSpacing: '.3rem',

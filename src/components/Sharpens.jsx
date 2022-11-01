@@ -13,7 +13,7 @@ export default function Sharpens () {
         <figcaption>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a></figcaption>
         </figure>
 
-        <p>entry and table goes here</p>
+        <p>Sharpen tracking coming soon!</p>
         </section>
         
     )

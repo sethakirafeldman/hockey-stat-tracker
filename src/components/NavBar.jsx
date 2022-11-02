@@ -30,8 +30,8 @@ pages.forEach((page) => {
     )
 })
 
-export default function NavBar() {
-
+export default function NavBar(props) {
+    
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -63,7 +63,7 @@ export default function NavBar() {
     }
     return (
     <> 
-     {user ?
+     {user && props.isReceived ?
      <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -186,6 +186,7 @@ export default function NavBar() {
       
     </AppBar>
     : 
+    
     <AppBar position="static">
     <Container maxWidth="xl">
       <Toolbar disableGutters>
@@ -220,7 +221,6 @@ export default function NavBar() {
         </Toolbar>
         </Container>
         </AppBar> } 
-        {' '}
         </>
         
     )

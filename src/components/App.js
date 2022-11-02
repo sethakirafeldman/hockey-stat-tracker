@@ -54,13 +54,21 @@ function App() {
 
   return (
     <div className="App">
+      
       <Box>
       <BrowserRouter>
-        <NavBar />
+        {Object.keys(activeUser).length == 0 ? 
+        <>
+        <NavBar/>
+        <SignUp />
+        </>
+        :
+        <>
+        <NavBar isReceived = {true} />
         <Routes>
        {user === null  ? 
           <>
-            <Route path="/dashboard" element={<Navigate replace to="/"  />} />
+            <Route path="/dashboard" element={<Navigate replace to="/" />} />
             <Route path = "*" element = {<SignUp />} />
           </>
           :
@@ -73,6 +81,8 @@ function App() {
           </>
         }
          </Routes>
+         </> 
+        }
       </BrowserRouter>
       </Box>
       </div>

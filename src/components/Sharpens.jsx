@@ -28,6 +28,7 @@ import { db } from "../firebase";
 export default function Sharpens (props) {
     
     const [sharpenVal, setSharpenVal] = useState('1/2');
+    const [notesVal, setNotesVal] = useState('');
     const [dateValue, setDateValue] = useState(props.currentDate);
 
     const [cutHistory, setCutHistory] = useState([]);
@@ -36,9 +37,10 @@ export default function Sharpens (props) {
         let uniqid = uuid();
 
         try {
-            await setDoc(doc(db, "sharpens"), uniqid, {
+            await setDoc(doc(db, "sharpens", uniqid), {
                 player_id: props.activeUser.player_id,
                 cut: sharpenVal,
+                notes: notesVal,
                 date: dateValue,
                 id: uniqid
             });
@@ -49,9 +51,13 @@ export default function Sharpens (props) {
     };
 
     const handleEntry = (event) => {
-        console.log(event.target.value);
-        setSharpenVal(event.target.value);
+        if (event.target.name === 'cut selector') {
+            setSharpenVal(event.target.value);
+        }
 
+        else if (event.target.name === 'notes field') {
+            setNotesVal(event.target.value);
+        }
     }
 
     const handleDate = (date) => {
@@ -128,6 +134,7 @@ export default function Sharpens (props) {
         <div className = "stat-fields">
         <InputLabel id="cut-selector">Cut</InputLabel>
         <Select
+            name = "cut selector"
             labelId="cut-selector"
             value = {sharpenVal}
             label = "Cut"
@@ -139,6 +146,19 @@ export default function Sharpens (props) {
         <MenuItem value = {'1/2'}>1/2"</MenuItem>
         <MenuItem value = {'3/8'}>3/8"</MenuItem>
         </Select>
+          
+        <TextField 
+            inputProps = {{
+                maxLength: 280,
+            }}
+            name = "notes field"
+            multiline
+            maxRows={3}
+            id="notes-field" 
+            label="Notes" 
+            variant="outlined" 
+            onChange = {handleEntry}
+        />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DesktopDatePicker
           label="Date"

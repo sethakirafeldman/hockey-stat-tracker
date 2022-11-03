@@ -45,12 +45,13 @@ body {
 
 .popup-content {
   margin: auto;
-  /* background: rgb(255, 255, 255); */
+
 }
 
-#stats-table {
+.table {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
+  text-align: left;
 }

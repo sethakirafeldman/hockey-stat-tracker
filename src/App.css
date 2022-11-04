@@ -45,7 +45,7 @@ body {
 
 .popup-content {
   margin: auto;
-
+  width: fit-content;
 }
 
 .table {

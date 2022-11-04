@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -13,6 +13,18 @@ export default function EditorPopUp(props) {
     const ref = useRef();
     const closeMenu = () => ref.current.close();
 
+    useEffect( ()=>{
+        props.pointsHistory.forEach((item) => {
+            if (item.id === props.entryId) {
+                setEditValues({
+                    date: item.date,
+                    goals: item.goals,
+                    assists: item.assists,
+                    entryId: item.id
+                })
+            }
+        }) 
+    },[]);
     // uses empty string as this is required for rendering as value in Textfields
     // may be better to set to current values pre edit.
     const [editValues, setEditValues] = React.useState({

@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 export default function SharpEditor(props) {
     // console.log(props.cutHistory);
-
+    // console.log(props.entryId)
     const ref = useRef();
     const closeMenu = () => ref.current.close();
 
@@ -20,7 +20,16 @@ export default function SharpEditor(props) {
     // trying to pull in prev vals from props.
 
     useEffect( ()=>{
-
+        props.cutHistory.forEach((item) => {
+            if (item.id === props.entryId) {
+                setEditValues({
+                    date: item.date,
+                    cut: item.cut,
+                    notes: item.notes,
+                    entryId: item.id
+                })
+            }
+        }) 
     },[]);
 
     const [editValues, setEditValues] = React.useState({
@@ -33,7 +42,6 @@ export default function SharpEditor(props) {
     // takes entryId passed in from props after submit clicked
     const editCuts = async (entry) => {
         const cutRef = doc(db, "sharpens", entry);
-        console.log(editValues);
         await setDoc(cutRef, {
             date: editValues.date,
             cut: editValues.cut,
@@ -43,6 +51,7 @@ export default function SharpEditor(props) {
 
     // as values change in editor, updates editValues
     const handleEdit = (event) => {
+        console.log(props.entryId)
         setEditValues( {
             ...editValues,
             [event.target.name]: event.target.value,
@@ -75,6 +84,7 @@ export default function SharpEditor(props) {
     <span> 
         <TextField 
             label ="Date"
+            
             variant = "outlined"
             name = "date"
             type = "date"

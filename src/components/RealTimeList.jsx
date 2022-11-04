@@ -82,7 +82,7 @@ export default function RealTimeList(props) {
                 <TableCell component="th" scope="row">{row.date}</TableCell>
                 <TableCell align="left">{row.goals}</TableCell>
                 <TableCell align="left">{row.assists}</TableCell>
-                <TableCell><EditorPopUp entryId = {row.id} /></TableCell>
+                <TableCell><EditorPopUp entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
               </TableRow>
             )) 
             :

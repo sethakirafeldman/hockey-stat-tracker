@@ -52,7 +52,7 @@ const handleAssists = (event) => {
 
 const handleDate = (date) => {
   let day = date.$D;
-  let month = date.$M;
+  let month = date.$M +1;
   let year = date.$y;
 
   if (date.$M < 10 && date.$D < 10 ) {

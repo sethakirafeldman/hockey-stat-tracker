@@ -1,4 +1,5 @@
 import React, {useEffect, useState}  from 'react';
+import SharpEditor from "./SharpEditor";
 
 import uuid from 'react-uuid';
 
@@ -61,8 +62,9 @@ export default function Sharpens (props) {
     }
 
     const handleDate = (date) => {
+
         let day = date.$D;
-        let month = date.$M;
+        let month = date.$M + 1; // month index starts at 0 by default
         let year = date.$y;
       
         if (date.$M < 10 && date.$D < 10 ) {
@@ -190,11 +192,17 @@ export default function Sharpens (props) {
                 <TableRow
                     key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
+                > 
                 <TableCell component="th" scope="row">{row.date}</TableCell>
                 <TableCell align="left">{row.cut}</TableCell>
                 <TableCell align="left">{row.notes}</TableCell>
-                </TableRow>
+                <TableCell>
+                    <SharpEditor 
+                        entryId = {row.id}
+                        cutHistory = {cutHistory}
+                        />
+                </TableCell>
+                </TableRow>   
             ))
             :
             null

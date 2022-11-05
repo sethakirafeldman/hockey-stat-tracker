@@ -20,6 +20,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { spacing } from '@mui/system';
+
+import Typography from '@mui/material/Typography';
 
 // firebase
 import { doc, setDoc } from "firebase/firestore"; 
@@ -111,7 +114,7 @@ export default function Sharpens (props) {
     return (
         <>
         <section id = "sharpen-section">
-        <h2>Sharpens</h2>
+        <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpens</Typography>
         <p>Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.</p>
         <p>Not sure about what hollow to use? Check out this guide below</p>
         <p>Standard cut is usually 1/2", but may depend on the shop.</p>

@@ -12,7 +12,8 @@ export default function Dashboard(props) {
         <>
         <Box sx = {{flexDirection: 'column'}}>
             <Typography variant = 'body' type = "center">
-                <h2>Dashboard</h2>
+            <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Dashboard</Typography>
+
                 { props.activeUser.name ? 
                 <>
                 {' '}

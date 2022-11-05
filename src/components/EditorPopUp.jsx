@@ -24,7 +24,7 @@ export default function EditorPopUp(props) {
                 })
             }
         }) 
-    },[]);
+    }, [props.pointsHistory]);
     // uses empty string as this is required for rendering as value in Textfields
     // may be better to set to current values pre edit.
     const [editValues, setEditValues] = React.useState({

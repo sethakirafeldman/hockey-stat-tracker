@@ -30,7 +30,7 @@ export default function SharpEditor(props) {
                 })
             }
         }) 
-    },[]);
+    },[props.cutHistory]);
 
     const [editValues, setEditValues] = React.useState({
         date: '',

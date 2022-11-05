@@ -30,7 +30,8 @@ export default function SharpEditor(props) {
                 })
             }
         }) 
-    },[props.cutHistory]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
 
     const [editValues, setEditValues] = React.useState({
         date: '',

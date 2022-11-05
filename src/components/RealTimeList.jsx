@@ -60,7 +60,7 @@ export default function RealTimeList(props) {
         <section className ="table">
         <h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>
-        <Table sx={{ minWidth: 450}} aria-label="stats table">
+        <Table sx={{minWidth: 350}} aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
             <TableRow >
               <TableCell>Date (YYYY-MM-DD)</TableCell>

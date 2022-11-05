@@ -57,10 +57,10 @@ export default function RealTimeList(props) {
     }, [props.activeUser]);  
 
     return (
-        <section id ="stats-table">
+        <section className ="table">
         <h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>
-        <Table sx={{ minWidth: 450}} aria-label="simple table">
+        <Table sx={{ minWidth: 450}} aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
             <TableRow >
               <TableCell>Date (YYYY-MM-DD)</TableCell>
@@ -82,7 +82,7 @@ export default function RealTimeList(props) {
                 <TableCell component="th" scope="row">{row.date}</TableCell>
                 <TableCell align="left">{row.goals}</TableCell>
                 <TableCell align="left">{row.assists}</TableCell>
-                <td><EditorPopUp entryId = {row.id} /></td>
+                <TableCell><EditorPopUp entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
               </TableRow>
             )) 
             :

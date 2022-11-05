@@ -7,34 +7,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {Button} from "@mui/material";
 import Box from '@mui/material/Box';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs'
 
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
 export default function StatEntry(props) {
 
-const dateToday = () => {
-  let year = dayjs().year();
-  let month = dayjs().month() + 1;
-  let day = dayjs().date();
-  
-  if (month < 10 && day < 10 ) {
-    month = `0${month}`;
-    day = `0${day}`;
-  }
-  else if (day < 10) {
-    day = `0${day}`;
-  }
-  else if (month < 10) {
-    month = `0${month}`;
-  }
-  return `${year}-${month}-${day}`;
-};  
-
 const [goalValue, setGoalValue] = React.useState('');
 const [assistValue, setAssistValue] = React.useState('');
-const [dateValue, setDateValue] = React.useState(dateToday());
+const [dateValue, setDateValue] = React.useState(props.currentDate);
 
 const addStats = async () =>  {
   let uniqid = uuid();
@@ -71,7 +52,7 @@ const handleAssists = (event) => {
 
 const handleDate = (date) => {
   let day = date.$D;
-  let month = date.$M;
+  let month = date.$M +1;
   let year = date.$y;
 
   if (date.$M < 10 && date.$D < 10 ) {
@@ -94,7 +75,7 @@ const handleSubmit = (event) => {
     addStats();
     setGoalValue('');
     setAssistValue('');
-    setDateValue(dateToday());
+    setDateValue(props.currentDate);
   }
 
   else {

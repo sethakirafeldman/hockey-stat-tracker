@@ -5,7 +5,7 @@ import RealTimeList from "./RealTimeList";
 import {Box, Typography } from '@mui/material';
 
 export default function Dashboard(props) {
-    console.log(props.activeUser);
+   
     // at dashboard level, get player_id from users table
     // pass in as props to StatEntry and PointHistory   
     return (
@@ -23,7 +23,7 @@ export default function Dashboard(props) {
                 null
                 }
             </Typography>
-            <StatEntry activeUser = {props.activeUser} />
+            <StatEntry activeUser = {props.activeUser} currentDate = {props.currentDate}  />
             <RealTimeList activeUser = {props.activeUser} />
          </Box>
         </>

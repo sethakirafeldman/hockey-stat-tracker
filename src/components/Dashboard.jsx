@@ -12,12 +12,15 @@ export default function Dashboard(props) {
         <>
         <Box sx = {{flexDirection: 'column'}}>
             <Typography variant = 'body' type = "center">
-                <h2>Dashboard</h2>
+            <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Dashboard</Typography>
+
                 { props.activeUser.name ? 
                 <>
                 {' '}
                 <h3>{`Welcome, ${props.activeUser.name}.`}</h3> 
+                <div class ="text-area">
                 <p>This is your dashboard. It gives you a place where you may enter your stats. You can always go back and edit afterwards.</p>
+                </div>
                 </>
                 :
                 null

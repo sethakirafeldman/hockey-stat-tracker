@@ -1,18 +1,27 @@
 import React from 'react';
 
+//mui
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+
 export default function About() {
     return (
-    <section>
-    <h3>About</h3>
-    <p>This site was built by Seth Feldman. 
-        It was built as a tool for me (Seth) and 
-        his friends to use in order to track
-        stats for their adult hockey league.  
+    <section class= "text-area">
+        {' '}
+        <Typography variant="h4" gutterBottom sx = {{mt: 2}}>About</Typography>
+        <Typography sx = {{}} variant="body1" gutterBottom>
+            This site was built by Seth Feldman. 
+            It was built as a tool for me (Seth) and 
+            his friends to use in order to track
+            stats in their adult hockey league.  
 
-        This was built using a number of libraries 
-        including MUI, React, React Router, and it uses Firebase 
-        for its backend. 
-    </p>
+            It was built using a number of libraries 
+            including <Link href ="https://mui.com/" target="_blank" rel="noopener">MUI</Link>, 
+            {' '}<Link href = "https://reactjs.org/" target="_blank" rel="noopener">React</Link>,  
+            {' '}<Link href="https://reactrouter.com/" target="_blank" rel="noopener">React Router</Link>, 
+            and it uses <Link href="https://firebase.google.com/" target="_blank" rel="noopener">Firebase</Link>
+            {' '}for its backend. 
+        </Typography>
     </section>
     )
 }

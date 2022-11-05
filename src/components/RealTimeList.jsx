@@ -22,14 +22,14 @@ export default function RealTimeList(props) {
       if (type === 'goals') {
         let goals = 0;
         arr.forEach((entry) => {
-          goals += entry.goals;
+          goals += Number(entry.goals);
         })
         return goals;
       }
       else if (type === 'assists') {
         let assists = 0;
         arr.forEach((entry) => {
-          assists += entry.assists;
+          assists += Number(entry.assists);
         })
         return assists;
       }
@@ -60,7 +60,7 @@ export default function RealTimeList(props) {
         <section className ="table">
         <h3>Current Season Stats</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>
-        <Table sx={{ minWidth: 450}} aria-label="stats table">
+        <Table sx={{minWidth: 350}} aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
             <TableRow >
               <TableCell>Date (YYYY-MM-DD)</TableCell>

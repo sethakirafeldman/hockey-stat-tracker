@@ -21,6 +21,8 @@ import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+import Typography from '@mui/material/Typography';
+
 // firebase
 import { doc, setDoc } from "firebase/firestore"; 
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
@@ -111,12 +113,14 @@ export default function Sharpens (props) {
     return (
         <>
         <section id = "sharpen-section">
-        <h2>Sharpens</h2>
+        <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpens</Typography>
+        <div class ="text-area">
         <p>Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.</p>
         <p>Not sure about what hollow to use? Check out this guide below</p>
         <p>Standard cut is usually 1/2", but may depend on the shop.</p>
+        </div>
         <figure>
-        <img alt = "sharpening diagram" width = "50%" src = "https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
+        <img alt = "sharpening diagram" width = "80%" src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
         <figcaption>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a></figcaption>
         </figure>
 
@@ -179,7 +183,7 @@ export default function Sharpens (props) {
         
         <div className="table">
             <TableContainer sx = {{maxWidth: 600}} component={Paper}>
-            <Table sx={{ minWidth: 450}} aria-label="sharpen table">
+            <Table sx={{minWidth: 350}} aria-label="sharpen table">
             <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
             <TableRow >
                 <TableCell>Date (YYYY-MM-DD)</TableCell>

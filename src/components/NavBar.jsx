@@ -153,8 +153,9 @@ export default function NavBar(props) {
             ) )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
+            {/* {user.displayName} */}
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
                 <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
               </IconButton>
             </Tooltip>
@@ -174,7 +175,7 @@ export default function NavBar(props) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-        
+
               <MenuItem onClick ={handleSignOut}>Log Out</MenuItem>
               
             </Menu>

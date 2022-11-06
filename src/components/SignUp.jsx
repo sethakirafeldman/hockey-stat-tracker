@@ -9,8 +9,9 @@ export default function SignUp() {
 
     const handleGoogleSignIn = async () => {
         try {
-            await googleSignIn()
-        } catch (err){
+            await googleSignIn();
+        } 
+        catch (err){
             console.log(err);
         }
     }

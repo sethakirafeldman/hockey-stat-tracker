@@ -10,6 +10,8 @@ import Graphs from "./Graphs";
 import React, { useState, useEffect  } from 'react';
 import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
+import uuid from 'react-uuid';
+
 // day js
 import dayjs from 'dayjs'
 
@@ -18,15 +20,32 @@ import Box from '@mui/material/Box';
 
 //firestore / auth
 import {UserAuth} from '../contexts/AuthContext';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { doc, setDoc, getDoc} from "firebase/firestore";
 import { db } from "../firebase";
 
 function App() {
   const {user} = UserAuth();
-  
   const [activeUser, setActiveUser] = useState({});
   const [currentDate, setCurrentDate] = useState();
   
+  const addUser = async () => {
+    let uniqid = uuid();
+    try {
+        await setDoc(doc(db, "users", user.uid), {
+            id: uuid(),
+            email: user.email,
+            name: user.displayName,
+            player_id: uniqid,
+            creation_date: user.metadata.creationTime
+    })
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
+
+
+
   // set date and timezone
   const dateToday = () => {
     let year = dayjs().year();
@@ -50,31 +69,29 @@ function App() {
   useEffect (() => {
     let playerData = {};
     async function getPlayer() {
-      const usersRef = collection(db, "users");
-     
-        const q = query(usersRef, where("email", "==", user.email));
-        //const q = query(usersRef, where("email", "==", test email));
+      const usersRef = doc(db, "users", user.uid);
         try {
-        const querySnapshot = await getDocs(q);
-      
-        querySnapshot.forEach((doc) => {
-          playerData = doc.data();
+        const docSnap = await getDoc(usersRef)
+        if (docSnap.exists()) {
+          playerData = docSnap.data();
           setActiveUser({
-            creation_date: playerData.creation_date,
-            id: playerData.id,
-            name: playerData.name,
-            player_id: playerData.player_id,
-          })
-        });
-        
+              creation_date: playerData.creation_date,
+              id: playerData.id,
+              name: playerData.name,
+              player_id: playerData.player_id,
+            });
+        }
+        else {
+          addUser();
+          getPlayer();
+        }
       }
-      catch (err) {
+        catch(err) {
         console.log(err)
       }
     };
     dateToday();
     getPlayer();
-  
   }, [user]);
 
   return (

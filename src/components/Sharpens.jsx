@@ -114,7 +114,7 @@ export default function Sharpens (props) {
         <>
         <section id = "sharpen-section">
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpens</Typography>
-        <div class ="text-area">
+        <div className ="text-area">
         <p>Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.</p>
         <p>Not sure about what hollow to use? Check out this guide below</p>
         <p>Standard cut is usually 1/2", but may depend on the shop.</p>

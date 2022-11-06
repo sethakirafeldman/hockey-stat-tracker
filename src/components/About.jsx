@@ -6,7 +6,7 @@ import Link from '@mui/material/Link';
 
 export default function About() {
     return (
-    <section class= "text-area">
+    <section className = "text-area">
         {' '}
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>About</Typography>
         <Typography sx = {{}} variant="body1" gutterBottom>

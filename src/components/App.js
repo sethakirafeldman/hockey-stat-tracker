@@ -92,6 +92,7 @@ function App() {
     };
     dateToday();
     getPlayer();
+    // eslint-disable-next-line
   }, [user]);
 
   return (

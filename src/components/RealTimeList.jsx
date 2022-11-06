@@ -24,14 +24,14 @@ export default function RealTimeList(props) {
         arr.forEach((entry) => {
           goals += Number(entry.goals);
         })
-        return goals;
+        return Number(goals);
       }
       else if (type === 'assists') {
         let assists = 0;
         arr.forEach((entry) => {
           assists += Number(entry.assists);
         })
-        return assists;
+        return Number(assists);
       }
     
     };

@@ -18,7 +18,7 @@ export default function Dashboard(props) {
                 <>
                 {' '}
                 <h3>{`Welcome, ${props.activeUser.name}.`}</h3> 
-                <div class ="text-area">
+                <div className ="text-area">
                 <p>This is your dashboard. It gives you a place where you may enter your stats. You can always go back and edit afterwards.</p>
                 </div>
                 </>

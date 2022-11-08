@@ -40,11 +40,14 @@ export default function RealTimeList(props) {
         try {
             const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const ptsArr = [];
-            querySnapshot.forEach((doc) => {
-                ptsArr.push(doc.data());
-            });
-                setPointsHistory(ptsArr);
+              const ptsArr = [];
+              querySnapshot.forEach((doc) => {
+                  ptsArr.push(doc.data());
+              });
+              ptsArr.sort((a, b) => {
+                  return new Date(b.date) - new Date(a.date);
+              });
+              setPointsHistory(ptsArr);
             });
 
             return () => {

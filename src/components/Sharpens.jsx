@@ -97,7 +97,11 @@ export default function Sharpens (props) {
             querySnapshot.forEach((doc) => {
                 cutArr.push(doc.data());
             });
-                setCutHistory(cutArr);
+
+            cutArr.sort((a, b) => {
+                return new Date(b.date) - new Date(a.date);
+            });
+            setCutHistory(cutArr);
             });
             return () => {
                 unsubscribe();

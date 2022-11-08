@@ -9,6 +9,7 @@ import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function SharpEditor(props) {
     // console.log(props.cutHistory);
@@ -75,7 +76,8 @@ export default function SharpEditor(props) {
     <Popup
     ref = {ref}
     trigger={open => (
-        <Button className="button">Edit</Button>
+        <EditIcon sx ={{"&:hover":{color:"#1989fa"}}}></EditIcon>
+        // <Button className="button">Edit</Button>
     )}
     position="left"
     nested

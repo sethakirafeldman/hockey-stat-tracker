@@ -7,6 +7,7 @@ import { db } from "../firebase";
 
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function EditorPopUp(props) {
 
@@ -65,7 +66,8 @@ export default function EditorPopUp(props) {
         <Popup
             ref = {ref}
             trigger={open => (
-                <Button className="button">Edit</Button>
+                <EditIcon sx ={{"&:hover":{color:"#1989fa"}}}></EditIcon>
+                // <Button className="button">Edit</Button>
             )}
             position="left center"
             closeOnDocumentClick

@@ -22,6 +22,11 @@ export default function About() {
             and it uses <Link href="https://firebase.google.com/" target="_blank" rel="noopener">Firebase</Link>
             {' '}for its backend. 
         </Typography>
+        <Typography variant="h5" gutterBottom sx = {{mt: 2}}>Change Notes</Typography>
+        <Typography sx = {{}} variant="body1" gutterBottom>
+            2022-11-07: changed edit buttons to icons and added descending sort for data tables. {' '}
+        </Typography>
+
     </section>
     )
 }

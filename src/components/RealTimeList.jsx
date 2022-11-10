@@ -48,11 +48,13 @@ export default function RealTimeList(props) {
                   return new Date(b.date) - new Date(a.date);
               });
               setPointsHistory(ptsArr);
+              props.realTimeCallBack(ptsArr);
             });
 
             return () => {
                 unsubscribe();
             }
+
         }
         catch(err) {
             console.log(err)

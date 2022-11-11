@@ -27,6 +27,7 @@ function App() {
   const {user} = UserAuth();
   const [activeUser, setActiveUser] = useState({});
   const [currentDate, setCurrentDate] = useState();
+  const [currentStatData, setCurrentStatData] = useState([]);
   
   const addUser = async () => {
     let uniqid = uuid();
@@ -43,8 +44,6 @@ function App() {
         console.log(err);
     }
 }
-
-
 
   // set date and timezone
   const dateToday = () => {
@@ -64,6 +63,11 @@ function App() {
     }
     setCurrentDate(`${year}-${month}-${day}`);
   };  
+
+  const realTimeCallBack = (statsData) => {
+    // console.log(statsData);
+    setCurrentStatData(statsData)
+  };
 
   // retrieve player data from firestore
   useEffect (() => {
@@ -117,10 +121,10 @@ function App() {
           :
           <>
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
-            <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} currentDate = {currentDate}/> } />
+            <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} currentDate = {currentDate} realTimeCallBack = {realTimeCallBack}/> } />
             <Route path = "/sharpens" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
             <Route path = "/about" element = {<About />} />
-            <Route path = "/graphs" element = { <Graphs /> } />
+            <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentDate = {currentDate} currentStatData = {currentStatData} /> } />
           </>
         }
          </Routes>
@@ -128,7 +132,9 @@ function App() {
         }
       </BrowserRouter>
       </Box>
+      {/* <Footer /> */}
       </div>
+      
   );
 }
 

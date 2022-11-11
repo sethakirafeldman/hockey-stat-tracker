@@ -24,7 +24,10 @@ export default function About() {
         </Typography>
         <Typography variant="h5" gutterBottom sx = {{mt: 2}}>Change Notes</Typography>
         <Typography sx = {{}} variant="body1" gutterBottom>
-            2022-11-07: changed edit buttons to icons and added descending sort for data tables. {' '}
+            <ul>
+            <li>2022-11-07: changed edit buttons to icons and added descending sort for data tables.</li>
+            <li>2022-11-11: added basic line graph. Some styling.</li>
+            </ul>
         </Typography>
 
     </section>

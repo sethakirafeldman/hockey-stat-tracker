@@ -27,7 +27,7 @@ export default function Dashboard(props) {
                 }
             </Typography>
             <StatEntry activeUser = {props.activeUser} currentDate = {props.currentDate}  />
-            <RealTimeList activeUser = {props.activeUser} />
+            <RealTimeList activeUser = {props.activeUser} realTimeCallBack = {props.realTimeCallBack} />
          </Box>
         </>
     )

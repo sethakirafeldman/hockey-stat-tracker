@@ -59,6 +59,7 @@ export default function RealTimeList(props) {
         catch(err) {
             console.log(err)
         }
+    // eslint-disable-next-line
     }, [props.activeUser]);  
 
     return (

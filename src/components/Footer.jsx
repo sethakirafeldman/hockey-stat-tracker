@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Container, Box, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Container, Box } from '@mui/material';
 import CopyrightIcon from '@mui/icons-material/Copyright';
 
 export default function Footer() {

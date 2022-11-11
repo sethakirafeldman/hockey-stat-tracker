@@ -31,7 +31,7 @@ import {
     );
 
 export default function Graphs(props) {
-    const {activeUser, currentDate, currentStatData} = props;
+    const {activeUser} = props;
     const [pointsHistory, setPointsHistory] = useState([]);
     const [statsInOrder, setStatsInOrder] = useState({});
 
@@ -64,7 +64,7 @@ export default function Graphs(props) {
     }
 
     // need array that contains elements in order that will be displayed
-  
+    // eslint-disable-next-line
     }, [activeUser]);
 
     useEffect( () => {

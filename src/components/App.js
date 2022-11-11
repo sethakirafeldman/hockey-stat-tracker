@@ -5,7 +5,6 @@ import Dashboard from "./Dashboard";
 import Sharpens from "./Sharpens";
 import About from "./About";
 import Graphs from "./Graphs";
-import Footer from "./Footer";
 
 //react
 import React, { useState, useEffect  } from 'react';

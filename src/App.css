@@ -69,3 +69,12 @@ footer {
   background-color: #1989fa;
   color: white;
 }
+
+#chart-container {
+  margin: auto;
+  width: 80%;
+}
+
+.text-area  ul {
+  text-align: left;
+}

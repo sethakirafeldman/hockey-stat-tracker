@@ -32,10 +32,8 @@ import {
 
 export default function Graphs(props) {
     const {activeUser, currentDate, currentStatData} = props;
-    const [goalsData, setGoalsData] = useState([]);
-    const [assistsData, setAssistsData] = useState([]);
-    const [dateLabel, setDateLabel] = useState([]);
     const [pointsHistory, setPointsHistory] = useState([]);
+    const [statsInOrder, setStatsInOrder] = useState({});
 
     // sort data b - > a
 
@@ -52,7 +50,6 @@ export default function Graphs(props) {
           ptsArr.sort((a, b) => {
               return new Date(a.date) - new Date(b.date);
           });
-          console.log(ptsArr);
           setPointsHistory(ptsArr);
           // props.realTimeCallBack(ptsArr);
         });
@@ -65,46 +62,58 @@ export default function Graphs(props) {
     catch(err) {
         console.log(err)
     }
- 
 
+    // need array that contains elements in order that will be displayed
+  
+    }, [activeUser]);
 
-        // // 
-        // let newObj = currentStatData;
-        // let goalArr = [];
-        // let assistArr = [];
-        // let dateArr = [];
+    useEffect( () => {
+        try {
+            // console.log(pointsHistory)
+            let tempDate = [];
+            let tempGoal = [];
+            let tempAssist = [];
 
-        // newObj = newObj.sort(( a, b) => b.date - a.date);
-        // console.log(newObj)
-        // newObj.forEach((obj)=>{
-        //     // build obj for aall
-        //     goalArr.push(obj.goals);
-        //     assistArr.push(obj.assists);
-        //     dateArr.push(obj.date);
-        // })
-        setGoalsData(goalArr);
-        setAssistsData(assistArr);
-        setDateLabel(dateArr);
+            Object.values(pointsHistory).forEach((item) => {
+                tempDate.push(item.date);
+                tempGoal.push(item.goals);
+                tempAssist.push(item.assists);
+            });
 
-    }, [activeUser])
+            setStatsInOrder({
+                dateLabels: tempDate,
+                graphGoals: tempGoal,
+                graphAssists: tempAssist
+            });
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },[pointsHistory])
 
-    // fields in data need to be popualted by entries in currentStatData
-    // maybe should be stored in state
+    // chart data
     const data = {
-        labels: dateLabel,
+        labels: statsInOrder.dateLabels,
         datasets: [
           {
             label: "Goals",
-            data: goalsData,
+            data: statsInOrder.graphGoals,
             fill: false,
-            backgroundColor: "rgba(75,192,192,0.2)",
-            borderColor: "rgba(75,192,192,1)"
+            backgroundColor: "blue",
+            borderColor: "blue",
+            showLine: true,
+            spanGaps: true,
+            pointRadius: 5
           },
           {
             label: "Assists",
-            data: assistsData,
-            fill: false,
-            borderColor: "#742774"
+            data: statsInOrder.graphAssists,
+            fill: true,
+            backgroundColor: "orange",
+            borderColor: "orange",
+            showLine: true,
+            spanGaps: true,
+            pointRadius: 5
           }
         ]
       };
@@ -112,9 +121,32 @@ export default function Graphs(props) {
 
       
     return (
-        <section>
+        <section id ="chart-container">
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
-        <Line data = {data} />
+        <Line 
+            data = {data} 
+            options = {{
+                layout: {
+                    autoPadding:true,
+                    padding: 100,
+                },
+                responsive: true,
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 6,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+
+                    x: {
+                        beginAtZero:true,
+                    }
+                }
+            }}
+        />
+
         </section>
     )
 }

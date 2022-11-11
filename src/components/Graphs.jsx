@@ -2,6 +2,10 @@ import React, {useEffect, useState} from "react";
 
 import { Line } from 'react-chartjs-2';
 
+import { db } from "../firebase";
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+
+
 //mui
 import Typography from '@mui/material/Typography';
 
@@ -31,31 +35,58 @@ export default function Graphs(props) {
     const [goalsData, setGoalsData] = useState([]);
     const [assistsData, setAssistsData] = useState([]);
     const [dateLabel, setDateLabel] = useState([]);
+    const [pointsHistory, setPointsHistory] = useState([]);
 
     // sort data b - > a
 
 
-    useEffect(() =>{
+    useEffect(() => {
 
-        // 
-        let newObj = currentStatData;
-        let goalArr = [];
-        let assistArr = [];
-        let dateArr = [];
+      try {
+        const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const ptsArr = [];
+          querySnapshot.forEach((doc) => {
+              ptsArr.push(doc.data());
+          });
+          ptsArr.sort((a, b) => {
+              return new Date(a.date) - new Date(b.date);
+          });
+          console.log(ptsArr);
+          setPointsHistory(ptsArr);
+          // props.realTimeCallBack(ptsArr);
+        });
 
-        newObj = newObj.sort(( a, b) => b.date - a.date);
-        console.log(newObj)
-        newObj.forEach((obj)=>{
-            // build obj for aall
-            goalArr.push(obj.goals);
-            assistArr.push(obj.assists);
-            dateArr.push(obj.date);
-        })
+        return () => {
+            unsubscribe();
+        }
+
+    }
+    catch(err) {
+        console.log(err)
+    }
+ 
+
+
+        // // 
+        // let newObj = currentStatData;
+        // let goalArr = [];
+        // let assistArr = [];
+        // let dateArr = [];
+
+        // newObj = newObj.sort(( a, b) => b.date - a.date);
+        // console.log(newObj)
+        // newObj.forEach((obj)=>{
+        //     // build obj for aall
+        //     goalArr.push(obj.goals);
+        //     assistArr.push(obj.assists);
+        //     dateArr.push(obj.date);
+        // })
         setGoalsData(goalArr);
         setAssistsData(assistArr);
         setDateLabel(dateArr);
 
-    }, [currentStatData])
+    }, [activeUser])
 
     // fields in data need to be popualted by entries in currentStatData
     // maybe should be stored in state

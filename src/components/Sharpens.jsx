@@ -124,12 +124,10 @@ export default function Sharpens (props) {
         <p>Standard cut is usually 1/2", but may depend on the shop.</p>
         </div>
         <figure>
-        <img alt = "sharpening diagram" width = "80%" src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
+        <img alt = "sharpening diagram" width = "75%" src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
         <figcaption>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a></figcaption>
         </figure>
 
-        <p>Sharpen tracking coming soon!</p>
-        
         <h3>Enter Sharpening Info</h3>
         
         <Box

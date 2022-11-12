@@ -124,13 +124,15 @@ export default function Graphs(props) {
         <section id ="chart-container">
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
         <Line 
+            
             data = {data} 
             options = {{
+                
                 layout: {
                     autoPadding:true,
-                    padding: 100,
                 },
                 responsive: true,
+                maintainAspectRatio: true,
                 scales: {
                     y: {
                         min: 0,

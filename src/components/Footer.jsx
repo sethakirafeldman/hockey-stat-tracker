@@ -1,16 +1,30 @@
 import React from 'react';
+import { CssBaseline, Typography, Link, Container } from '@mui/material';
 
-import { Container, Box } from '@mui/material';
-import CopyrightIcon from '@mui/icons-material/Copyright';
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary">
+      {'Copyright © '}
+      <Link color="inherit" href="/">
+        Stat Tracker
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
-export default function Footer() {
-    return(
-        <footer>
-        <Container>
-            <Box maxWidth = "lg">
-                <CopyrightIcon></CopyrightIcon>Stat Tracker 2022
-            </Box>
+export default function StickyFooter() {
+
+  return (
+    <div >
+      <CssBaseline />
+      <footer>
+        <Container maxWidth="sm">
+          <Typography variant="body1">Stat Tracker</Typography>
+          <Copyright />
         </Container>
-        </footer>
-    )
+      </footer>
+    </div>
+  );
 }

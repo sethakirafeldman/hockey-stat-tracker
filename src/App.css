@@ -29,8 +29,31 @@ body {
 #login-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
+  
+}
+
+.login-area {
+  text-align: left;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-right: auto;
+  padding: 10px 0;
+
+}
+
+/* .login-area > h4, h5, p  {
+  padding: 20px;
+} */
+
+#ice-img {
+  background-size: cover;
+  height:fit-content;
+  float: top;
+
 }
 
 .stat-fields {
@@ -63,7 +86,7 @@ body {
 
 footer {
   position: fixed;
-  height: 5%;
+  /* height: 100%; */
   width: 100%;
   bottom: 0;
   background-color: #1989fa;

@@ -77,7 +77,6 @@ export default function SharpEditor(props) {
     ref = {ref}
     trigger={open => (
         <EditIcon sx ={{"&:hover":{color:"#1989fa"}}}></EditIcon>
-        // <Button className="button">Edit</Button>
     )}
     position="left"
     nested

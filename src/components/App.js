@@ -29,7 +29,7 @@ function App() {
   const [activeUser, setActiveUser] = useState({});
   const [currentDate, setCurrentDate] = useState();
   const [currentStatData, setCurrentStatData] = useState([]);
-  
+
   const addUser = async () => {
     let uniqid = uuid();
     try {
@@ -66,7 +66,6 @@ function App() {
   };  
 
   const realTimeCallBack = (statsData) => {
-    // console.log(statsData);
     setCurrentStatData(statsData)
   };
 
@@ -77,19 +76,19 @@ function App() {
       const usersRef = doc(db, "users", user.uid);
         try {
         const docSnap = await getDoc(usersRef)
-        if (docSnap.exists()) {
-          playerData = docSnap.data();
-          setActiveUser({
-              creation_date: playerData.creation_date,
-              id: playerData.id,
-              name: playerData.name,
-              player_id: playerData.player_id,
-            });
-        }
-        else {
-          addUser();
-          getPlayer();
-        }
+          if (docSnap.exists()) {
+            playerData = docSnap.data();
+            setActiveUser({
+                creation_date: playerData.creation_date,
+                id: playerData.id,
+                name: playerData.name,
+                player_id: playerData.player_id,
+              });
+          }
+          else {
+            addUser();
+            getPlayer();
+          }
       }
         catch(err) {
         console.log(err)
@@ -100,28 +99,22 @@ function App() {
     // eslint-disable-next-line
   }, [user]);
 
+  
   return (
     <div className="App">
-      
       <Box>
       <BrowserRouter>
-        {Object.keys(activeUser).length === 0 ? 
-        <>
-        <NavBar/>
-        <SignUp />
-        </>
-        :
         <>
         <NavBar isReceived = {true} />
         <Routes>
-       {user === null  ? 
+        {user === null  ? 
           <>
-            <Route path="/dashboard" element={<Navigate replace to="/" />} />
-            <Route path = "*" element = {<SignUp />} />
+            <Route path="*" element={<Navigate replace to="/signin" />} />
+            <Route path = "/signin" element = {<SignUp />} />
           </>
           :
           <>
-            <Route path="/" element={<Navigate replace to="/dashboard" />} />
+            <Route path="*" element={<Navigate replace to="/dashboard" />} />
             <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} currentDate = {currentDate} realTimeCallBack = {realTimeCallBack}/> } />
             <Route path = "/sharpens" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
             <Route path = "/about" element = {<About />} />
@@ -130,7 +123,6 @@ function App() {
         }
          </Routes>
          </> 
-        }
       </BrowserRouter>
       </Box>
       <Footer />

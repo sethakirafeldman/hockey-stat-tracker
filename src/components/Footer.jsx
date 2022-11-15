@@ -1,5 +1,5 @@
 import React from 'react';
-import { CssBaseline, Typography, Link, Container } from '@mui/material';
+import {Typography, Link, Container } from '@mui/material';
 
 function Copyright() {
   return (
@@ -17,14 +17,14 @@ function Copyright() {
 export default function StickyFooter() {
 
   return (
-    <div >
-      <CssBaseline />
+    <>
+      {/* <CssBaseline /> */}
       <footer>
         <Container maxWidth="sm">
           <Typography variant="body1">Stat Tracker</Typography>
           <Copyright />
         </Container>
       </footer>
-    </div>
+     </>
   );
 }

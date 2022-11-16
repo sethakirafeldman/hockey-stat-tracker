@@ -30,9 +30,6 @@ body {
 #login-container {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
-  
 }
 
 .login-area {
@@ -46,26 +43,20 @@ body {
 
 }
 
-/* .login-area > h4, h5, p  {
-  padding: 20px;
-} */
+#sharpen-diagram {
+  width: 100%;
+  max-width: 800px;
+}
 
 #ice-img {
-  /* background-size: 100% 100% */
   width: 100%;
   height: 100vh;
-
-  /* height: 100%; */
-  /* heigh:fit-content; */
-  /* float: top; */
-
 }
 
 .stat-fields {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  /* width: 50%; */
   margin: auto;
   justify-content: center;
   align-items: center;
@@ -91,7 +82,6 @@ body {
 
 footer {
   position: fixed;
-  /* height: 100%; */
   width: 100%;
   bottom: 0;
   background-color: #1989fa;
@@ -101,6 +91,7 @@ footer {
 #chart-container {
   margin: auto;
   width: 80%;
+  max-width: 1000px;
 }
 
 .text-area  ul {

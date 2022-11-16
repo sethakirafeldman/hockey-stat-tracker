@@ -99,7 +99,8 @@ function App() {
     // eslint-disable-next-line
   }, [user]);
 
-  
+  console.log(user)
+
   return (
     <div className="App">
       <Box>
@@ -107,7 +108,7 @@ function App() {
         <>
         <NavBar isReceived = {true} />
         <Routes>
-        {user === null  ? 
+        {user === null || Object.keys(user).length === 0 ? 
           <>
             <Route path="*" element={<Navigate replace to="/signin" />} />
             <Route path = "/signin" element = {<SignUp />} />

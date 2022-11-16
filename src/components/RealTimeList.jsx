@@ -69,9 +69,9 @@ export default function RealTimeList(props) {
         <Table sx={{minWidth: 350}} aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
             <TableRow >
-              <TableCell>Date (YYYY-MM-DD)</TableCell>
-              <TableCell align="left">Goals</TableCell>
-              <TableCell align="left">Assists</TableCell>
+              <TableCell sx = {{color:'white', whiteSpace: 'nowrap'}}>Date (YYYY-MM-DD)</TableCell>
+              <TableCell sx = {{color:'white'}} align="left">Goals</TableCell>
+              <TableCell sx = {{color:'white'}} align="left">Assists</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -27,6 +27,7 @@ export default function About() {
             <ul>
             <li>2022-11-07: changed edit buttons to icons and added descending sort for data tables.</li>
             <li>2022-11-11: added basic line graph. Some styling.</li>
+            <li>2022-11-16: styling fixes.</li>
             </ul>
         </Typography>
 

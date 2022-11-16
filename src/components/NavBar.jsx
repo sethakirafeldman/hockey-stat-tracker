@@ -153,7 +153,6 @@ export default function NavBar(props) {
             ) )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            {/* {user.displayName} */}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
                 <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
@@ -175,9 +174,7 @@ export default function NavBar(props) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-
               <MenuItem onClick ={handleSignOut}>Log Out</MenuItem>
-              
             </Menu>
             
           </Box>
@@ -186,6 +183,7 @@ export default function NavBar(props) {
       </Container>
       
     </AppBar>
+    
     : 
     
     <AppBar position="static">
@@ -208,21 +206,9 @@ export default function NavBar(props) {
         >
           Stat Tracker
         </Typography>
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-        </IconButton>
-        </Box>
         </Toolbar>
         </Container>
         </AppBar> } 
-        </>
-        
+        </>    
     )
 }

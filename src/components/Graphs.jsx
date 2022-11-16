@@ -35,9 +35,6 @@ export default function Graphs(props) {
     const [pointsHistory, setPointsHistory] = useState([]);
     const [statsInOrder, setStatsInOrder] = useState({});
 
-    // sort data b - > a
-
-
     useEffect(() => {
 
       try {
@@ -51,7 +48,6 @@ export default function Graphs(props) {
               return new Date(a.date) - new Date(b.date);
           });
           setPointsHistory(ptsArr);
-          // props.realTimeCallBack(ptsArr);
         });
 
         return () => {
@@ -69,7 +65,6 @@ export default function Graphs(props) {
 
     useEffect( () => {
         try {
-            // console.log(pointsHistory)
             let tempDate = [];
             let tempGoal = [];
             let tempAssist = [];
@@ -103,7 +98,7 @@ export default function Graphs(props) {
             borderColor: "blue",
             showLine: true,
             spanGaps: true,
-            pointRadius: 5
+            pointRadius: 4
           },
           {
             label: "Assists",
@@ -113,7 +108,7 @@ export default function Graphs(props) {
             borderColor: "orange",
             showLine: true,
             spanGaps: true,
-            pointRadius: 5
+            pointRadius: 4
           }
         ]
       };
@@ -123,8 +118,9 @@ export default function Graphs(props) {
     return (
         <section id ="chart-container">
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
+        <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Over Time</Typography>
         <Line 
-            
+
             data = {data} 
             options = {{
                 

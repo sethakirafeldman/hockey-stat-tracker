@@ -124,7 +124,7 @@ export default function Sharpens (props) {
         <p>Standard cut is usually 1/2", but may depend on the shop.</p>
         </div>
         <figure>
-        <img alt = "sharpening diagram" width = "75%" src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
+        <img id = "sharpen-diagram" alt = "sharpening diagram" src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
         <figcaption>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a></figcaption>
         </figure>
 
@@ -186,11 +186,11 @@ export default function Sharpens (props) {
         <div className="table">
             <TableContainer sx = {{maxWidth: 600}} component={Paper}>
             <Table sx={{minWidth: 350}} aria-label="sharpen table">
-            <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
-            <TableRow >
-                <TableCell>Date (YYYY-MM-DD)</TableCell>
-                <TableCell align="left">Cut</TableCell>
-                <TableCell align = "left">Notes</TableCell>
+            <TableHead sx = {{bgcolor: 'primary.light', color: 'text.secondary'}}>
+            <TableRow>
+                <TableCell sx = {{color:'white', whiteSpace: 'nowrap'}}>Date (YYYY-MM-DD)</TableCell>
+                <TableCell sx = {{color:'white'}} align="left">Cut</TableCell>
+                <TableCell sx = {{color:'white'}} align = "left">Notes</TableCell>
             </TableRow>    
             </TableHead>
             <TableBody>

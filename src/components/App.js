@@ -99,8 +99,6 @@ function App() {
     // eslint-disable-next-line
   }, [user]);
 
-  console.log(user)
-
   return (
     <div className="App">
       <Box>

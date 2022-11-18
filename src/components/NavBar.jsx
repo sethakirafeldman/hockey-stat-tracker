@@ -61,11 +61,11 @@ export default function NavBar(props) {
             console.log(err);
         }
     }
-    return (
-    <> 
-     {user && props.isReceived ?
-     <AppBar position="sticky">
-      <Container maxWidth="xl">
+
+    const LoggedInBar = () => {
+      return (
+        <AppBar position="sticky">
+        <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -176,39 +176,50 @@ export default function NavBar(props) {
             >
               <MenuItem onClick ={handleSignOut}>Log Out</MenuItem>
             </Menu>
-            
           </Box>
-          
         </Toolbar>
       </Container>
-      
-    </AppBar>
-    
-    : 
-    
-    <AppBar position="static">
-    <Container maxWidth="xl">
-      <Toolbar disableGutters>
-        <Typography
-          variant="h6"
-          noWrap
-          component="a"
-          href="/"
-          sx={{
-            mr: 2,
-            display: { xs: 'flex', md: 'flex' },
-            fontFamily: 'monospace',
-            fontWeight: 700,
-            letterSpacing: '.3rem',
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-        >
+        </AppBar>
+        )
+    }
+
+    const LoggedOutBar = () => {
+      return (
+        <AppBar position="static">
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                  mr: 2,
+                  display: { xs: 'flex', md: 'flex' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.3rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
           Stat Tracker
         </Typography>
         </Toolbar>
         </Container>
-        </AppBar> } 
-        </>    
+        </AppBar> 
+      )
+    } 
+
+    return (
+      <> 
+      {user === null || Object.keys(user).length === 0 ?
+
+      <LoggedOutBar />
+      : 
+      <LoggedInBar />
+      
+      } 
+      </>    
     )
 }

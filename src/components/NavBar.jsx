@@ -19,7 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import {UserAuth} from '../contexts/AuthContext';
 
-const pages = ['Dashboard', 'Sharpens','Graphs','About'];
+const pages = ['Dashboard', 'Sharpenings','Graphs','About'];
 const pageObjs = [];
 
 pages.forEach((page) => {

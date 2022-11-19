@@ -115,7 +115,7 @@ function App() {
           <>
             <Route path="*" element={<Navigate replace to="/dashboard" />} />
             <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} currentDate = {currentDate} realTimeCallBack = {realTimeCallBack}/> } />
-            <Route path = "/sharpens" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
+            <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
             <Route path = "/about" element = {<About />} />
             <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentDate = {currentDate} currentStatData = {currentStatData} /> } />
           </>

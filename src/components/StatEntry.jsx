@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import uuid from 'react-uuid';
 
 import TextField from '@mui/material/TextField';
@@ -11,30 +11,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
-export default function StatEntry(props) {
+export default function StatEntry( {activeUser, currentDate} ) {
 
-const [goalValue, setGoalValue] = React.useState('');
-const [assistValue, setAssistValue] = React.useState('');
-const [dateValue, setDateValue] = React.useState(props.currentDate);
-
-const addStats = async () =>  {
-  let uniqid = uuid();
-  try {
-    await setDoc(doc(db, "points-history", uniqid), {
-      // grab from state and props
-      player_id: props.activeUser.player_id,
-      name: props.activeUser.name,
-      goals: Number(goalValue),
-      assists: Number(assistValue),
-      date: dateValue,
-      id: uniqid
-    });
-  }
-  catch(err) {
-    console.log(err)
-  }
-  
-}
+const [goalValue, setGoalValue] = useState('');
+const [assistValue, setAssistValue] = useState('');
+const [dateValue, setDateValue] = useState(currentDate);
 
 const handleKey = (event) => {
   if (event.key === "e" || event.key === "-" || event.key === "."){
@@ -71,11 +52,29 @@ const handleDate = (date) => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  if (assistValue && goalValue) {
-    addStats();
+  if (assistValue || goalValue) {
+    (async () => {
+      let uniqid = uuid();
+      try {
+        // adds new data to db.
+        await setDoc(doc(db, "points-history", uniqid), {
+          player_id: activeUser.player_id,
+          name: activeUser.name,
+          goals: parseInt(goalValue),
+          assists: parseInt(assistValue),
+          date: dateValue,
+          id: uniqid
+        });
+      }
+      catch(err) {
+        console.log(err)
+      }
+  
+    })();
+    // set state back to defaults
     setGoalValue('');
     setAssistValue('');
-    setDateValue(props.currentDate);
+    setDateValue(currentDate);
   }
 
   else {
@@ -101,7 +100,7 @@ const handleSubmit = (event) => {
         <TextField 
           inputProps={{
             step: 1,
-            placeholder: 0,
+            placeholder: 'Enter Goals',
             min: 0,
             max: 15,
             type: 'number'
@@ -118,7 +117,7 @@ const handleSubmit = (event) => {
         <TextField 
            inputProps={{
             step: 1,
-            placeholder: 0,
+            placeholder: 'Enter Assists',
             min: 0,
             max: 15,
             type: 'number'

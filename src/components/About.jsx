@@ -3,6 +3,8 @@ import React from 'react';
 //mui
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import List from '@mui/material/List';
+import ListItemText from '@mui/material/ListItemText';
 
 export default function About() {
     return (
@@ -23,13 +25,11 @@ export default function About() {
             {' '}for its backend. 
         </Typography>
         <Typography variant="h5" gutterBottom sx = {{mt: 2}}>Change Notes</Typography>
-        <Typography sx = {{}} variant="body1" gutterBottom>
-            <ul>
-            <li>2022-11-07: changed edit buttons to icons and added descending sort for data tables.</li>
-            <li>2022-11-11: added basic line graph. Some styling.</li>
-            <li>2022-11-16: styling fixes.</li>
-            </ul>
-        </Typography>
+        <List>
+            <ListItemText>2022-11-07: changed edit buttons to icons and added descending sort for data tables.</ListItemText>
+            <ListItemText>2022-11-11: added basic line graph. Some styling.</ListItemText>
+            <ListItemText>2022-11-16: styling fixes.</ListItemText>
+        </List>
 
     </section>
     )

@@ -117,7 +117,7 @@ export default function Sharpens (props) {
     return (
         <>
         <section id = "sharpen-section">
-        <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpens</Typography>
+        <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpenings</Typography>
         <div className ="text-area">
         <p>Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.</p>
         <p>Not sure about what hollow to use? Check out this guide below</p>
@@ -182,7 +182,7 @@ export default function Sharpens (props) {
         </div>
         </Box>   
         </section>
-        
+        <h3>Sharpenings</h3>
         <div className="table">
             <TableContainer sx = {{maxWidth: 600}} component={Paper}>
             <Table sx={{minWidth: 350}} aria-label="sharpen table">

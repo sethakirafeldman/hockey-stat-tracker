@@ -47,6 +47,7 @@ export default function Sharpens (props) {
                 date: dateValue,
                 id: uniqid
             });
+            setNotesVal('');
         }
         catch(err) {
             console.log(err);
@@ -166,6 +167,7 @@ export default function Sharpens (props) {
             label="Notes" 
             variant="outlined" 
             onChange = {handleEntry}
+            value = {notesVal}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DesktopDatePicker

@@ -88,6 +88,12 @@ footer {
   color: white;
 }
 
+@media screen and (max-width: 600px) {
+  footer {
+    display: none;
+  }
+}
+
 #chart-container {
   margin: auto;
   width: 80%;

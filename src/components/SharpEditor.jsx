@@ -10,10 +10,14 @@ import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Tooltip from '@mui/material/Tooltip';
+import FormControl from '@mui/material/FormControl';
+import { InputLabel } from '@mui/material';
 
 export default function SharpEditor(props) {
-    // console.log(props.cutHistory);
-    // console.log(props.entryId)
+  
     const ref = useRef();
     const closeMenu = () => ref.current.close();
 
@@ -53,7 +57,6 @@ export default function SharpEditor(props) {
 
     // as values change in editor, updates editValues
     const handleEdit = (event) => {
-        console.log(props.entryId)
         setEditValues( {
             ...editValues,
             [event.target.name]: event.target.value,
@@ -62,7 +65,6 @@ export default function SharpEditor(props) {
     };
 
     const handleEditSubmit = (event) => {
-        console.log(editValues.cut)
         editCuts(editValues.entryId);
         closeMenu();
     };
@@ -85,28 +87,35 @@ export default function SharpEditor(props) {
     >
     <span> 
         <TextField 
+            sx = {{width: '100%', pb: 1}}
             label ="Date"
-            
             variant = "outlined"
             name = "date"
             type = "date"
             value = {editValues.date}
             onChange = {handleEdit}
         />
+
+        <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel 
+            id="cut-selector-edit">Cut</InputLabel>
         <Select
+            sx = {{width: '75%', pb: 1, mt: 1}}
             name = "cut"
-            labelId="cut selector edit"
+            labelId="cut-selector-edit"
             label = "Cut"
             onChange = {handleEdit}
             value = {editValues.cut}
         >
-        <MenuItem value = {'1'}>1"</MenuItem>
-        <MenuItem value = {'3/4'}>3/4"</MenuItem>
-        <MenuItem value = {'5/8'}>5/8"</MenuItem>
-        <MenuItem value = {'1/2'}>1/2"</MenuItem>
-        <MenuItem value = {'3/8'}>3/8"</MenuItem>
+            <MenuItem value = {'1'}>1"</MenuItem>
+            <MenuItem value = {'3/4'}>3/4"</MenuItem>
+            <MenuItem value = {'5/8'}>5/8"</MenuItem>
+            <MenuItem value = {'1/2'}>1/2"</MenuItem>
+            <MenuItem value = {'3/8'}>3/8"</MenuItem>
         </Select>
-        <TextField 
+        </FormControl>
+        <TextField
+            sx = {{width: '100%', pb: 1}} 
             inputProps={{
                 min: 0,
                 max: 280,
@@ -120,8 +129,12 @@ export default function SharpEditor(props) {
             value = {editValues.notes}
             onChange = {handleEdit}
         />
-        <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined">Submit Change</Button>
-        <Button type = "button" onClick = {deleteItem} >Delete Entry</Button>
+        <Tooltip title = 'Submit Change'>
+        <Button sx = {{width: '50%'}} onClick = {handleEditSubmit} type = "submit" variant = "outlined"><CheckIcon/></Button>
+        </Tooltip>
+        <Tooltip title = 'Delete Permanently'>
+        <Button sx = {{color:'red', width: '50%'}} variant = "outlined" type = "button" onClick = {deleteItem}><DeleteForeverIcon/></Button>
+        </Tooltip>
     </span>
 </Popup>
 )

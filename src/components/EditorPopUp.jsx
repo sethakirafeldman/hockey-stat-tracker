@@ -5,16 +5,20 @@ import 'reactjs-popup/dist/index.css';
 import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
+//mui
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import EditIcon from '@mui/icons-material/Edit';
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function EditorPopUp(props) {
 
     const ref = useRef();
     const closeMenu = () => ref.current.close();
 
-    useEffect( ()=>{
+    useEffect( () => {
         props.pointsHistory.forEach((item) => {
             if (item.id === props.entryId) {
                 setEditValues({
@@ -36,14 +40,6 @@ export default function EditorPopUp(props) {
         entryId: ''        
     });
 
-    const editStats = async (entry) => {
-        const statRef = doc(db, "points-history", entry);
-        await setDoc(statRef, {
-            date: editValues.date,
-            goals: editValues.goals,
-            assists: editValues.assists
-        }, {merge: true})
-    };
 
     const handleEdit = (event) => {
         setEditValues( {
@@ -54,8 +50,16 @@ export default function EditorPopUp(props) {
     };
 
     const handleEditSubmit = (event) => {
-        editStats(editValues.entryId);
+        (async () => {
+            const statRef = doc(db, "points-history", editValues.entryId);
+            await setDoc(statRef, {
+                date: editValues.date,
+                goals: editValues.goals,
+                assists: editValues.assists
+            }, {merge: true})
+        })();
         closeMenu();
+        // add some kind of effect here.
     };
 
     const deleteItem = async (event) => {        
@@ -75,6 +79,7 @@ export default function EditorPopUp(props) {
             >
             <span> 
                 <TextField 
+                    sx = {{width: '100%', pb: 1, mt: 1 }}
                     label ="Date"
                     variant = "outlined"
                     name = "date"
@@ -83,7 +88,8 @@ export default function EditorPopUp(props) {
                     onChange = {handleEdit}
                     
                 />
-                <TextField 
+                <TextField
+                    sx = {{width: '50%', pb: 1}} 
                     inputProps={{
                         step: 1,
                         placeholder: 0,
@@ -99,7 +105,8 @@ export default function EditorPopUp(props) {
                     
                     onChange = {handleEdit}
                 />
-                <TextField 
+                <TextField
+                    sx = {{width:'50%', pb: 1}} 
                     inputProps={{
                         step: 1,
                         placeholder: 0,
@@ -114,8 +121,12 @@ export default function EditorPopUp(props) {
                     value = {editValues.assists}
                     onChange = {handleEdit}
                 />
-                <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined">Submit Change</Button>
-                <Button type = "button" onClick = {deleteItem} >Delete Entry</Button>
+                <Tooltip title = "Submit Change">
+                    <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined" sx = {{width: '50%'}}><CheckIcon/></Button>
+                </Tooltip>
+                <Tooltip title = "Delete Permanently">
+                    <Button variant = "outlined" type = "button" onClick = {deleteItem} sx = {{color:'red', width: '50%'}} ><DeleteForeverIcon/></Button>
+                </Tooltip>
             </span>
         </Popup>
     )

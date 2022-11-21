@@ -57,14 +57,14 @@ export default function RealTimeList(props) {
 
         }
         catch(err) {
-            console.log(err)
+            // console.log(err)
         }
     // eslint-disable-next-line
     }, [props.activeUser]);  
 
     return (
         <section className ="table">
-        <h3>Current Season Stats</h3>
+        <h3>Points to Date</h3>
         <TableContainer sx = {{maxWidth: 600}} component={Paper}>
         <Table sx={{minWidth: 350}} aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>

@@ -72,6 +72,7 @@ export default function RealTimeList(props) {
               <TableCell sx = {{color:'white', whiteSpace: 'nowrap'}}>Date (YYYY-MM-DD)</TableCell>
               <TableCell sx = {{color:'white'}} align="left">Goals</TableCell>
               <TableCell sx = {{color:'white'}} align="left">Assists</TableCell>
+              <TableCell sx = {{color:'white'}} align="left">Notes</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -79,6 +80,7 @@ export default function RealTimeList(props) {
               <TableCell sx = {{fontWeight: 'bold'}} component="th" scope="row">Total</TableCell>
               <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('goals', pointsHistory)}</TableCell>
               <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('assists', pointsHistory)}</TableCell>
+              <TableCell sx = {{fontWeight: 'bold'}} align="left"></TableCell>
             </TableRow>
             {pointsHistory ? pointsHistory.map((row) => (
               <TableRow
@@ -88,6 +90,7 @@ export default function RealTimeList(props) {
                 <TableCell component="th" scope="row">{row.date}</TableCell>
                 <TableCell align="left">{row.goals}</TableCell>
                 <TableCell align="left">{row.assists}</TableCell>
+                <TableCell align="left">{row.notes}</TableCell>
                 <TableCell><EditorPopUp entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
               </TableRow>
             )) 

@@ -36,11 +36,11 @@ export default function NavBar(props) {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
+        setAnchorElNav(true);
     };
 
     const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
+        setAnchorElUser(true);
     };
 
     const handleCloseNavMenu = () => {
@@ -99,12 +99,12 @@ export default function NavBar(props) {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
+                vertical: 'top',
                 horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
@@ -153,27 +153,27 @@ export default function NavBar(props) {
             ) )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            {/* user menu */}
+            <Tooltip title="Open Settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
                 <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
               </IconButton>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
+              <Menu
+                sx={{ mt: '45px'}}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin=
+                  {{vertical: 'top', 
+                  horizontal: 'right'}}
+                // keepMounted
+                transformOrigin=
+                  {{vertical: 'top', 
+                  horizontal: 'right'}}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+              {/* <MenuItem> <Link style = {{textDecoration: 'none', color: 'black'}} to = "/settings" onClick={handleCloseUserMenu}>Settings</Link></MenuItem> */}
               <MenuItem onClick ={handleSignOut}>Log Out</MenuItem>
             </Menu>
           </Box>

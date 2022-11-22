@@ -16,6 +16,7 @@ export default function StatEntry( {activeUser, currentDate} ) {
 const [goalValue, setGoalValue] = useState('');
 const [assistValue, setAssistValue] = useState('');
 const [dateValue, setDateValue] = useState(currentDate);
+const [notesVal, setNotesVal] = useState('');
 
 const handleKey = (event) => {
   if (event.key === "e" || event.key === "-" || event.key === "."){
@@ -30,6 +31,10 @@ const handleGoals = (event) => {
 const handleAssists = (event) => {
   setAssistValue(event.target.value);
 };
+
+const handleNotes = (event) => { 
+  setNotesVal(event.target.value);
+}
 
 const handleDate = (date) => {
   let day = date.$D;
@@ -62,6 +67,7 @@ const handleSubmit = (event) => {
           name: activeUser.name,
           goals: parseInt(goalValue),
           assists: parseInt(assistValue),
+          notes: notesVal,
           date: dateValue,
           id: uniqid
         });
@@ -74,6 +80,7 @@ const handleSubmit = (event) => {
     // set state back to defaults
     setGoalValue('');
     setAssistValue('');
+    setNotesVal('');
     setDateValue(currentDate);
   }
 
@@ -129,6 +136,22 @@ const handleSubmit = (event) => {
           value = {assistValue}
           onKeyDown = {handleKey}
           onChange = {handleAssists} 
+        />
+
+        <TextField
+            sx = {{width: '100%', pb: 1}} 
+            inputProps={{
+                min: 0,
+                max: 280,
+                type: 'string'
+            }}
+            label="Notes" 
+            variant="outlined" 
+            type = "number" 
+            name = "notes"
+            multiline
+            value = {notesVal}
+            onChange = {handleNotes}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DesktopDatePicker

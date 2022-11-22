@@ -25,6 +25,7 @@ export default function EditorPopUp(props) {
                     date: item.date,
                     goals: item.goals,
                     assists: item.assists,
+                    notes: item.notes,
                     entryId: item.id
                 })
             }
@@ -37,6 +38,7 @@ export default function EditorPopUp(props) {
         date: '',
         goals: '',
         assists: '',
+        notes: '',
         entryId: ''        
     });
 
@@ -55,7 +57,8 @@ export default function EditorPopUp(props) {
             await setDoc(statRef, {
                 date: editValues.date,
                 goals: editValues.goals,
-                assists: editValues.assists
+                assists: editValues.assists,
+                notes: editValues.notes,
             }, {merge: true})
         })();
         closeMenu();
@@ -71,7 +74,6 @@ export default function EditorPopUp(props) {
             ref = {ref}
             trigger={open => (
                 <EditIcon sx ={{"&:hover":{color:"#1989fa"}}}></EditIcon>
-                // <Button className="button">Edit</Button>
             )}
             position="left center"
             closeOnDocumentClick
@@ -119,6 +121,21 @@ export default function EditorPopUp(props) {
                     type = "number" 
                     name = "assists"
                     value = {editValues.assists}
+                    onChange = {handleEdit}
+                />
+                <TextField
+                    sx = {{width: '100%', pb: 1}} 
+                    inputProps={{
+                        min: 0,
+                        max: 280,
+                        type: 'string'
+                    }}
+                    label="Notes" 
+                    variant="outlined" 
+                    type = "string" 
+                    name = "notes"
+                    multiline
+                    value = {editValues.notes}
                     onChange = {handleEdit}
                 />
                 <Tooltip title = "Submit Change">

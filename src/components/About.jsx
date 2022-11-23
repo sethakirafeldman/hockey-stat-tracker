@@ -29,8 +29,8 @@ export default function About() {
             <ListItemText>2022-11-07: changed edit buttons to icons and added descending sort for data tables.</ListItemText>
             <ListItemText>2022-11-11: added basic line graph. Some styling.</ListItemText>
             <ListItemText>2022-11-16: styling fixes.</ListItemText>
-            <ListItemText>2022-11-21: Added notes field to points dashboard.</ListItemText>
-
+            <ListItemText>2022-11-21: added notes field to points dashboard.</ListItemText>
+            <ListItemText>2022-11-22: mobile styling fix and basic settings pane </ListItemText>
         </List>
 
     </section>

@@ -30,10 +30,16 @@ export default function RealTimeList(props) {
         let assists = 0;
         arr.forEach((entry) => {
           assists += Number(entry.assists);
-        })
+        });
         return Number(assists);
       }
-    
+      else if (type === 'total') {
+        let total = 0;
+        arr.forEach((entry) => {
+          total += Number(entry.assists) + Number(entry.goals);
+        });
+        return Number(total);
+      }
     };
 
     useEffect(() => {
@@ -65,14 +71,15 @@ export default function RealTimeList(props) {
     return (
         <section className ="table">
         <h3>Points to Date</h3>
-        <TableContainer sx = {{maxWidth: 600}} component={Paper}>
+        <TableContainer sx = {{maxWidth: 600 }} component={Paper}>
         <Table sx={{minWidth: 350}} aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
-            <TableRow >
-              <TableCell sx = {{color:'white', whiteSpace: 'nowrap'}}>Date (YYYY-MM-DD)</TableCell>
+            <TableRow>
+              <TableCell sx = {{color:'white'}}>Date (YYYY-MM-DD)</TableCell>
               <TableCell sx = {{color:'white'}} align="left">Goals</TableCell>
               <TableCell sx = {{color:'white'}} align="left">Assists</TableCell>
               <TableCell sx = {{color:'white'}} align="left">Notes</TableCell>
+              <TableCell sx = {{color:'white'}}>Total Points</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -81,6 +88,7 @@ export default function RealTimeList(props) {
               <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('goals', pointsHistory)}</TableCell>
               <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('assists', pointsHistory)}</TableCell>
               <TableCell sx = {{fontWeight: 'bold'}} align="left"></TableCell>
+              <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('total', pointsHistory)}</TableCell>
             </TableRow>
             {pointsHistory ? pointsHistory.map((row) => (
               <TableRow

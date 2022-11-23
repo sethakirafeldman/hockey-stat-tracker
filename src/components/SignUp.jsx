@@ -24,8 +24,8 @@ export default function SignUp() {
         <section id ="login-container"> 
             <div className = "login-area">
             <Typography sx = {{pb:4}} variant = "h4">Welcome to Stat Tracker</Typography>
-            <Typography sx = {{pb:4}} variant = "h5">Track your personal stats for beer league and beyond.</Typography>
-                <Typography sx = {{mb:4}} variant ="body">Get started by siging up or signing in below</Typography>
+            <Typography sx = {{pb:4}} variant = "h5">Track your personal hockey stats for beer league and beyond.</Typography>
+                <Typography sx = {{mb:4}} variant ="body">Get started by signing up or signing in below</Typography>
                 <Box sx = {{pt:4}}>
                     <GoogleButton onClick = {handleGoogleSignIn}/>
                 </Box>

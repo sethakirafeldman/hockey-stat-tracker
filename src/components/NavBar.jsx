@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Link } from 'react-router-dom';
 
 //mui
@@ -31,6 +31,8 @@ pages.forEach((page) => {
 })
 
 export default function NavBar(props) {
+
+    const menuRef = useRef();
     
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -155,10 +157,10 @@ export default function NavBar(props) {
           <Box sx={{ flexGrow: 0 }}>
             {/* user menu */}
             <Tooltip title="Open Settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
+              <span><IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }} ref={menuRef}>
                 <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
-              </IconButton>
-            </Tooltip>
+              </IconButton></span>
+              </Tooltip>
               <Menu
                 sx={{ mt: '45px'}}
                 id="menu-appbar"
@@ -173,9 +175,10 @@ export default function NavBar(props) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-              {/* <MenuItem> <Link style = {{textDecoration: 'none', color: 'black'}} to = "/settings" onClick={handleCloseUserMenu}>Settings</Link></MenuItem> */}
+              <MenuItem> <Link style = {{textDecoration: 'none', color: 'black'}} to = "/settings" onClick={handleCloseUserMenu}>Settings</Link></MenuItem>
               <MenuItem onClick ={handleSignOut}>Log Out</MenuItem>
             </Menu>
+            
           </Box>
         </Toolbar>
       </Container>

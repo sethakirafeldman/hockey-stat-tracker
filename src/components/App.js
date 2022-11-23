@@ -6,6 +6,7 @@ import Sharpens from "./Sharpens";
 import About from "./About";
 import Graphs from "./Graphs";
 import Footer from "./Footer";
+import Settings from "./Settings";
 
 //react
 import React, { useState, useEffect  } from 'react';
@@ -118,6 +119,7 @@ function App() {
             <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
             <Route path = "/about" element = {<About />} />
             <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentDate = {currentDate} currentStatData = {currentStatData} /> } />
+            <Route path = "/settings" element = { <Settings activeUser = {activeUser} />} />
           </>
         }
          </Routes>

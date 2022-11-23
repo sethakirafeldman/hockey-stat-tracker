@@ -193,6 +193,7 @@ export default function Sharpens (props) {
                 <TableCell sx = {{color:'white', whiteSpace: 'nowrap'}}>Date (YYYY-MM-DD)</TableCell>
                 <TableCell sx = {{color:'white'}} align="left">Cut</TableCell>
                 <TableCell sx = {{color:'white'}} align = "left">Notes</TableCell>
+                <TableCell></TableCell>
             </TableRow>    
             </TableHead>
             <TableBody>

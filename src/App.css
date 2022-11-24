@@ -27,6 +27,12 @@ body {
   background-color: #1989fa;
 }
 
+#logo {
+  display: block;
+  left: 0;
+  position: relative;
+}
+
 #login-container {
   display: flex;
   flex-direction: column;
@@ -92,6 +98,9 @@ footer {
   footer {
     display: none;
   }
+  #logo {
+    display: none;
+  }
 }
 
 #chart-container {
@@ -103,3 +112,7 @@ footer {
 .text-area  ul {
   text-align: left;
 }
+
+
+
+

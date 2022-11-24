@@ -1,6 +1,8 @@
 import React, {useRef} from 'react';
 import { Link } from 'react-router-dom';
 
+import logo from "../assets/stat-tracker.png" 
+
 //mui
 import {
     AppBar, 
@@ -68,7 +70,10 @@ export default function NavBar(props) {
       return (
         <AppBar position="sticky">
         <Container maxWidth="xl">
+          
         <Toolbar disableGutters>
+        <img width = "100px" id = "logo" alt = "logo" src = {logo} />
+
           <Typography
             variant="h6"
             noWrap
@@ -144,7 +149,7 @@ export default function NavBar(props) {
             
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-    
+
             {Object.values(pageObjs).map((page) => (
                 <Link to = {page.path} className = 'nav-btn'
                     key={page.name}
@@ -191,6 +196,7 @@ export default function NavBar(props) {
         <AppBar position="static">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
+            <img width = "100px" id = "logo" alt = "logo" src = {logo} />
               <Typography
                 variant="h6"
                 noWrap

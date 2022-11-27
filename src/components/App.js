@@ -74,8 +74,8 @@ function App() {
   useEffect (() => {
     let playerData = {};
     async function getPlayer() {
-      const usersRef = doc(db, "users", user.uid);
         try {
+        const usersRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(usersRef)
           if (docSnap.exists()) {
             playerData = docSnap.data();
@@ -88,11 +88,11 @@ function App() {
           }
           else {
             addUser();
-            getPlayer();
+            // getPlayer();
           }
       }
         catch(err) {
-        console.log(err)
+        // console.log(err)
       }
     };
     dateToday();

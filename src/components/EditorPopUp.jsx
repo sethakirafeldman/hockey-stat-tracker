@@ -25,7 +25,8 @@ export default function EditorPopUp(props) {
                     date: item.date,
                     goals: item.goals,
                     assists: item.assists,
-                    notes: item.notes,
+                    league: item.league,
+                    plusMinus: item.plusMinus,
                     entryId: item.id
                 })
             }
@@ -33,32 +34,62 @@ export default function EditorPopUp(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     // uses empty string as this is required for rendering as value in Textfields
-    // may be better to set to current values pre edit.
     const [editValues, setEditValues] = React.useState({
         date: '',
         goals: '',
         assists: '',
-        notes: '',
+        league: '',
+        plusMinus: '',
         entryId: ''        
     });
 
 
     const handleEdit = (event) => {
-        setEditValues( {
-            ...editValues,
-            [event.target.name]: event.target.value,
-            entryId: props.entryId
-        })        
+        if (event.key === "Enter") { 
+            event.preventDefault();
+        }
+        else {
+            if (event.target.value.length >= 3) {
+                // event.target.value = event.target.value.slice(0,-1);
+            }
+            setEditValues( {
+                ...editValues,
+                [event.target.name]: event.target.value,
+                entryId: props.entryId
+            });        
+        }     
     };
+
+    const handleKey = {
+        standard: (event) => {
+          if (event.key === "e" || event.key === "-" || event.key === "." || event.key === 'CapsLock') {
+              event.preventDefault();
+          }
+          else if (event.target.value.length >= 2) {
+            console.log(event.target.value);
+            event.target.value = event.target.value.slice(0,-1);
+          }
+        },
+        alternate: (event) => { // for +/-
+          if (event.key === "e" || event.key === "."){
+            event.preventDefault();
+          }
+          else if (event.target.value.length >= 2) { 
+            event.target.value = event.target.value.slice(0,-1);
+          }
+        }
+      };
 
     const handleEditSubmit = (event) => {
         (async () => {
             const statRef = doc(db, "points-history", editValues.entryId);
+            // it would be nice to add missing fields if missing
             await setDoc(statRef, {
                 date: editValues.date,
                 goals: editValues.goals,
                 assists: editValues.assists,
-                notes: editValues.notes,
+                plusMinus: editValues.plusMinus,
+                league: editValues.league,
             }, {merge: true})
         })();
         closeMenu();
@@ -87,8 +118,8 @@ export default function EditorPopUp(props) {
                     name = "date"
                     type = "date"
                     value = {editValues.date}
-                    onChange = {handleEdit}
-                    
+                    onKeyDown = {handleKey.standard}
+                    onChange = {handleEdit}  
                 />
                 <TextField
                     sx = {{width: '50%', pb: 1}} 
@@ -104,7 +135,7 @@ export default function EditorPopUp(props) {
                     type = "number" 
                     name = "goals"
                     value = {editValues.goals}
-                    
+                    onKeyDown = {handleKey.standard}
                     onChange = {handleEdit}
                 />
                 <TextField
@@ -121,21 +152,34 @@ export default function EditorPopUp(props) {
                     type = "number" 
                     name = "assists"
                     value = {editValues.assists}
+                    onKeyDown = {handleKey.standard}
+                    onChange = {handleEdit}
+                />
+                <TextField
+                    sx = {{width:'50%', pb: 1}} 
+                    inputProps={{
+                        step: 1,
+                        placeholder: 0,
+                        min: -15,
+                        max: 15,
+                        type: 'number'
+                    }}
+                    label="+/-" 
+                    variant="outlined" 
+                    type = "number" 
+                    name = "plusMinus"
+                    value = {editValues.plusMinus}
+                    onKeyDown = {handleKey.alternate}
                     onChange = {handleEdit}
                 />
                 <TextField
                     sx = {{width: '100%', pb: 1}} 
-                    inputProps={{
-                        min: 0,
-                        max: 280,
-                        type: 'string'
-                    }}
-                    label="Notes" 
+                    inputProps={{ maxLength: 8 }}
+                    label="League" 
                     variant="outlined" 
                     type = "string" 
-                    name = "notes"
-                    multiline
-                    value = {editValues.notes}
+                    name = "league"
+                    value = {editValues.league}
                     onChange = {handleEdit}
                 />
                 <Tooltip title = "Submit Change">

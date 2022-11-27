@@ -31,8 +31,13 @@ export default function About() {
             <ListItemText>2022-11-16: styling fixes.</ListItemText>
             <ListItemText>2022-11-21: added notes field to points dashboard.</ListItemText>
             <ListItemText>2022-11-22: mobile styling fix and basic settings pane </ListItemText>
+            <ListItemText>2022-11-27: Modal Stat Entry Pop Up, styling fixes, image src change. </ListItemText>
         </List>
 
+        <Typography variant="h5" gutterBottom sx = {{mt: 2}}>Image Sources</Typography>
+        <List>
+            <ListItemText>Homepage image, <Link href ="https://unsplash.com/photos/XUwk3DG6jqg" target="_blank" rel="noopener">Foggy Skate</Link> by <Link href = "https://unsplash.com/@mroz" target ="_blank" rel ="noopener">Filip Mroz</Link> via unsplash.</ListItemText>
+        </List>
     </section>
     )
 }

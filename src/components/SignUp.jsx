@@ -1,4 +1,5 @@
 import React from 'react';
+import homePage from "../assets/homepage.jpg";
 
 import { GoogleButton } from "react-google-button";
 import { UserAuth } from "../contexts/AuthContext";
@@ -20,7 +21,7 @@ export default function SignUp() {
 
     return (
         <>
-        <img id = "ice-img" alt = "skater on ice rink" src= "https://source.unsplash.com/XUwk3DG6jqg"/>
+        <img id = "ice-img" alt = "skater on ice rink" src= {homePage}/>
         <section id ="login-container"> 
             <div className = "login-area">
             <Typography sx = {{pb:4}} variant = "h4">Welcome to Stat Tracker</Typography>

@@ -46,7 +46,7 @@ body {
   transform: translate(-50%, -50%);
   margin-right: auto;
   padding: 10px 0;
-
+  
 }
 
 #sharpen-diagram {
@@ -73,13 +73,13 @@ body {
   width: fit-content;
 }
 
-.table {
+/* .table {
   display: flex;
   flex-direction: column;
   justify-content: left;
   align-items: center;
   text-align: left;
-}
+} */
 
 .text-area {
   margin: auto;

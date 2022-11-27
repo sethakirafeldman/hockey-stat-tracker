@@ -186,8 +186,8 @@ export default function Sharpens (props) {
         </section>
         <h3>Sharpenings</h3>
         <div className="table">
-            <TableContainer sx = {{maxWidth: 600}} component={Paper}>
-            <Table sx={{minWidth: 350}} aria-label="sharpen table">
+            <TableContainer sx = {{ display: 'flex', justifyContent: 'center', width:'auto'}} component={Paper}>
+            <Table sx = {{ minWidth: 300, maxWidth: 650}}  aria-label="sharpen table">
             <TableHead sx = {{bgcolor: 'primary.light', color: 'text.secondary'}}>
             <TableRow>
                 <TableCell sx = {{color:'white', whiteSpace: 'nowrap'}}>Date (YYYY-MM-DD)</TableCell>

@@ -1,12 +1,18 @@
 import React, {useState} from 'react';
 import uuid from 'react-uuid';
 
+//mui
 import TextField from '@mui/material/TextField';
 import  { DesktopDatePicker }  from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {Button} from "@mui/material";
 import Box from '@mui/material/Box';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
@@ -16,24 +22,53 @@ export default function StatEntry( {activeUser, currentDate} ) {
 const [goalValue, setGoalValue] = useState('');
 const [assistValue, setAssistValue] = useState('');
 const [dateValue, setDateValue] = useState(currentDate);
-const [notesVal, setNotesVal] = useState('');
+const [plusMinus, setPlusMinus] = useState('');
+const [leagueVal, setLeagueVal] = useState('');
+const [open, setOpen] = useState(false);
 
-const handleKey = (event) => {
-  if (event.key === "e" || event.key === "-" || event.key === "."){
-    event.preventDefault();
+const handleClickOpen = () => {
+  setOpen(true);
+};
+
+const handleClose = () => {
+  setOpen(false);
+};
+
+const handleKey = {
+  standard: (event) => {
+
+    if (event.key === "e" || event.key === "-" || event.key === ".") {
+        event.preventDefault();
+    }
+    else if (event.target.value.length >= 2) {
+      event.target.value = event.target.value.slice(0,-1);
+    }
+  },
+  alternate: (event) => { // for +/-
+    if (event.key === "e" || event.key === "."){
+      event.preventDefault();
+    }
+    else if (event.target.value.length >= 2) { 
+      console.log(event.target.value);
+      event.target.value = event.target.value.slice(0,-1);
+    }
   }
-}
+};
 
 const handleGoals = (event) => {
-    setGoalValue(event.target.value);
+  setGoalValue(event.target.value); 
 };
 
 const handleAssists = (event) => {
   setAssistValue(event.target.value);
 };
 
-const handleNotes = (event) => { 
-  setNotesVal(event.target.value);
+const handlePlusMinus = (event) => {
+  setPlusMinus(event.target.value);
+}
+
+const handleLeague = (event) => { 
+  setLeagueVal(event.target.value);
 }
 
 const handleDate = (date) => {
@@ -67,7 +102,7 @@ const handleSubmit = (event) => {
           name: activeUser.name,
           goals: parseInt(goalValue),
           assists: parseInt(assistValue),
-          notes: notesVal,
+          league: leagueVal,
           date: dateValue,
           id: uniqid
         });
@@ -77,10 +112,11 @@ const handleSubmit = (event) => {
       }
   
     })();
+    handleClose();
     // set state back to defaults
     setGoalValue('');
     setAssistValue('');
-    setNotesVal('');
+    setLeagueVal('');
     setDateValue(currentDate);
   }
 
@@ -92,15 +128,22 @@ const handleSubmit = (event) => {
 };
 
     return (
+      
         <>
-        <h3>Enter stats</h3>
+        <Button variant="outlined" onClick={handleClickOpen}>
+        Enter Stats
+        </Button>
+        <Dialog open= {open} onClose={handleClose}> 
+        <DialogTitle>Enter Stats</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Please enter your game stats here</DialogContentText>
         <Box
           onSubmit = {handleSubmit}
           component="form"
           sx={{
             '& .MuiTextField-root': { m: 1, width: '25ch' },
           }}
-          noValidate
+          // noValidate
           autoComplete="off"
         >
         <div className ="stat-fields">
@@ -118,7 +161,7 @@ const handleSubmit = (event) => {
           type = "number" 
           value = {goalValue}
           required
-          onKeyDown = {handleKey}
+          onKeyDown = {handleKey.standard}
           onChange = {handleGoals}
         />
         <TextField 
@@ -134,24 +177,33 @@ const handleSubmit = (event) => {
           type = "number" 
           required
           value = {assistValue}
-          onKeyDown = {handleKey}
+          onKeyDown = {handleKey.standard}
           onChange = {handleAssists} 
         />
-
+      <TextField 
+           inputProps={{
+            step: 1,
+            placeholder: 'Enter +/-',
+            min: -15,
+            max: 15,
+            type: 'number'
+          }}
+          label="+/-" 
+          variant="outlined" 
+          type = "number"
+          value = {plusMinus}
+          onKeyDown = {handleKey.alternate}
+          onChange = {handlePlusMinus} 
+        />
         <TextField
             sx = {{width: '100%', pb: 1}} 
-            inputProps={{
-                min: 0,
-                max: 280,
-                type: 'string'
-            }}
-            label="Notes" 
+            inputProps={{ maxLength: 12, placeholder: "ie. NHL" }}
+            label="League" 
             variant="outlined" 
-            type = "number" 
-            name = "notes"
-            multiline
-            value = {notesVal}
-            onChange = {handleNotes}
+            type = "string" 
+            name = "league"
+            value = {leagueVal}
+            onChange = {handleLeague}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DesktopDatePicker
@@ -167,6 +219,12 @@ const handleSubmit = (event) => {
         <Button type = "submit" variant = "outlined">Submit Points</Button>
         </div>
         </Box>   
+        </DialogContent>
+        <DialogActions>
+        </DialogActions>
+        </Dialog>
+
         </>     
+
         )
 }

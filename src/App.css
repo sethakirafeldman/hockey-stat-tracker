@@ -15,17 +15,21 @@ body {
   text-decoration: none;
 }
 
-.nav-menu {
+.nav-btn:hover {
+  color: #1989fa;
+}
+
+/* .nav-menu {
   display: flex;
   flex-direction: column;
   text-decoration: none;
   padding: 0px 20px 0px 20px;
   color: darkblue;
-}
+} */
 
-.nav-menu:hover {
+/* .nav-menu:hover {
   background-color: #1989fa;
-}
+} */
 
 #logo {
   display: block;
@@ -99,7 +103,7 @@ footer {
     display: none;
   }
   #logo {
-    display: none;
+    width: 50px;
   }
 }
 

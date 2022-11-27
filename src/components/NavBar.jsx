@@ -26,8 +26,9 @@ const pageObjs = [];
 
 pages.forEach((page) => {
     pageObjs.push(
-        {name:page,
-         path: `/${page.toLowerCase()}`
+        {
+          name: page,
+          path: `/${page.toLowerCase()}`
         }
     )
 })
@@ -70,10 +71,8 @@ export default function NavBar(props) {
       return (
         <AppBar position="sticky">
         <Container maxWidth="xl">
-          
         <Toolbar disableGutters>
         <img width = "100px" id = "logo" alt = "logo" src = {logo} />
-
           <Typography
             variant="h6"
             noWrap
@@ -104,58 +103,51 @@ export default function NavBar(props) {
             </IconButton>
             <Menu
               id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
+              // anchorEl={anchorElNav}
+              // getContentAnchorEl={null}
+              anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+              transformOrigin={{vertical: 'bottom', horizontal: 'left'}}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'none', b: 20 },
               }}
             >
             {Object.values(pageObjs).map((page) => (
-                <Link to = {page.path} className = 'nav-menu'
+              <MenuItem key = {page.name }>
+                <Link style = {{textDecoration: 'none'}} to = {page.path} className = 'nav-menu'
                     key={page.name}
                     onClick={handleCloseNavMenu}
-                >
-                {page.name}
-              </Link>
+                >{page.name}
+                </Link>
+              </MenuItem>
             ) )}
             </Menu>
           </Box>
           <Typography
             variant="h5"
-            noWrap
             component="a"
             href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
+              textAlign: 'center',
               flexGrow: 1,
               fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontWeight: 500,
+              letterSpacing: '.2rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
-          > Stat Tracker
-            
+          > 
+          Stat Tracker  
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-
             {Object.values(pageObjs).map((page) => (
-                <Link to = {page.path} className = 'nav-btn'
-                    key={page.name}
-                    onClick={handleCloseNavMenu}
-                >
-                {page.name}
+              <Link to = {page.path} className = 'nav-btn'
+                  key={page.name}
+                  onClick={handleCloseNavMenu}
+                  >{page.name}
               </Link>
             ) )}
           </Box>
@@ -169,7 +161,7 @@ export default function NavBar(props) {
               <Menu
                 sx={{ mt: '45px'}}
                 id="menu-appbar"
-                anchorEl={anchorElUser}
+                // anchorEl={anchorElUser}
                 anchorOrigin=
                   {{vertical: 'top', 
                   horizontal: 'right'}}

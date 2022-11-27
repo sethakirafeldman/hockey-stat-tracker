@@ -12,35 +12,36 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 
 export default function RealTimeList(props) {
     
-    const [pointsHistory, setPointsHistory] = useState([]);
+  const [pointsHistory, setPointsHistory] = useState([]);
     
-    const calcTotals = (type, arr) => {
-
-      if (type === 'goals') {
-        let goals = 0;
-        arr.forEach((entry) => {
-          goals += Number(entry.goals);
-        })
-        return Number(goals);
-      }
-      else if (type === 'assists') {
-        let assists = 0;
-        arr.forEach((entry) => {
-          assists += Number(entry.assists);
-        });
-        return Number(assists);
-      }
-      else if (type === 'total') {
-        let total = 0;
-        arr.forEach((entry) => {
-          total += Number(entry.assists) + Number(entry.goals);
-        });
-        return Number(total);
-      }
-    };
+  const calcTotals = {
+    goals: (arr) => {      
+      let goals = 0;
+      arr.forEach((entry) => {
+        goals += Number(entry.goals);
+      })
+    return Number(goals);
+    },
+    assists: (arr) => {
+      let assists = 0;
+      arr.forEach((entry) => {
+        assists += Number(entry.assists);
+      })
+      return Number(assists);
+    },
+    total: (arr) => {
+      let total = 0;
+      arr.forEach((entry) => {
+        total += Number(entry.assists) + Number(entry.goals);
+      });
+      return Number(total);
+    }
+  };
 
     useEffect(() => {
         try {
@@ -69,37 +70,48 @@ export default function RealTimeList(props) {
     }, [props.activeUser]);  
 
     return (
-        <section className ="table">
+        <Box sx = {{overflow:'auto'}}>
         <h3>Points to Date</h3>
-        <TableContainer sx = {{maxWidth: 600 }} component={Paper}>
-        <Table sx={{minWidth: 350}} aria-label="stats table">
+        <TableContainer 
+        sx = {{ display: 'flex', justifyContent: 'center', width:'auto'}}
+        component={Paper}>
+
+        <Table
+        // sx={{minWidth: 350}} 
+        sx = {{ minWidth: 350, maxWidth: 650}}
+        aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
             <TableRow>
-              <TableCell sx = {{color:'white'}}>Date (YYYY-MM-DD)</TableCell>
-              <TableCell sx = {{color:'white'}} align="left">Goals</TableCell>
-              <TableCell sx = {{color:'white'}} align="left">Assists</TableCell>
-              <TableCell sx = {{color:'white'}} align="left">Notes</TableCell>
-              <TableCell sx = {{color:'white'}}>Total Points</TableCell>
+              <TableCell sx = {{color:'white', padding: 1}}>Date (YYYY-MM-DD)</TableCell>
+              <TableCell sx = {{color:'white', padding: 1}} align="left">Goals</TableCell>
+              <TableCell sx = {{color:'white', padding: 1}} align="left">Assists</TableCell>
+              <TableCell sx = {{color:'white', padding: 1}} align="left">+/-</TableCell>
+              <TableCell sx = {{color:'white', padding: 1}} align="left">League</TableCell>
+              <TableCell sx = {{color:'white', padding: 1}}>Total Points</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody >
             <TableRow sx = {{bgcolor: 'contrastText'}}>
-              <TableCell sx = {{fontWeight: 'bold'}} component="th" scope="row">Total</TableCell>
-              <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('goals', pointsHistory)}</TableCell>
-              <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('assists', pointsHistory)}</TableCell>
-              <TableCell sx = {{fontWeight: 'bold'}} align="left"></TableCell>
-              <TableCell sx = {{fontWeight: 'bold'}} align="left">{calcTotals('total', pointsHistory)}</TableCell>
+              <TableCell sx = {{fontWeight: 'bold', padding: 1 }} component="th" scope="row">Total</TableCell>
+              <TableCell sx = {{fontWeight: 'bold', padding: 1}} align="left">{calcTotals.goals(pointsHistory)}</TableCell>
+              <TableCell sx = {{fontWeight: 'bold', padding: 1}} align="left">{calcTotals.assists(pointsHistory)}</TableCell>
+              <TableCell sx = {{fontWeight: 'bold', padding: 1}} align="left"></TableCell>
+              <TableCell sx = {{fontWeight: 'bold', padding: 1}} align="left"></TableCell>
+              <TableCell sx = {{fontWeight: 'bold', padding: 1}} align="left">{calcTotals.total(pointsHistory)}</TableCell>
             </TableRow>
             {pointsHistory ? pointsHistory.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">{row.date}</TableCell>
-                <TableCell align="left">{row.goals}</TableCell>
-                <TableCell align="left">{row.assists}</TableCell>
-                <TableCell align="left">{row.notes}</TableCell>
-                <TableCell><EditorPopUp entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
+                <TableCell sx = {{padding: 1}} component="th" scope="row">{row.date}</TableCell>
+                <TableCell sx = {{padding: 1}} align="left">{row.goals}</TableCell>
+                <TableCell sx = {{padding: 1}} align="left">{row.assists}</TableCell>
+                <TableCell sx = {{padding: 1}} align="left">{row.plusMinus}</TableCell>
+                <TableCell sx = {{padding: 1}} align="left">{row.league}</TableCell>
+                <Tooltip title = "Edit Entry">
+                <TableCell sx = {{padding: 1}}><EditorPopUp entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
+                </Tooltip>
               </TableRow>
             )) 
             :
@@ -108,6 +120,6 @@ export default function RealTimeList(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      </section>
+      </Box>
     )
 }

@@ -32,6 +32,7 @@ export default function About() {
             <ListItemText>2022-11-21: added notes field to points dashboard.</ListItemText>
             <ListItemText>2022-11-22: mobile styling fix and basic settings pane </ListItemText>
             <ListItemText>2022-11-27: Modal Stat Entry Pop Up, styling fixes, image src change. </ListItemText>
+            <ListItemText>2022-11-28: Modal sharpenings pop up</ListItemText>
         </List>
 
         <Typography variant="h5" gutterBottom sx = {{mt: 2}}>Image Sources</Typography>

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -16,17 +16,16 @@ import Tooltip from '@mui/material/Tooltip';
 import FormControl from '@mui/material/FormControl';
 import { InputLabel } from '@mui/material';
 
-export default function SharpEditor(props) {
+
+export default function SharpEditor( {entryId, cutHistory} ) {
   
     const ref = useRef();
     const closeMenu = () => ref.current.close();
 
     // uses empty string as this is required for rendering as value in Textfields
-    // trying to pull in prev vals from props.
-
     useEffect( ()=>{
-        props.cutHistory.forEach((item) => {
-            if (item.id === props.entryId) {
+        cutHistory.forEach((item) => {
+            if (item.id === entryId) {
                 setEditValues({
                     date: item.date,
                     cut: item.cut,
@@ -60,7 +59,7 @@ export default function SharpEditor(props) {
         setEditValues( {
             ...editValues,
             [event.target.name]: event.target.value,
-            entryId: props.entryId
+            entryId: entryId
         })        
     };
 
@@ -70,7 +69,7 @@ export default function SharpEditor(props) {
     };
 
     const deleteItem = async (event) => {        
-        await deleteDoc(doc(db, "sharpens", props.entryId));
+        await deleteDoc(doc(db, "sharpens", entryId));
     };
 
     return (
@@ -82,8 +81,6 @@ export default function SharpEditor(props) {
     )}
     position="left"
     nested
-    // closeOnDocumentClick
-    // closeOnEscape
     >
     <span> 
         <TextField 

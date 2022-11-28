@@ -74,7 +74,7 @@ export default function EditorPopUp(props) {
           if (event.key === "e" || event.key === "."){
             event.preventDefault();
           }
-          else if (event.target.value.length >= 2) { 
+          else if (event.target.value.length >= 3) { // for negative values
             event.target.value = event.target.value.slice(0,-1);
           }
         }

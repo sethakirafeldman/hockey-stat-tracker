@@ -37,7 +37,7 @@ export default function SharpEditor( {entryId, cutHistory} ) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
-    const [editValues, setEditValues] = React.useState({
+    const [editValues, setEditValues] = useState({
         date: '',
         cut: '',
         notes: '',

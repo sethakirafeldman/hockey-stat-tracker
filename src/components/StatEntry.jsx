@@ -40,16 +40,15 @@ const handleKey = {
     if (event.key === "e" || event.key === "-" || event.key === ".") {
         event.preventDefault();
     }
-    else if (event.target.value.length >= 2) {
+    else if (event.target.value.length >= 2) { 
       event.target.value = event.target.value.slice(0,-1);
     }
   },
-  alternate: (event) => { // for +/-
+  alternate: (event) => { // for +/- 
     if (event.key === "e" || event.key === "."){
       event.preventDefault();
     }
-    else if (event.target.value.length >= 2) { 
-      console.log(event.target.value);
+    else if (event.target.value.length >= 3) { // 3 because of the negative
       event.target.value = event.target.value.slice(0,-1);
     }
   }
@@ -64,6 +63,7 @@ const handleAssists = (event) => {
 };
 
 const handlePlusMinus = (event) => {
+  console.log(event.target.value)
   setPlusMinus(event.target.value);
 }
 
@@ -102,6 +102,7 @@ const handleSubmit = (event) => {
           name: activeUser.name,
           goals: parseInt(goalValue),
           assists: parseInt(assistValue),
+          plusMinus: parseInt(plusMinus),
           league: leagueVal,
           date: dateValue,
           id: uniqid

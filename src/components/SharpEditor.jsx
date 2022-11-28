@@ -5,6 +5,7 @@ import 'reactjs-popup/dist/index.css';
 import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
+//mui
 import {Button} from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
@@ -15,7 +16,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Tooltip from '@mui/material/Tooltip';
 import FormControl from '@mui/material/FormControl';
 import { InputLabel } from '@mui/material';
-
 
 export default function SharpEditor( {entryId, cutHistory} ) {
   
@@ -35,7 +35,7 @@ export default function SharpEditor( {entryId, cutHistory} ) {
             }
         }) 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+    }, []);
 
     const [editValues, setEditValues] = useState({
         date: '',

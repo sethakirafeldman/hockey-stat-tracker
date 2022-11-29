@@ -23,7 +23,7 @@ export default function SharpEditor( {entryId, cutHistory} ) {
     const closeMenu = () => ref.current.close();
 
     // uses empty string as this is required for rendering as value in Textfields
-    useEffect( ()=>{
+    useEffect( () => {
         cutHistory.forEach((item) => {
             if (item.id === entryId) {
                 setEditValues({

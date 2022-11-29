@@ -81,6 +81,8 @@ export default function SharpEditor( {entryId, cutHistory} ) {
     )}
     position="left"
     nested
+    // closeOnDocumentClick
+    // closeOnEscape
     >
     <span> 
         <TextField 

@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import { Line } from 'react-chartjs-2';
-
-import { db } from "../firebase";
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
-
+import { Pie } from 'react-chartjs-2';
 
 //mui
 import Typography from '@mui/material/Typography';
@@ -12,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import {
     Chart as ChartJS,
     CategoryScale,
+    ArcElement,
     LinearScale,
     PointElement,
     LineElement,
@@ -30,61 +28,54 @@ import {
     Legend
     );
 
-export default function Graphs(props) {
-    const {activeUser} = props;
-    const [pointsHistory, setPointsHistory] = useState([]);
+    ChartJS.register(ArcElement, Tooltip, Legend);
+
+
+export default function Graphs({ activeUser, currentStatData }) {
     const [statsInOrder, setStatsInOrder] = useState({});
+    const [pointTotals, setPointTotals] = useState({
+        goals: '',
+        assists: ''
+    });
 
-    useEffect(() => {
-
-      try {
-        const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const ptsArr = [];
-          querySnapshot.forEach((doc) => {
-              ptsArr.push(doc.data());
-          });
-          ptsArr.sort((a, b) => {
-              return new Date(a.date) - new Date(b.date);
-          });
-          setPointsHistory(ptsArr);
-        });
-
-        return () => {
-            unsubscribe();
+    const sum = (arr) => {
+        let total = 0;
+        for (let value in arr) {
+            total += parseInt(arr[value]);
         }
-
-    }
-    catch(err) {
-        console.log(err)
-    }
-
-    // need array that contains elements in order that will be displayed
-    // eslint-disable-next-line
-    }, [activeUser]);
+        return total;
+    };
 
     useEffect( () => {
         try {
             let tempDate = [];
             let tempGoal = [];
             let tempAssist = [];
+            let tempPlusMinus = [];
 
-            Object.values(pointsHistory).forEach((item) => {
+            Object.values(currentStatData).forEach((item) => {
                 tempDate.push(item.date);
                 tempGoal.push(item.goals);
                 tempAssist.push(item.assists);
+                tempPlusMinus.push(item.plusMinus);
             });
 
             setStatsInOrder({
                 dateLabels: tempDate,
                 graphGoals: tempGoal,
-                graphAssists: tempAssist
+                graphAssists: tempAssist,
+                graphPlusMinus: tempPlusMinus
+            });
+
+            setPointTotals({
+                goals: sum(tempGoal),
+                assists: sum(tempAssist)
             });
         }
         catch (err) {
             console.log(err)
         }
-    },[pointsHistory])
+    },[currentStatData])
 
     // chart data
     const data = {
@@ -113,6 +104,26 @@ export default function Graphs(props) {
         ]
       };
 
+      const pieData = {
+        labels: ['Goals', 'Assists'],
+        datasets: [
+          {
+            label: 'Points Distribution',
+            data: [pointTotals.goals, pointTotals.assists],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
 
       
     return (
@@ -120,10 +131,8 @@ export default function Graphs(props) {
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
         <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Over Time</Typography>
         <Line 
-
             data = {data} 
             options = {{
-                
                 layout: {
                     autoPadding:true,
                 },
@@ -144,7 +153,9 @@ export default function Graphs(props) {
                 }
             }}
         />
-
+        <Pie 
+           data = {pieData} 
+        />
         </section>
     )
 }

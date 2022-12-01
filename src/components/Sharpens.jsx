@@ -137,7 +137,7 @@ export default function Sharpens (props) {
     }, [props.activeUser]);
 
     return (
-        <>
+        <Box sx ={{pb: 20}}>
         {/* <section id = "sharpen-section"> */}
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpenings</Typography>
         <div className ="text-area">
@@ -214,11 +214,8 @@ export default function Sharpens (props) {
         </DialogContent>
         <DialogActions>
         </DialogActions>
-        </Dialog>
-        {/* </section> */}
-        
-        <div className="table">
-            <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto'}} component={Paper}>
+        </Dialog>        
+            <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto'}}>
             <Table sx = {{ minWidth: 300, maxWidth: 650}}  aria-label="sharpen table">
             <TableHead sx = {{bgcolor: 'primary.light', color: 'text.secondary'}}>
             <TableRow>
@@ -247,12 +244,10 @@ export default function Sharpens (props) {
             ))
             :
             null
-
             }           
             </TableBody>
             </Table>
           </TableContainer>
-        </div>
-       </>
+       </Box>
     )
 };

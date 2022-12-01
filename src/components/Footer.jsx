@@ -18,7 +18,6 @@ export default function StickyFooter() {
 
   return (
     <>
-      {/* <CssBaseline /> */}
       <footer>
         <Container maxWidth="sm">
           <Typography variant="body1">Stat Tracker</Typography>

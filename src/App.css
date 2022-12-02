@@ -77,14 +77,6 @@ body {
   width: fit-content;
 }
 
-/* .table {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: center;
-  text-align: left;
-} */
-
 .text-area {
   margin: auto;
   width: 80%;
@@ -98,7 +90,7 @@ footer {
   color: white;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1200px) {
   footer {
     display: none;
   }
@@ -107,10 +99,16 @@ footer {
   }
 }
 
-#chart-container {
+#line-container {
   margin: auto;
   width: 80%;
   max-width: 1000px;
+}
+
+#doughnut-container {
+  margin:auto;
+  width: 30%;
+  margin-bottom: 2em;
 }
 
 .text-area  ul {

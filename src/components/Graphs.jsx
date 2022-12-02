@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from "react";
 
-import { Line } from 'react-chartjs-2';
-
-import { db } from "../firebase";
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
-
+import { Line, Doughnut  } from 'react-chartjs-2';
 
 //mui
 import Typography from '@mui/material/Typography';
+import { Box } from '@mui/material'; 
 
 import {
     Chart as ChartJS,
     CategoryScale,
+    ArcElement,
     LinearScale,
     PointElement,
     LineElement,
     Title,
     Tooltip,
     Legend,
+    BarElement,
+
     } from 'chart.js';
     
     ChartJS.register(
@@ -27,67 +27,67 @@ import {
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    BarElement,
+
     );
 
-export default function Graphs(props) {
-    const {activeUser} = props;
-    const [pointsHistory, setPointsHistory] = useState([]);
+    ChartJS.register(ArcElement, Tooltip, Legend);
+
+
+export default function Graphs({ activeUser, currentStatData }) {
     const [statsInOrder, setStatsInOrder] = useState({});
+    const [pointTotals, setPointTotals] = useState({
+        goals: '',
+        assists: ''
+    });
 
-    useEffect(() => {
-
-      try {
-        const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const ptsArr = [];
-          querySnapshot.forEach((doc) => {
-              ptsArr.push(doc.data());
-          });
-          ptsArr.sort((a, b) => {
-              return new Date(a.date) - new Date(b.date);
-          });
-          setPointsHistory(ptsArr);
-        });
-
-        return () => {
-            unsubscribe();
+    const sum = (arr) => {
+        let total = 0;
+        for (let value in arr) {
+            total += parseInt(arr[value]);
         }
-
-    }
-    catch(err) {
-        console.log(err)
-    }
-
-    // need array that contains elements in order that will be displayed
-    // eslint-disable-next-line
-    }, [activeUser]);
+        return total;
+    };
 
     useEffect( () => {
         try {
+            // sort currentStatData by date
+            currentStatData.sort((a, b) => {
+                return new Date(a.date) - new Date(b.date)
+            });
+
             let tempDate = [];
             let tempGoal = [];
             let tempAssist = [];
+            let tempPlusMinus = [];
 
-            Object.values(pointsHistory).forEach((item) => {
+            Object.values(currentStatData).forEach((item) => {
                 tempDate.push(item.date);
                 tempGoal.push(item.goals);
                 tempAssist.push(item.assists);
+                tempPlusMinus.push(item.plusMinus);
             });
 
             setStatsInOrder({
                 dateLabels: tempDate,
                 graphGoals: tempGoal,
-                graphAssists: tempAssist
+                graphAssists: tempAssist,
+                graphPlusMinus: tempPlusMinus
+            });
+
+            setPointTotals({
+                goals: sum(tempGoal),
+                assists: sum(tempAssist)
             });
         }
         catch (err) {
             console.log(err)
         }
-    },[pointsHistory])
+    }, [currentStatData])
 
     // chart data
-    const data = {
+    const pointsData = {
         labels: statsInOrder.dateLabels,
         datasets: [
           {
@@ -109,42 +109,107 @@ export default function Graphs(props) {
             showLine: true,
             spanGaps: true,
             pointRadius: 4
-          }
+          },
         ]
       };
 
+      const doughData = {
+        labels: ['Goals', 'Assists'],
+        datasets: [
+          {
+            label: 'Points Distribution',
+            data: [pointTotals.goals, pointTotals.assists],
+            backgroundColor: [
+              'blue',
+              'orange'
+            ],
+            borderColor: [
+              'black',
+              'black',
+
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
+
+    //   const plusMinusOverTime = {
+        
+    //     // labels: statsInOrder.dateLabels,
+    //     datasets: [
+    //         {
+    //             label: '+/-',
+    //             data: [
+    //                 {
+    //                     // y: statsInOrder.dateLabels,
+    //                     // x:  statsInOrder.graphPlusMinus,
+    //                     x: [1],
+    //                     y: parseInt(statsInOrder.graphPlusMinus[0])
+    //                 }
+    //             ], 
+               
+    //             backgroundColor: 'brown',
+    //         } 
+    //     ],
+        
+        
+    //   };
 
       
     return (
-        <section id ="chart-container">
+        <Box sx ={{pb:20}}>
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
+        <section id ="line-container">
         <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Over Time</Typography>
         <Line 
-
-            data = {data} 
+            data = {pointsData} 
             options = {{
-                
                 layout: {
                     autoPadding:true,
                 },
+                tension: .5,
                 responsive: true,
                 maintainAspectRatio: true,
                 scales: {
                     y: {
                         min: 0,
-                        max: 6,
+                        max: 10,
                         ticks: {
                             stepSize: 1
                         }
                     },
 
                     x: {
-                        beginAtZero:true,
+                        beginAtZero: true,
                     }
                 }
             }}
         />
-
         </section>
+        <section id = "doughnut-container">
+            <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Distribution</Typography>
+            <Doughnut 
+            data = {doughData} 
+            options = {{
+                responsive: true,
+            }}
+            />
+        </section>
+
+        {/* <section id = "bar-container"> */}
+            {/* <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Over Time</Typography> */}
+            {/* <Scatter  
+                data = {plusMinusOverTime}
+                // options = {{
+                //     scales: {
+                //         x: {
+                //             type: 'linear',
+                //             position: 'bottom'
+                //         }
+                //     }
+                // }}
+            /> */}
+        {/* </section> */}
+        </Box>
     )
 }

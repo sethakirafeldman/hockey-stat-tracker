@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import { Line, Doughnut, Scatter  } from 'react-chartjs-2';
+import { Line, Doughnut  } from 'react-chartjs-2';
 
 //mui
 import Typography from '@mui/material/Typography';
@@ -41,7 +41,6 @@ export default function Graphs({ activeUser, currentStatData }) {
         goals: '',
         assists: ''
     });
-    const [datesInOrder, setDatesInOrder] = useState([]); 
 
     const sum = (arr) => {
         let total = 0;

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -12,11 +12,33 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Tooltip from '@mui/material/Tooltip';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 export default function EditorPopUp(props) {
 
     const ref = useRef();
     const closeMenu = () => ref.current.close();
+
+    // snackbar
+    const Alert = React.forwardRef(function Alert(props, alertRef) {
+        return <MuiAlert elevation={6} ref={alertRef} variant="filled" {...props} />;
+    });
+    
+    const [openEditSuccess, setOpenSuccess] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
+
+    const handleClose = (event, reason) => {
+      
+        if (reason === 'clickaway') {
+          return;
+        }
+
+        setOpenSuccess(false);
+        setOpenDelete(false);
+    };    
+  // end of snackbar
+
 
     useEffect( () => {
         props.pointsHistory.forEach((item) => {
@@ -42,16 +64,15 @@ export default function EditorPopUp(props) {
         plusMinus: '',
         entryId: ''        
     });
-
-
+    
     const handleEdit = (event) => {
         if (event.key === "Enter") { 
             event.preventDefault();
         }
         else {
-            if (event.target.value.length >= 3) {
-                // event.target.value = event.target.value.slice(0,-1);
-            }
+            // if (event.target.value.length >= 3) {
+            //     // event.target.value = event.target.value.slice(0,-1);
+            // }
             setEditValues( {
                 ...editValues,
                 [event.target.name]: event.target.value,
@@ -66,7 +87,6 @@ export default function EditorPopUp(props) {
               event.preventDefault();
           }
           else if (event.target.value.length >= 2) {
-            console.log(event.target.value);
             event.target.value = event.target.value.slice(0,-1);
           }
         },
@@ -93,34 +113,56 @@ export default function EditorPopUp(props) {
             }, {merge: true})
         })();
         closeMenu();
-        // add some kind of effect here.
+        setOpenSuccess(true);
     };
 
-    const deleteItem = async (event) => {        
-        await deleteDoc(doc(db, "points-history", props.entryId));
+    const handleDelete = async (event) => {  
+        setOpenDelete(true);
+        try {  
+            await deleteDoc(doc(db, "points-history", props.entryId)); 
+        }
+        catch {
+
+        }
+        
     };
 
     return( 
+        <>
+        <Snackbar
+            open={openEditSuccess}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            anchorOrigin = {{ vertical: 'top', horizontal: 'right' }}
+            key = "edit-1"
+            >
+            <Alert onClose={handleClose} severity="success" sx={{ width: 'fit-content' }}>
+            Edit Sucessful.
+            </Alert>
+        </Snackbar>
+      
+        <Snackbar
+            open={openDelete}
+            autoHideDuration={3000}
+            // onClose={handleClose}
+            anchorOrigin = {{ vertical: 'top', horizontal: 'right' }}
+            key = "delete-1"
+            >
+            <Alert onClose={handleClose} severity="info" sx={{ width: 'fit-content' }}>
+            Entry Permanently Deleted.
+            </Alert>
+        </Snackbar>
+   
         <Popup
             ref = {ref}
             trigger={open => (
                 <EditIcon sx ={{"&:hover":{color:"#1989fa"}}}></EditIcon>
             )}
             position="left center"
-            closeOnDocumentClick
-            closeOnEscape
+            // closeOnDocumentClick
+            // closeOnEscape
             >
             <span> 
-                <TextField 
-                    sx = {{width: '100%', pb: 1, mt: 1 }}
-                    label ="Date"
-                    variant = "outlined"
-                    name = "date"
-                    type = "date"
-                    value = {editValues.date}
-                    onKeyDown = {handleKey.standard}
-                    onChange = {handleEdit}  
-                />
                 <TextField
                     sx = {{width: '50%', pb: 1}} 
                     inputProps={{
@@ -135,6 +177,7 @@ export default function EditorPopUp(props) {
                     type = "number" 
                     name = "goals"
                     value = {editValues.goals}
+                    onFocus = {(event) => event.target.select()}
                     onKeyDown = {handleKey.standard}
                     onChange = {handleEdit}
                 />
@@ -152,6 +195,7 @@ export default function EditorPopUp(props) {
                     type = "number" 
                     name = "assists"
                     value = {editValues.assists}
+                    onFocus = {(event) => event.target.select()}
                     onKeyDown = {handleKey.standard}
                     onChange = {handleEdit}
                 />
@@ -169,6 +213,7 @@ export default function EditorPopUp(props) {
                     type = "number" 
                     name = "plusMinus"
                     value = {editValues.plusMinus}
+                    onFocus = {(event) => event.target.select()}
                     onKeyDown = {handleKey.alternate}
                     onChange = {handleEdit}
                 />
@@ -180,15 +225,28 @@ export default function EditorPopUp(props) {
                     type = "string" 
                     name = "league"
                     value = {editValues.league}
+                    onFocus = {(event) => event.target.select()}
                     onChange = {handleEdit}
+                />
+
+                <TextField 
+                    sx = {{width: '100%', pb: 1, mt: 1 }}
+                    label ="Date"
+                    variant = "outlined"
+                    name = "date"
+                    type = "date"
+                    value = {editValues.date}
+                    onKeyDown = {handleKey.standard}
+                    onChange = {handleEdit}  
                 />
                 <Tooltip title = "Submit Change">
                     <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined" sx = {{width: '50%'}}><CheckIcon/></Button>
                 </Tooltip>
                 <Tooltip title = "Delete Permanently">
-                    <Button variant = "outlined" type = "button" onClick = {deleteItem} sx = {{color:'red', width: '50%'}} ><DeleteForeverIcon/></Button>
+                    <Button variant = "outlined" type = "button" onClick = {handleDelete} sx = {{color:'red', width: '50%'}} ><DeleteForeverIcon/></Button>
                 </Tooltip>
             </span>
         </Popup>
+        </>
     )
 };

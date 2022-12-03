@@ -19,18 +19,6 @@ body {
   color: #1989fa;
 }
 
-/* .nav-menu {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  padding: 0px 20px 0px 20px;
-  color: darkblue;
-} */
-
-/* .nav-menu:hover {
-  background-color: #1989fa;
-} */
-
 #logo {
   display: block;
   left: 0;
@@ -109,6 +97,12 @@ footer {
   margin:auto;
   width: 30%;
   margin-bottom: 2em;
+}
+
+@media screen and (max-width: 650px) {
+  #doughnut-container {
+    width: 50%;
+  }
 }
 
 .text-area  ul {

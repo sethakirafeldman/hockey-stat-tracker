@@ -13,19 +13,45 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
+//firebase
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
 export default function StatEntry( {activeUser, currentDate} ) {
 
-const [goalValue, setGoalValue] = useState('');
-const [assistValue, setAssistValue] = useState('');
+const [goalValue, setGoalValue] = useState(0);
+const [assistValue, setAssistValue] = useState(0);
 const [dateValue, setDateValue] = useState(currentDate);
-const [plusMinus, setPlusMinus] = useState('');
+const [plusMinus, setPlusMinus] = useState(0);
 const [leagueVal, setLeagueVal] = useState('');
 const [open, setOpen] = useState(false);
 
+// snackbar
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const [openSnack, setOpenSnack] = useState(false);
+
+const handleSnack = () => {
+  setOpenSnack(true);
+};
+
+const handleCloseSnack = (event, reason) => {
+  
+  if (reason === 'clickaway') {
+    return;
+  }
+
+  setOpenSnack(false);
+};  
+
+// end of snackbar
+
+// modal editor
 const handleClickOpen = () => {
   setOpen(true);
 };
@@ -63,7 +89,6 @@ const handleAssists = (event) => {
 };
 
 const handlePlusMinus = (event) => {
-  console.log(event.target.value)
   setPlusMinus(event.target.value);
 }
 
@@ -92,7 +117,6 @@ const handleDate = (date) => {
 
 const handleSubmit = (event) => {
   event.preventDefault();
-  if (assistValue || goalValue) {
     (async () => {
       let uniqid = uuid();
       try {
@@ -113,28 +137,34 @@ const handleSubmit = (event) => {
       }
   
     })();
+    handleSnack(); // this can be handled with state
     handleClose();
     // set state back to defaults
-    setGoalValue('');
-    setAssistValue('');
+    setGoalValue(0);
+    setAssistValue(0);
+    setPlusMinus(0)
     setLeagueVal('');
-    setDateValue(currentDate);
-  }
-
-  else {
-    console.log('error')
-    // ideally this would cause red validation errors on form.
-  }
-
+    setDateValue(currentDate);  
 };
 
     return (
       
         <>
+        <Snackbar
+          open={openSnack}
+          autoHideDuration={3000}
+          onClose={handleCloseSnack}
+          anchorOrigin = {{ vertical: 'top', horizontal: 'right' }}
+          >
+          <Alert onClose={handleCloseSnack} severity="success" sx={{ width: 'fit-content' }}>
+          Entry Successfully Added
+          </Alert>
+        </Snackbar>
+    
         <Button variant="outlined" onClick={handleClickOpen}>
         Enter Stats
         </Button>
-        <Dialog open= {open} onClose={handleClose}> 
+        <Dialog open = {open} onClose={handleClose}> 
         <DialogTitle>Enter Stats</DialogTitle>
         <DialogContent>
           <DialogContentText>Please enter your game stats here</DialogContentText>
@@ -144,7 +174,6 @@ const handleSubmit = (event) => {
           sx={{
             '& .MuiTextField-root': { m: 1, width: '25ch' },
           }}
-          // noValidate
           autoComplete="off"
         >
         <div className ="stat-fields">
@@ -156,12 +185,14 @@ const handleSubmit = (event) => {
             max: 15,
             type: 'number'
           }}
+          autoFocus = {true}
           id="outlined-basic" 
           label="Goals" 
           variant="outlined" 
           type = "number" 
           value = {goalValue}
           required
+          onFocus = {(event) => event.target.select()}
           onKeyDown = {handleKey.standard}
           onChange = {handleGoals}
         />
@@ -178,6 +209,7 @@ const handleSubmit = (event) => {
           type = "number" 
           required
           value = {assistValue}
+          onFocus = {(event) => event.target.select()}
           onKeyDown = {handleKey.standard}
           onChange = {handleAssists} 
         />
@@ -193,6 +225,7 @@ const handleSubmit = (event) => {
           variant="outlined" 
           type = "number"
           value = {plusMinus}
+          onFocus = {(event) => event.target.select()}
           onKeyDown = {handleKey.alternate}
           onChange = {handlePlusMinus} 
         />
@@ -204,6 +237,7 @@ const handleSubmit = (event) => {
             type = "string" 
             name = "league"
             value = {leagueVal}
+            onFocus = {(event) => event.target.select()}
             onChange = {handleLeague}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>

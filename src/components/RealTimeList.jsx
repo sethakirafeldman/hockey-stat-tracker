@@ -12,7 +12,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 
 export default function RealTimeList(props) {
@@ -55,7 +54,7 @@ export default function RealTimeList(props) {
                   return new Date(b.date) - new Date(a.date);
               });
               setPointsHistory(ptsArr);
-              props.realTimeCallBack(ptsArr);
+              props.realTimeCallBack(ptsArr); // this gets sent to graphs
             });
 
             return () => {
@@ -77,7 +76,6 @@ export default function RealTimeList(props) {
         component={Paper}>
 
         <Table
-        // sx={{minWidth: 350}} 
         sx = {{ minWidth: 350, maxWidth: 650}}
         aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
@@ -109,9 +107,7 @@ export default function RealTimeList(props) {
                 <TableCell sx = {{padding: 1}} align="left">{row.assists}</TableCell>
                 <TableCell sx = {{padding: 1}} align="left">{row.plusMinus}</TableCell>
                 <TableCell sx = {{padding: 1}} align="left">{row.league}</TableCell>
-                <Tooltip title = "Edit Entry">
                 <TableCell sx = {{padding: 1}}><EditorPopUp entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
-                </Tooltip>
               </TableRow>
             )) 
             :

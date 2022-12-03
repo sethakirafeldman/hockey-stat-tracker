@@ -137,7 +137,7 @@ export default function EditorPopUp(props) {
             key = "edit-1"
             >
             <Alert onClose={handleClose} severity="success" sx={{ width: 'fit-content' }}>
-            Edit Sucessful.
+            Edit Successful.
             </Alert>
         </Snackbar>
       

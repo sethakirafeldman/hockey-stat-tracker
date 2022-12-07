@@ -76,7 +76,7 @@ export default function RealTimeList(props) {
         component={Paper}>
 
         <Table
-        sx = {{ minWidth: 350, maxWidth: 650}}
+        sx = {{ minWidth: 350, maxWidth: 650, ml:1, mr:1}}
         aria-label="stats table">
           <TableHead sx = {{bgcolor: 'primary.light', color: 'text.primary'}}>
             <TableRow>

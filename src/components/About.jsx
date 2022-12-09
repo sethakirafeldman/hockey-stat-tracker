@@ -5,13 +5,19 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 
 export default function About() {
     return (
-    <section className = "text-area">
-        {' '}
+        <Box sx ={{display: "flex", flexDirection: "column", textAlign: "center" }}>
+        <Paper 
+            elevation = {3} 
+            square 
+            sx = {{p:2, m:2, mt: 2, borderRadius: 1, borderColor:"primary.main", borderWidth: 2 , width: "50%", margin: 'auto'}}
+        >
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>About</Typography>
-        <Typography sx = {{}} variant="body1" gutterBottom>
+        <Typography variant="body1" gutterBottom>
             This site was built by Seth Feldman. 
             It was built as a tool for me (Seth) and 
             his friends to use in order to track
@@ -24,7 +30,9 @@ export default function About() {
             and it uses <Link href="https://firebase.google.com/" target="_blank" rel="noopener">Firebase</Link>
             {' '}for its backend. 
         </Typography>
-        <Typography variant="h5" gutterBottom sx = {{mt: 2}}>Change Notes</Typography>
+        </Paper>
+        <Paper elevation ={3} sx ={{p:2, m:4, mt: 2, width:"50%", margin: "auto", textAlign: "left"}}>
+        <Typography variant="h5" gutterBottom sx = {{mt: 2, textAlign:"center"}}>Change Notes</Typography>
         <List>
             <ListItemText>2022-11-07: changed edit buttons to icons and added descending sort for data tables.</ListItemText>
             <ListItemText>2022-11-11: added basic line graph. Some styling.</ListItemText>
@@ -34,11 +42,13 @@ export default function About() {
             <ListItemText>2022-11-27: Modal Stat Entry Pop Up, styling fixes, image src change. </ListItemText>
             <ListItemText>2022-11-28: Modal sharpenings pop up</ListItemText>
         </List>
-
-        <Typography variant="h5" gutterBottom sx = {{mt: 2}}>Image Sources</Typography>
+        </Paper>
+        <Paper elevation ={3} sx ={{p:2, m:4, mt: 2, width:"50%", margin: "auto", textAlign:"left"}}>
+        <Typography variant="h5" gutterBottom sx = {{mt: 2, textAlign:"center"}}>Image Sources</Typography>
         <List>
             <ListItemText>Homepage image, <Link href ="https://unsplash.com/photos/XUwk3DG6jqg" target="_blank" rel="noopener">Foggy Skate</Link> by <Link href = "https://unsplash.com/@mroz" target ="_blank" rel ="noopener">Filip Mroz</Link> via unsplash.</ListItemText>
         </List>
-    </section>
+        </Paper>
+        </Box>
     )
 }

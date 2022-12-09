@@ -7,7 +7,7 @@ import uuid from 'react-uuid';
 import TextField from '@mui/material/TextField';
 import  { DesktopDatePicker }  from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {Button} from "@mui/material";
+import {Button, Paper} from "@mui/material";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -137,6 +137,11 @@ export default function Sharpens (props) {
 
     return (
         <Box sx ={{pb: 20}}>
+        <Paper
+            elevation = {3} 
+            square 
+            sx = {{p:2, m:4, mt:2, borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
+        >
         {/* <section id = "sharpen-section"> */}
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpenings</Typography>
         <div className ="text-area">
@@ -144,14 +149,14 @@ export default function Sharpens (props) {
         <p>Not sure about what hollow to use? Check out this guide below</p>
         <p>Standard cut is usually 1/2", but may depend on the shop.</p>
         </div>
+        </Paper> 
         <figure>
         <img id = "sharpen-diagram" alt = "sharpening diagram" src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
         <figcaption>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a></figcaption>
         </figure>
         <Divider sx ={{mb:3, mt: 3}}/>
-        <Button variant="outlined" onClick={handleClickOpen}>
-        Enter Sharpenings
-        </Button>
+
+
         <Dialog open = {open} onClose={handleClose}> 
         <DialogTitle>Enter Sharpenings</DialogTitle>
         <DialogContent>
@@ -213,8 +218,12 @@ export default function Sharpens (props) {
         </DialogContent>
         <DialogActions>
         </DialogActions>
-        </Dialog>        
-            <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto'}}>
+        </Dialog>    
+          
+        <Button variant="outlined" onClick={handleClickOpen}>
+        Enter Sharpenings
+        </Button>
+            <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto', ml:1, mr:1}}>
             <Table sx = {{ minWidth: 300, maxWidth: 650}}  aria-label="sharpen table">
             <TableHead sx = {{bgcolor: 'primary.light', color: 'text.secondary'}}>
             <TableRow>
@@ -247,6 +256,7 @@ export default function Sharpens (props) {
             </TableBody>
             </Table>
           </TableContainer>
+          
        </Box>
     )
 };

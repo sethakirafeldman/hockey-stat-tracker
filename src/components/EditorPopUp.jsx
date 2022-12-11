@@ -39,7 +39,16 @@ export default function EditorPopUp(props) {
     };    
   // end of snackbar
 
-
+    // uses empty string as this is required for rendering as value in Textfields
+    const [editValues, setEditValues] = React.useState({
+        date: '',
+        goals: '',
+        assists: '',
+        league: '',
+        plusMinus: '',
+        entryId: ''        
+    });
+    
     useEffect( () => {
         props.pointsHistory.forEach((item) => {
             if (item.id === props.entryId) {
@@ -55,16 +64,7 @@ export default function EditorPopUp(props) {
         }) 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    // uses empty string as this is required for rendering as value in Textfields
-    const [editValues, setEditValues] = React.useState({
-        date: '',
-        goals: '',
-        assists: '',
-        league: '',
-        plusMinus: '',
-        entryId: ''        
-    });
-    
+  
     const handleEdit = (event) => {
         if (event.key === "Enter") { 
             event.preventDefault();

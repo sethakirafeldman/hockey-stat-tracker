@@ -7,6 +7,7 @@ import About from "./About";
 import Graphs from "./Graphs";
 import Footer from "./Footer";
 import Settings from "./Settings";
+import Journal from "./Journal/Journal";
 
 //react
 import React, { useState, useEffect  } from 'react';
@@ -104,31 +105,31 @@ function App() {
     <div className="App">
       <Box>
       <BrowserRouter>
-        <>
         <NavBar isReceived = {true} />
-        <Routes>
-        {user === null || Object.keys(user).length === 0 ? 
-          <>
-            <Route path="*" element={<Navigate replace to="/signin" />} />
-            <Route path = "/signin" element = {<SignUp />} />
-          </>
-          :
-          <>
-            <Route path="*" element={<Navigate replace to="/dashboard" />} />
-            <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} currentDate = {currentDate} realTimeCallBack = {realTimeCallBack}/> } />
-            <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
-            <Route path = "/about" element = {<About />} />
-            <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentDate = {currentDate} currentStatData = {currentStatData} /> } />
-            <Route path = "/settings" element = { <Settings activeUser = {activeUser} />} />
-          </>
-        }
+        {user === null ? 
+          <Routes>
+           <Route path="*" element={<Navigate to="/signin" />} />
+           {/* <Route path="/" element={<Navigate replace to="/signin" />} /> */}
+           <Route path = "/signin" element = {<SignUp />} />
          </Routes>
-         </> 
+          :
+        <Routes>
+          <Route path="*" element={<Navigate replace to="/" />} />
+          <Route path="/signin" element={<Navigate replace to="/dashboard" />} />
+          <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} currentDate = {currentDate} realTimeCallBack = {realTimeCallBack}/> } />
+          <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
+          <Route path = "/journal" element = {<Journal activeUser = {activeUser} currentDate = {currentDate} />} />
+          <Route path = "/about" element = {<About />} />
+          <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentDate = {currentDate} currentStatData = {currentStatData} /> } />
+          <Route path = "/settings" element = { <Settings activeUser = {activeUser} />} />
+        </Routes>
+       
+      }
       </BrowserRouter>
       </Box>
       <Footer />
       </div>
-      
+   
   );
 }
 

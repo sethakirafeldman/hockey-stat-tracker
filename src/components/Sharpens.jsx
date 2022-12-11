@@ -136,13 +136,12 @@ export default function Sharpens (props) {
     }, [props.activeUser]);
 
     return (
-        <Box sx ={{pb: 20}}>
+    <Box sx ={{pb: 20}}>
         <Paper
             elevation = {3} 
             square 
             sx = {{p:2, m:4, mt:2, borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
         >
-        {/* <section id = "sharpen-section"> */}
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpenings</Typography>
         <div className ="text-area">
         <p>Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.</p>
@@ -155,7 +154,6 @@ export default function Sharpens (props) {
         <figcaption>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a></figcaption>
         </figure>
         <Divider sx ={{mb:3, mt: 3}}/>
-
 
         <Dialog open = {open} onClose={handleClose}> 
         <DialogTitle>Enter Sharpenings</DialogTitle>
@@ -257,6 +255,6 @@ export default function Sharpens (props) {
             </Table>
           </TableContainer>
           
-       </Box>
+    </Box>
     )
 };

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import uuid from 'react-uuid';
+import dayjs from 'dayjs';
 
 //mui
 import TextField from '@mui/material/TextField';
@@ -97,21 +98,7 @@ const handleLeague = (event) => {
 }
 
 const handleDate = (date) => {
-  let day = date.$D;
-  let month = date.$M +1;
-  let year = date.$y;
-
-  if (date.$M < 10 && date.$D < 10 ) {
-    month = `0${month}`;
-    day = `0${day}`;
-  }
-  else if (date.$D < 10) {
-    day = `0${day}`;
-  }
-  else if (date.$M < 10) {
-    month = `0${month}`;
-  }
-  let YYYYMMDD = `${year}-${month}-${day}`;
+  let YYYYMMDD = dayjs(date).format('YYYY-MM-DD');
   setDateValue(YYYYMMDD);
 };
 

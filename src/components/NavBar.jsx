@@ -21,7 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import {UserAuth} from '../contexts/AuthContext';
 
-const pages = ['Dashboard', 'Sharpenings','Graphs','About'];
+const pages = ['Dashboard', 'Sharpenings','Journal', 'Graphs','About'];
 const pageObjs = [];
 
 pages.forEach((page) => {
@@ -77,7 +77,7 @@ export default function NavBar(props) {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/dashboard"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -193,7 +193,7 @@ export default function NavBar(props) {
                 variant="h6"
                 noWrap
                 component="a"
-                href="/"
+                href="/signin"
                 sx={{
                   mr: 2,
                   display: { xs: 'flex', md: 'flex' },

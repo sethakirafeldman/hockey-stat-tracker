@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBIUibvuj9WRhbgKuPImV4GS7G-qUTo4bM",
-  authDomain: "player-stats-886f5.firebaseapp.com",
+  authDomain: "stat-tracker.app",
   projectId: "player-stats-886f5",
   storageBucket: "player-stats-886f5.appspot.com",
   messagingSenderId: "1088164615490",

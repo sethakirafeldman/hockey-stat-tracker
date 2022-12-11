@@ -173,7 +173,7 @@ export default function Graphs({ activeUser, currentStatData }) {
                 scales: {
                     y: {
                         min: 0,
-                        max: 10,
+                        max: 7,
                         ticks: {
                             stepSize: 1
                         }

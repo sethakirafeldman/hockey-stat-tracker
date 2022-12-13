@@ -42,7 +42,7 @@ export default function Journal({ activeUser }) {
     const [journalValues, setJournalValues] = useState({
         preGame: 1,
         postGame: 1,
-        textField: 'test',
+        textField: '',
         dateField: getCurrentDate(),
         entryId: '',
         player_id: activeUser.player_id        
@@ -107,11 +107,12 @@ export default function Journal({ activeUser }) {
         autoComplete="off"
     > 
 
-<AlertSnack 
-    openSnack = {openSnack} 
-    onClose = {()=> setOpenSnack(false)} 
-    type = {"success"} 
-    text = {"Journal entry added."} />
+    <AlertSnack 
+        openSnack = {openSnack} 
+        onClose = {()=> setOpenSnack(false)} 
+        type = {"success"} 
+        text = {"Journal entry added."} 
+    />
     <Paper 
         elevation = {3} 
         square 

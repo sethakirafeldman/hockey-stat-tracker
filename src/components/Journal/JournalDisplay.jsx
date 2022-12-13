@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import AlertSnack from ".././AlertSnack";
 
 // mui
 import Box from '@mui/material/Box';
@@ -17,14 +18,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import TextField from "@mui/material/TextField";
 import DoneIcon from '@mui/icons-material/Done';
-// import Snackbar from '@mui/material/Snackbar';
-// import MuiAlert from '@mui/material/Alert';
 import Tooltip from '@mui/material/Tooltip';
 
 // mui date picker
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 //firebase
@@ -42,7 +40,8 @@ export default function JournalDisplay ({activeUser}) {
     });
 
     const [editText, setEditText] = useState(false);
-
+    const [openSnack, setOpenSnack] = useState(false);
+    
     // dialog
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -82,6 +81,7 @@ export default function JournalDisplay ({activeUser}) {
             }, {merge: true})
          })();
          setEditText(false);
+         setOpenSnack(true);
     };
 
     const handleDelete = async () => {
@@ -103,7 +103,7 @@ export default function JournalDisplay ({activeUser}) {
                     journalArr.push(doc.data());
                 });
                 journalArr.sort((a, b) => {
-                    return new Date(b.date) - new Date(a.date);
+                    return new Date(b.dateField) - new Date(a.dateField);
                 });
                 setJournalHistory(journalArr);
             });
@@ -120,6 +120,7 @@ export default function JournalDisplay ({activeUser}) {
     
     return (
     <>
+    <AlertSnack openSnack = {openSnack} onClose = {()=> setOpenSnack(false)} type = {"success"} text = {"Successfully saved."} />
      <TableContainer sx = {{ margin: 2, width: '50vw', bgcolor: 'primary.light', color: 'text.primary'}}>
         <Table>
         <TableHead>

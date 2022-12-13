@@ -1,6 +1,7 @@
 import React, {useEffect, useState}  from 'react';
 import SharpEditor from "./SharpEditor";
 import dayjs from 'dayjs'
+import AlertSnack from './AlertSnack';
 
 import uuid from 'react-uuid';
 
@@ -49,6 +50,10 @@ export default function Sharpens (props) {
 
     const [open, setOpen] = useState(false);
 
+    const [editSuccess, setEditSuccess] = useState(false);
+    const [warnDelete, setWarnDelete] = useState(false);
+    const [entryAdded, setEntryAdded] = useState(false);
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -70,6 +75,7 @@ export default function Sharpens (props) {
             });
             setNotesVal('');
             handleClose();
+            setEntryAdded(true);
         }
         catch(err) {
             console.log(err);
@@ -102,9 +108,22 @@ export default function Sharpens (props) {
             const q = query(collection(db, "sharpens"), where("player_id", "==", props.activeUser.player_id));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const cutArr = [];
+
+            querySnapshot.docChanges().forEach((change) => {
+                if (change.type === "modified") {
+                    setEditSuccess(true);
+                }
+
+                else if (change.type === "removed") {
+                    setWarnDelete(true);
+                }
+              });
+
             querySnapshot.forEach((doc) => {
                 cutArr.push(doc.data());
             });
+
+
 
             cutArr.sort((a, b) => {
                 return new Date(b.date) - new Date(a.date);
@@ -124,6 +143,29 @@ export default function Sharpens (props) {
 
     return (
     <Box sx ={{pb: 20}}>
+
+        <AlertSnack  
+            openSnack = {warnDelete} 
+            onClose = {()=> setWarnDelete(false)} 
+            type = {"success"} 
+            text = {"Entry deleted."} 
+          />
+
+          <AlertSnack  
+            openSnack = {editSuccess} 
+            onClose = {()=> setEditSuccess(false)} 
+            type = {"success"} 
+            text = {"Entry successfully edited."} 
+          />
+
+        <AlertSnack  
+            openSnack = {entryAdded} 
+            onClose = {()=> setEntryAdded(false)} 
+            type = {"success"} 
+            text = {"Entry successfully added."} 
+          />
+
+
         <Paper
             elevation = {3} 
             square 

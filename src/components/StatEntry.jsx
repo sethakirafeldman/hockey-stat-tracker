@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import uuid from 'react-uuid';
 import dayjs from 'dayjs';
 import AlertSnack from "./AlertSnack";
@@ -30,7 +30,7 @@ const [dateValue, setDateValue] = useState(getCurrentDate());
 const [plusMinus, setPlusMinus] = useState(0);
 const [leagueVal, setLeagueVal] = useState('');
 const [open, setOpen] = useState(false);
-const [openSnack, setOpenSnack] = useState(false);
+const [entryAdded, setEntryAdded] = useState('');
 
 //] modal editor
 const handleClickOpen = () => {
@@ -112,18 +112,18 @@ const handleSubmit = (event) => {
     setPlusMinus(0)
     setLeagueVal('');
     setDateValue(getCurrentDate());  
-    setOpenSnack(true);
+    setEntryAdded(true);
 };
 
     return (
       
         <>
-        <AlertSnack 
-          openSnack = {openSnack} 
-          onClose = {()=> setOpenSnack(false)} 
-          type = {"success"} 
-          text = {"Successfully saved."} 
-        />
+          <AlertSnack  
+            openSnack = {entryAdded} 
+            onClose = {()=> setEntryAdded(false)} 
+            type = {"success"} 
+            text = {"New entry added."} 
+          />
 
         <Button variant="outlined" onClick={handleClickOpen}>
         Enter Stats

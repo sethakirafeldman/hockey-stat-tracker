@@ -40,8 +40,9 @@ export default function JournalDisplay ({activeUser}) {
     });
 
     const [editText, setEditText] = useState(false);
-    const [openSnack, setOpenSnack] = useState(false);
-    
+    const [editSuccess, setEditSuccess] = useState(false);
+    const [warnDelete, setWarnDelete] = useState(false);
+
     // dialog
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -81,7 +82,6 @@ export default function JournalDisplay ({activeUser}) {
             }, {merge: true})
          })();
          setEditText(false);
-         setOpenSnack(true);
     };
 
     const handleDelete = async () => {
@@ -99,6 +99,16 @@ export default function JournalDisplay ({activeUser}) {
             const dbQuery = query(collection(db, "journal"), where ("player_id", "==", activeUser.player_id));
             const unsubscribe = onSnapshot(dbQuery, (querySnapshot) => {
                 const journalArr = [];
+
+                querySnapshot.docChanges().forEach((change) => {
+                    if (change.type === "modified") {
+                        setEditSuccess(true);
+                    }
+    
+                    else if (change.type === "removed") {
+                        setWarnDelete(true);
+                    }
+                  });
                 querySnapshot.forEach((doc) => {
                     journalArr.push(doc.data());
                 });
@@ -120,7 +130,19 @@ export default function JournalDisplay ({activeUser}) {
     
     return (
     <>
-    <AlertSnack openSnack = {openSnack} onClose = {()=> setOpenSnack(false)} type = {"success"} text = {"Successfully saved."} />
+    <AlertSnack 
+        openSnack = {editSuccess} 
+        onClose = {()=> setEditSuccess(false)} 
+        type = {"success"} 
+        text = {"Successfully saved."} 
+    />
+
+    <AlertSnack 
+        openSnack = {warnDelete} 
+        onClose = {()=> setWarnDelete(false)} 
+        type = {"success"} 
+        text = {"Entry deleted."} 
+    />
      <TableContainer sx = {{ margin: 2, width: '50vw', bgcolor: 'primary.light', color: 'text.primary'}}>
         <Table>
         <TableHead>

@@ -14,10 +14,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
+import AlertSnack from './AlertSnack';
+
 export default function RealTimeList(props) {
     
   const [pointsHistory, setPointsHistory] = useState([]);
-    
+  const [warnDelete, setWarnDelete] = useState(false);
+  const [editSuccess, setEditSuccess] = useState(false);
+
   const calcTotals = {
     goals: (arr) => {      
       let goals = 0;
@@ -47,6 +51,16 @@ export default function RealTimeList(props) {
             const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
               const ptsArr = [];
+              querySnapshot.docChanges().forEach((change) => {
+                if (change.type === "modified") {
+                    setEditSuccess(true);
+                }
+
+                else if (change.type === "removed") {
+                    setWarnDelete(true);
+                }
+              });
+
               querySnapshot.forEach((doc) => {
                   ptsArr.push(doc.data());
               });
@@ -70,6 +84,20 @@ export default function RealTimeList(props) {
 
     return (
         <Box sx = {{overflow:'auto'}}>
+          <AlertSnack  
+            openSnack = {warnDelete} 
+            onClose = {()=> setWarnDelete(false)} 
+            type = {"success"} 
+            text = {"Entry deleted."} 
+          />
+
+          <AlertSnack  
+            openSnack = {editSuccess} 
+            onClose = {()=> setEditSuccess(false)} 
+            type = {"success"} 
+            text = {"Entry successfully edited."} 
+          />
+
         <h3>Points to Date</h3>
         <TableContainer 
         sx = {{ display: 'flex', justifyContent: 'center', width:'auto'}}

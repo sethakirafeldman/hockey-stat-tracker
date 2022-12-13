@@ -1,5 +1,6 @@
 import React, {useEffect, useState}  from 'react';
 import SharpEditor from "./SharpEditor";
+import dayjs from 'dayjs'
 
 import uuid from 'react-uuid';
 
@@ -22,6 +23,7 @@ import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import {getCurrentDate} from '../utils';
 
 //mui modal
 import Dialog from '@mui/material/Dialog';
@@ -41,7 +43,7 @@ export default function Sharpens (props) {
     
     const [sharpenVal, setSharpenVal] = useState('1/2');
     const [notesVal, setNotesVal] = useState('');
-    const [dateValue, setDateValue] = useState(props.currentDate);
+    const [dateValue, setDateValue] = useState(getCurrentDate());
 
     const [cutHistory, setCutHistory] = useState([]);
 
@@ -85,22 +87,7 @@ export default function Sharpens (props) {
     }
 
     const handleDate = (date) => {
-
-        let day = date.$D;
-        let month = date.$M + 1; // month index starts at 0 by default
-        let year = date.$y;
-      
-        if (date.$M < 10 && date.$D < 10 ) {
-          month = `0${month}`;
-          day = `0${day}`;
-        }
-        else if (date.$D < 10) {
-          day = `0${day}`;
-        }
-        else if (date.$M < 10) {
-          month = `0${month}`;
-        }
-        let YYYYMMDD = `${year}-${month}-${day}`;
+        let YYYYMMDD = dayjs(date).format('YYYY-MM-DD');
         setDateValue(YYYYMMDD);
       };
 

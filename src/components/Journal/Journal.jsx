@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 import dayjs from 'dayjs';
 
 import JournalDisplay from "./JournalDisplay";
+import AlertSnack from ".././AlertSnack";
 
 //mui
 import Typography from '@mui/material/Typography';
@@ -16,19 +17,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// eslint-disable-next-line
-// import Snackbar from '@mui/material/Snackbar';
-// eslint-disable-next-line
-// import MuiAlert from '@mui/material/Alert';
 
 //firebase
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../../firebase";
 
-export default function Journal({ activeUser, currentDate}) {
+import {getCurrentDate} from '../../utils';
+
+export default function Journal({ activeUser }) {
     // for modal 
     const [open, setOpen] = useState(false);
-    
+    const [openSnack, setOpenSnack] = useState(false);
+
     // modal editor
     const handleClickOpen = () => {
         setOpen(true);
@@ -38,38 +38,17 @@ export default function Journal({ activeUser, currentDate}) {
         setOpen(false);
     };
 
-    // snackbar
-    // const Alert = React.forwardRef(function Alert(props, ref) {
-    //     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    // });
-    
-    // const [openSnack, setOpenSnack] = useState(false);
-    
-    // const handleSnack = () => {
-    //     setOpenSnack(true);
-    // };
-    
-    // const handleCloseSnack = (event, reason) => {
-        
-    //     if (reason === 'clickaway') {
-    //     return;
-    //     }
-    
-    //     setOpenSnack(false);
-    // };  
-    
-    // end of snackbar
+
     const [journalValues, setJournalValues] = useState({
         preGame: 1,
         postGame: 1,
         textField: 'test',
-        dateField: currentDate,
+        dateField: getCurrentDate(),
         entryId: '',
         player_id: activeUser.player_id        
     });
 
     const handleChange = (event) => {
-        // console.log(event.target.getAttribute("name"))
         let getAtt = event.target.getAttribute("name");
         if (getAtt === "textField") {
             console.log('text')
@@ -112,12 +91,13 @@ export default function Journal({ activeUser, currentDate}) {
                 preGame: 1,
                 postGame: 1,
                 textField: '',
-                dateField: currentDate,
+                dateField: getCurrentDate(),
                 entryId: '',
                 player_id: activeUser.player_id     
             });
         })();
         handleClose();
+        setOpenSnack(true);
     };
 
     return (
@@ -126,6 +106,12 @@ export default function Journal({ activeUser, currentDate}) {
         component="form"
         autoComplete="off"
     > 
+
+<AlertSnack 
+    openSnack = {openSnack} 
+    onClose = {()=> setOpenSnack(false)} 
+    type = {"success"} 
+    text = {"Journal entry added."} />
     <Paper 
         elevation = {3} 
         square 

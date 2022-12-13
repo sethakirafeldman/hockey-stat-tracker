@@ -10,13 +10,10 @@ import Settings from "./Settings";
 import Journal from "./Journal/Journal";
 
 //react
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import uuid from 'react-uuid';
-
-// day js
-import dayjs from 'dayjs'
 
 //mui
 import Box from '@mui/material/Box';
@@ -29,7 +26,6 @@ import { db } from "../firebase";
 function App() {
   const {user} = UserAuth();
   const [activeUser, setActiveUser] = useState({});
-  const [currentDate, setCurrentDate] = useState();
   const [currentStatData, setCurrentStatData] = useState([]);
 
   const addUser = async () => {
@@ -49,23 +45,27 @@ function App() {
 }
 
   // set date and timezone
-  const dateToday = () => {
-    let year = dayjs().year();
-    let month = dayjs().month() + 1;
-    let day = dayjs().date();
-    
-    if (month < 10 && day < 10 ) {
-      month = `0${month}`;
-      day = `0${day}`;
-    }
-    else if (day < 10) {
-      day = `0${day}`;
-    }
-    else if (month < 10) {
-      month = `0${month}`;
-    }
-    setCurrentDate(`${year}-${month}-${day}`);
-  };  
+  // const dateToday = () => {
+  //   let now = dayjs();
+  //   // let year = dayjs().year();
+  //   // let month = dayjs().month() + 1;
+  //   // let day = dayjs().date();
+  //   let date = dayjs(now).format('YYYY/MM/DD');
+  //   // if (month < 10 && day < 10 ) {
+  //   //   month = `0${month}`;
+  //   //   day = `0${day}`;
+  //   // }
+  //   // else if (day < 10) {
+  //   //   day = `0${day}`;
+  //   // }
+  //   // else if (month < 10) {
+  //   //   month = `0${month}`;
+  //   // }
+  //   // console.log(date)
+
+  //   // setCurrentDate(`${year}-${month}-${day}`);
+  //   // setCurrentDate(date);
+  // };  
 
   const realTimeCallBack = (statsData) => {
     setCurrentStatData(statsData)
@@ -96,7 +96,7 @@ function App() {
         // console.log(err)
       }
     };
-    dateToday();
+    // dateToday();
     getPlayer();
     // eslint-disable-next-line
   }, [user]);
@@ -116,11 +116,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate replace to="/dashboard" />} />
           <Route path="/signin" element={<Navigate replace to="/dashboard" />} />
-          <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} currentDate = {currentDate} realTimeCallBack = {realTimeCallBack}/> } />
-          <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} currentDate = {currentDate}/>} />
-          <Route path = "/journal" element = {<Journal activeUser = {activeUser} currentDate = {currentDate} />} />
+          <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} realTimeCallBack = {realTimeCallBack}/> } />
+          <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} />} />
+          <Route path = "/journal" element = {<Journal activeUser = {activeUser} />} />
           <Route path = "/about" element = {<About />} />
-          <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentDate = {currentDate} currentStatData = {currentStatData} /> } />
+          <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentStatData = {currentStatData} /> } />
           <Route path = "/settings" element = { <Settings activeUser = {activeUser} />} />
         </Routes>
        

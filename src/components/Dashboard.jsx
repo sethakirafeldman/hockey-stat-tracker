@@ -27,7 +27,7 @@ export default function Dashboard({activeUser, currentDate, realTimeCallBack}) {
                 }
             </Typography>
             </Paper>
-            <StatEntry activeUser = {activeUser} currentDate = {currentDate}  />
+            <StatEntry activeUser = {activeUser} />
             <RealTimeList activeUser = {activeUser} realTimeCallBack = {realTimeCallBack} />
         
          </Box>

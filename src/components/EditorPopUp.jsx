@@ -12,35 +12,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Tooltip from '@mui/material/Tooltip';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 
 export default function EditorPopUp(props) {
 
     const ref = useRef();
     const closeMenu = () => ref.current.close();
 
-    // snackbar
-    const Alert = React.forwardRef(function Alert(props, alertRef) {
-        return <MuiAlert elevation={6} ref={alertRef} variant="filled" {...props} />;
-    });
-    
-    const [openEditSuccess, setOpenSuccess] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
-
-    const handleClose = (event, reason) => {
-      
-        if (reason === 'clickaway') {
-          return;
-        }
-
-        setOpenSuccess(false);
-        setOpenDelete(false);
-    };    
-  // end of snackbar
-
     // uses empty string as this is required for rendering as value in Textfields
-    const [editValues, setEditValues] = React.useState({
+    const [editValues, setEditValues] = useState({
         date: '',
         goals: '',
         assists: '',
@@ -70,9 +49,7 @@ export default function EditorPopUp(props) {
             event.preventDefault();
         }
         else {
-            // if (event.target.value.length >= 3) {
-            //     // event.target.value = event.target.value.slice(0,-1);
-            // }
+
             setEditValues( {
                 ...editValues,
                 [event.target.name]: event.target.value,
@@ -113,54 +90,27 @@ export default function EditorPopUp(props) {
             }, {merge: true})
         })();
         closeMenu();
-        setOpenSuccess(true);
     };
 
     const handleDelete = async (event) => {  
-        setOpenDelete(true);
         try {  
-            await deleteDoc(doc(db, "points-history", props.entryId)); 
+            await deleteDoc(doc(db, "points-history", props.entryId));    
         }
         catch {
 
         }
-        
+
     };
 
     return( 
         <>
-        <Snackbar
-            open={openEditSuccess}
-            autoHideDuration={3000}
-            onClose={handleClose}
-            anchorOrigin = {{ vertical: 'top', horizontal: 'right' }}
-            key = "edit-1"
-            >
-            <Alert onClose={handleClose} severity="success" sx={{ width: 'fit-content' }}>
-            Edit Successful.
-            </Alert>
-        </Snackbar>
-      
-        <Snackbar
-            open={openDelete}
-            autoHideDuration={3000}
-            // onClose={handleClose}
-            anchorOrigin = {{ vertical: 'top', horizontal: 'right' }}
-            key = "delete-1"
-            >
-            <Alert onClose={handleClose} severity="info" sx={{ width: 'fit-content' }}>
-            Entry Permanently Deleted.
-            </Alert>
-        </Snackbar>
-   
         <Popup
             ref = {ref}
             trigger={open => (
                 <EditIcon sx ={{"&:hover":{color:"#1989fa"}}}></EditIcon>
             )}
             position="left center"
-            // closeOnDocumentClick
-            // closeOnEscape
+    
             >
             <span> 
                 <TextField

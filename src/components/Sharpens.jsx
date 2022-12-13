@@ -1,5 +1,7 @@
 import React, {useEffect, useState}  from 'react';
 import SharpEditor from "./SharpEditor";
+import dayjs from 'dayjs'
+import AlertSnack from './AlertSnack';
 
 import uuid from 'react-uuid';
 
@@ -22,6 +24,7 @@ import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import {getCurrentDate} from '../utils';
 
 //mui modal
 import Dialog from '@mui/material/Dialog';
@@ -41,11 +44,15 @@ export default function Sharpens (props) {
     
     const [sharpenVal, setSharpenVal] = useState('1/2');
     const [notesVal, setNotesVal] = useState('');
-    const [dateValue, setDateValue] = useState(props.currentDate);
+    const [dateValue, setDateValue] = useState(getCurrentDate());
 
     const [cutHistory, setCutHistory] = useState([]);
 
     const [open, setOpen] = useState(false);
+
+    const [editSuccess, setEditSuccess] = useState(false);
+    const [warnDelete, setWarnDelete] = useState(false);
+    const [entryAdded, setEntryAdded] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -68,6 +75,7 @@ export default function Sharpens (props) {
             });
             setNotesVal('');
             handleClose();
+            setEntryAdded(true);
         }
         catch(err) {
             console.log(err);
@@ -85,22 +93,7 @@ export default function Sharpens (props) {
     }
 
     const handleDate = (date) => {
-
-        let day = date.$D;
-        let month = date.$M + 1; // month index starts at 0 by default
-        let year = date.$y;
-      
-        if (date.$M < 10 && date.$D < 10 ) {
-          month = `0${month}`;
-          day = `0${day}`;
-        }
-        else if (date.$D < 10) {
-          day = `0${day}`;
-        }
-        else if (date.$M < 10) {
-          month = `0${month}`;
-        }
-        let YYYYMMDD = `${year}-${month}-${day}`;
+        let YYYYMMDD = dayjs(date).format('YYYY-MM-DD');
         setDateValue(YYYYMMDD);
       };
 
@@ -115,9 +108,22 @@ export default function Sharpens (props) {
             const q = query(collection(db, "sharpens"), where("player_id", "==", props.activeUser.player_id));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const cutArr = [];
+
+            querySnapshot.docChanges().forEach((change) => {
+                if (change.type === "modified") {
+                    setEditSuccess(true);
+                }
+
+                else if (change.type === "removed") {
+                    setWarnDelete(true);
+                }
+              });
+
             querySnapshot.forEach((doc) => {
                 cutArr.push(doc.data());
             });
+
+
 
             cutArr.sort((a, b) => {
                 return new Date(b.date) - new Date(a.date);
@@ -137,6 +143,29 @@ export default function Sharpens (props) {
 
     return (
     <Box sx ={{pb: 20}}>
+
+        <AlertSnack  
+            openSnack = {warnDelete} 
+            onClose = {()=> setWarnDelete(false)} 
+            type = {"success"} 
+            text = {"Entry deleted."} 
+          />
+
+          <AlertSnack  
+            openSnack = {editSuccess} 
+            onClose = {()=> setEditSuccess(false)} 
+            type = {"success"} 
+            text = {"Entry successfully edited."} 
+          />
+
+        <AlertSnack  
+            openSnack = {entryAdded} 
+            onClose = {()=> setEntryAdded(false)} 
+            type = {"success"} 
+            text = {"Entry successfully added."} 
+          />
+
+
         <Paper
             elevation = {3} 
             square 

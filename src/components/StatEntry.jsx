@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import uuid from 'react-uuid';
 import dayjs from 'dayjs';
+import AlertSnack from "./AlertSnack";
 
 //mui
 import TextField from '@mui/material/TextField';
@@ -14,45 +15,24 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 
 //firebase
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../firebase";
 
-export default function StatEntry( {activeUser, currentDate} ) {
+import {getCurrentDate} from '../utils';
+
+export default function StatEntry( {activeUser} ) {
 
 const [goalValue, setGoalValue] = useState(0);
 const [assistValue, setAssistValue] = useState(0);
-const [dateValue, setDateValue] = useState(currentDate);
+const [dateValue, setDateValue] = useState(getCurrentDate());
 const [plusMinus, setPlusMinus] = useState(0);
 const [leagueVal, setLeagueVal] = useState('');
 const [open, setOpen] = useState(false);
+const [entryAdded, setEntryAdded] = useState('');
 
-// snackbar
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-const [openSnack, setOpenSnack] = useState(false);
-
-const handleSnack = () => {
-  setOpenSnack(true);
-};
-
-const handleCloseSnack = (event, reason) => {
-  
-  if (reason === 'clickaway') {
-    return;
-  }
-
-  setOpenSnack(false);
-};  
-
-// end of snackbar
-
-// modal editor
+//] modal editor
 const handleClickOpen = () => {
   setOpen(true);
 };
@@ -124,30 +104,27 @@ const handleSubmit = (event) => {
       }
   
     })();
-    handleSnack(); // this can be handled with state
+    // handleSnack(); // this can be handled with state
     handleClose();
     // set state back to defaults
     setGoalValue(0);
     setAssistValue(0);
     setPlusMinus(0)
     setLeagueVal('');
-    setDateValue(currentDate);  
+    setDateValue(getCurrentDate());  
+    setEntryAdded(true);
 };
 
     return (
       
         <>
-        <Snackbar
-          open={openSnack}
-          autoHideDuration={3000}
-          onClose={handleCloseSnack}
-          anchorOrigin = {{ vertical: 'top', horizontal: 'right' }}
-          >
-          <Alert onClose={handleCloseSnack} severity="success" sx={{ width: 'fit-content' }}>
-          Entry Successfully Added
-          </Alert>
-        </Snackbar>
-    
+          <AlertSnack  
+            openSnack = {entryAdded} 
+            onClose = {()=> setEntryAdded(false)} 
+            type = {"success"} 
+            text = {"New entry added."} 
+          />
+
         <Button variant="outlined" onClick={handleClickOpen}>
         Enter Stats
         </Button>

@@ -30,7 +30,7 @@ const [dateValue, setDateValue] = useState(getCurrentDate());
 const [plusMinus, setPlusMinus] = useState(0);
 const [leagueVal, setLeagueVal] = useState('');
 const [open, setOpen] = useState(false);
-const [entryAdded, setEntryAdded] = useState('');
+const [entryAdded, setEntryAdded] = useState(false);
 
 //] modal editor
 const handleClickOpen = () => {

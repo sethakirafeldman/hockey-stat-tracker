@@ -3,13 +3,15 @@ import { Card, Typography, CardContent, Box } from '@mui/material';
 
 import {UserAuth} from '../contexts/AuthContext';
 
-export default function Settings ({activeUser}) {
+export default function Settings () {
     const {user} = UserAuth();
 
     return (
-        <>        
+        // {user ?
+        <>    
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Settings</Typography>
         <Box display ="flex"  alignItems="center" justifyContent="center" sx = {{minWidth: 275}}>
+        {user ?
         <Card variant = "outlined" sx={{ minWidth: 275, textAlign: "center" }}>
         <CardContent>
         <img alt = {user.displayName} src = {user.photoURL}></img>
@@ -28,7 +30,14 @@ export default function Settings ({activeUser}) {
         </Typography>
         </CardContent>
         </Card>
-        </Box>
+        :
+        <>
+        {document.location.href = "/"}
         </>
-    )
+        }
+        </Box>
+        {/* //    :
+        //    null */}
+        </>    
+     )    
 }

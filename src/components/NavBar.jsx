@@ -37,8 +37,8 @@ export default function NavBar(props) {
 
     const menuRef = useRef();
     
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = React.useState();
+    const [anchorElUser, setAnchorElUser] = React.useState();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(true);
@@ -49,17 +49,20 @@ export default function NavBar(props) {
     };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+        setAnchorElNav(false);
     };
 
     const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
+        setAnchorElUser(false);
     };    
 
     const {user, logOut} = UserAuth();
 
     const handleSignOut = async () =>{
         try {
+            window.location.reload(); // takes back to sign in page
+            handleCloseNavMenu();
+            handleCloseUserMenu();
             await logOut()
         }
         catch (err) {
@@ -99,11 +102,12 @@ export default function NavBar(props) {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+            <MenuIcon />
+            
             </IconButton>
             <Menu
               id="menu-appbar"
-              // anchorEl={anchorElNav}
+              anchorEl={anchorElNav}
               // getContentAnchorEl={null}
               anchorOrigin={{vertical: 'top', horizontal: 'left'}}
               transformOrigin={{vertical: 'bottom', horizontal: 'left'}}
@@ -122,7 +126,9 @@ export default function NavBar(props) {
                 </Link>
               </MenuItem>
             ) )}
+            
             </Menu>
+
           </Box>
           <Typography
             variant="h5"
@@ -154,14 +160,14 @@ export default function NavBar(props) {
           <Box sx={{ flexGrow: 0 }}>
             {/* user menu */}
             <Tooltip title="Open Settings">
-              <span><IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }} ref={menuRef}>
+              <span><IconButton onClick={handleOpenUserMenu} sx={{ p: 1, mr:.5 }} ref={menuRef}>
                 <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
               </IconButton></span>
               </Tooltip>
               <Menu
                 sx={{ mt: '45px'}}
                 id="menu-appbar"
-                // anchorEl={anchorElUser}
+                anchorEl={anchorElUser}
                 anchorOrigin=
                   {{vertical: 'top', 
                   horizontal: 'right'}}

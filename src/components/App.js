@@ -11,7 +11,7 @@ import Journal from "./Journal/Journal";
 
 //react
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import uuid from 'react-uuid';
 
@@ -27,6 +27,7 @@ function App() {
   const {user} = UserAuth();
   const [activeUser, setActiveUser] = useState({});
   const [currentStatData, setCurrentStatData] = useState([]);
+  const [waitingForUser, setWaitingForUser] = useState(true);
 
   const addUser = async () => {
     let uniqid = uuid();
@@ -44,40 +45,18 @@ function App() {
     }
 }
 
-  // set date and timezone
-  // const dateToday = () => {
-  //   let now = dayjs();
-  //   // let year = dayjs().year();
-  //   // let month = dayjs().month() + 1;
-  //   // let day = dayjs().date();
-  //   let date = dayjs(now).format('YYYY/MM/DD');
-  //   // if (month < 10 && day < 10 ) {
-  //   //   month = `0${month}`;
-  //   //   day = `0${day}`;
-  //   // }
-  //   // else if (day < 10) {
-  //   //   day = `0${day}`;
-  //   // }
-  //   // else if (month < 10) {
-  //   //   month = `0${month}`;
-  //   // }
-  //   // console.log(date)
-
-  //   // setCurrentDate(`${year}-${month}-${day}`);
-  //   // setCurrentDate(date);
-  // };  
-
   const realTimeCallBack = (statsData) => {
     setCurrentStatData(statsData)
   };
 
   // retrieve player data from firestore
   useEffect (() => {
+   
     let playerData = {};
     async function getPlayer() {
         try {
-        const usersRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(usersRef)
+          const usersRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(usersRef)
           if (docSnap.exists()) {
             playerData = docSnap.data();
             setActiveUser({
@@ -86,17 +65,16 @@ function App() {
                 name: playerData.name,
                 player_id: playerData.player_id,
               });
+            setWaitingForUser(false);
           }
           else {
             addUser();
-            // getPlayer();
           }
       }
         catch(err) {
         // console.log(err)
       }
     };
-    // dateToday();
     getPlayer();
     // eslint-disable-next-line
   }, [user]);
@@ -104,28 +82,27 @@ function App() {
   return (
     <div className="App">
       <Box>
-      <BrowserRouter>
         <NavBar isReceived = {true} />
-        {user === null ? 
+        
+        {!user && waitingForUser ? // this almost works, but need to change waitingForUser on logout.
           <Routes>
-           <Route path="*" element={<Navigate to="/signin" />} />
-           {/* <Route path="/" element={<Navigate replace to="/signin" />} /> */}
-           <Route path = "/signin" element = {<SignUp />} />
-         </Routes>
+            <Route path = "/signin" element = {<SignUp user = {user} />} />
+            <Route path= "*" element={<Navigate to="/signin" />} />
+            <Route path= "/settings" element={<Navigate to="/signin" />} />
+              {/* <Route path="/dashboard" element={<Navigate replace to="/signin" />} />    */}
+          </Routes>
           :
-        <Routes>
-          <Route path="/" element={<Navigate replace to="/dashboard" />} />
-          <Route path="/signin" element={<Navigate replace to="/dashboard" />} />
-          <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} realTimeCallBack = {realTimeCallBack}/> } />
-          <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} />} />
-          <Route path = "/journal" element = {<Journal activeUser = {activeUser} />} />
-          <Route path = "/about" element = {<About />} />
-          <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentStatData = {currentStatData} /> } />
-          <Route path = "/settings" element = { <Settings activeUser = {activeUser} />} />
-        </Routes>
-       
+          <Routes>
+            {/* <Route path="/" element={<Navigate replace to="/dashboard" />} /> */}
+            <Route path="/signin" element={<Navigate replace to="/dashboard" />} />
+            <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} realTimeCallBack = {realTimeCallBack}/> } />
+            <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} />} />
+            <Route path = "/journal" element = {<Journal activeUser = {activeUser} />} />
+            <Route path = "/about" element = {<About />} />
+            <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentStatData = {currentStatData} /> } />
+            <Route path = "/settings" element = { <Settings activeUser = {activeUser} />} />
+          </Routes>  
       }
-      </BrowserRouter>
       </Box>
       <Footer />
       </div>

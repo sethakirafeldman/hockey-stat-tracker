@@ -142,7 +142,7 @@ export default function Sharpens (props) {
     }, [props.activeUser]);
 
     return (
-    <Box sx ={{pb: 20}}>
+    <Box sx ={{pb: 20, ml:1, mr:1}}>
 
         <AlertSnack  
             openSnack = {warnDelete} 
@@ -165,7 +165,6 @@ export default function Sharpens (props) {
             text = {"Entry successfully added."} 
           />
 
-
         <Paper
             elevation = {3} 
             square 
@@ -178,10 +177,13 @@ export default function Sharpens (props) {
         <p>Standard cut is usually 1/2", but may depend on the shop.</p>
         </div>
         </Paper> 
-        <figure>
-        <img id = "sharpen-diagram" alt = "sharpening diagram" src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"></img>
-        <figcaption>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a></figcaption>
-        </figure>
+        
+        <Box component ="img"
+            sx = {{width: '100%', margin:'auto', mt: 2, mb: 2, maxWidth: "600px", borderStyle:'solid', borderRadius: 4, borderColor: 'primary.light'}}
+            src ="https://cdn.shopify.com/s/files/1/0505/8838/5453/files/blog-skate-sharpening-skate-bite-guide-en.png?v=1626575546"
+            alt="sharpening diagram"
+        />
+        <Typography sx= {{fontSize: ".5em"}}>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a> </Typography>
         <Divider sx ={{mb:3, mt: 3}}/>
 
         <Dialog open = {open} onClose={handleClose}> 
@@ -250,7 +252,7 @@ export default function Sharpens (props) {
         <Button variant="outlined" onClick={handleClickOpen}>
         Enter Sharpenings
         </Button>
-            <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto', ml:1, mr:1}}>
+            <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto'}}>
             <Table sx = {{ minWidth: 300, maxWidth: 650}}  aria-label="sharpen table">
             <TableHead sx = {{bgcolor: 'primary.light', color: 'text.secondary'}}>
             <TableRow>
@@ -261,6 +263,7 @@ export default function Sharpens (props) {
             </TableRow>    
             </TableHead>
             <TableBody>
+
             {cutHistory ? cutHistory.map((row)=> (
                 <TableRow
                     key={row.id}

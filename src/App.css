@@ -25,27 +25,6 @@ body {
   position: relative;
 }
 
-#login-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-area {
-  text-align: left;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin-right: auto;
-  padding: 10px 0;
-  
-}
-
-#sharpen-diagram {
-  width: 100%;
-  max-width: 800px;
-}
-
 #ice-img {
   width: 100%;
   height: 100vh;

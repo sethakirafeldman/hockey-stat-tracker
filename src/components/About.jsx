@@ -42,6 +42,7 @@ export default function About() {
             <ListItemText>2022-11-27: Modal Stat Entry Pop Up, styling fixes, image src change. </ListItemText>
             <ListItemText>2022-11-28: Modal sharpenings pop up</ListItemText>
             <ListItemText>2022-12-10: Added Journal feature</ListItemText>
+            <ListItemText>2022-12-18: Journal feature expanded, styling.</ListItemText>
         </List>
         </Paper>
         <Paper elevation ={3} sx ={{p:2, m:4, mt: 2, width:"50%", margin: "auto", textAlign:"left"}}>

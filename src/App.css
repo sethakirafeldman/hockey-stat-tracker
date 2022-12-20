@@ -1,11 +1,22 @@
 body {
   margin: 0px;
-  
 }
 
 .App {
   text-align: center;
   height: 100vh;
+}
+
+.background-transition {
+  transition: opacity 2s;
+}
+
+.image-visible {
+  opacity: 1;
+}
+
+.image-hidden {
+  opacity: 0;
 }
 
 .nav-btn {

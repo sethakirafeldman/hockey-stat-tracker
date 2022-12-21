@@ -35,7 +35,7 @@ import { db } from "../../firebase";
 
 import {getCurrentDate} from "../../utils";
 
-export default function Journal({ activeUser }) {
+export default function JournalEntry({ activeUser }) {
     // for modal 
     const [open, setOpen] = useState(false);
     const [openSnack, setOpenSnack] = useState(false);
@@ -131,9 +131,8 @@ export default function Journal({ activeUser }) {
 
     return (
     <Box 
+        className = {`fade-in`}
         sx ={{ display: "flex", flexDirection: "column", alignItems: "center", pb:20}}
-        component="form"
-        autoComplete="off"
     > 
 
     <AlertSnack 

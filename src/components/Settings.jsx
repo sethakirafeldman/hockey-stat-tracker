@@ -8,7 +8,7 @@ export default function Settings () {
 
     return (
         // {user ?
-        <>    
+        <Box className = {`fade-in`}>    
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Settings</Typography>
         <Box display ="flex"  alignItems="center" justifyContent="center" sx = {{minWidth: 275}}>
         {user ?
@@ -38,6 +38,6 @@ export default function Settings () {
         </Box>
         {/* //    :
         //    null */}
-        </>    
+        </Box>    
      )    
 }

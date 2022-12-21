@@ -2,13 +2,17 @@ import React from 'react';
 import StatEntry from "./StatEntry";
 import RealTimeList from "./RealTimeList";
 
+
 import {Box, Typography, Paper } from '@mui/material';
 
 export default function Dashboard({activeUser, currentDate, realTimeCallBack}) {
    
     return (
         <>
-        <Box sx = {{flexDirection: 'column', alignItems:"center", justifyContent:"center"}}>
+        <Box 
+            className = {`fade-in`}
+            sx = {{flexDirection: 'column', alignItems:"center", justifyContent:"center"}}>
+           
         <Paper 
             elevation = {3} 
             square 

@@ -7,7 +7,7 @@ import About from "./About";
 import Graphs from "./Graphs";
 import Footer from "./Footer";
 import Settings from "./Settings";
-import Journal from "./Journal/Journal";
+import JournalEntry from "./Journal/JournalEntry";
 
 //react
 import React, { useState, useEffect } from 'react';
@@ -27,7 +27,6 @@ function App() {
   const {user} = UserAuth();
   const [activeUser, setActiveUser] = useState({});
   const [currentStatData, setCurrentStatData] = useState([]);
-  const [waitingForUser, setWaitingForUser] = useState(true);
 
   const addUser = async () => {
     let uniqid = uuid();
@@ -65,7 +64,6 @@ function App() {
                 name: playerData.name,
                 player_id: playerData.player_id,
               });
-            setWaitingForUser(false);
           }
           else {
             addUser();
@@ -83,8 +81,7 @@ function App() {
     <div className="App">
       <Box>
         <NavBar isReceived = {true} />
-        
-        {!user && waitingForUser ? // this almost works, but need to change waitingForUser on logout.
+        {!user ? 
           <Routes>
             <Route path = "/signin" element = {<SignUp user = {user} />} />
             <Route path= "*" element={<Navigate to="/signin" />} />
@@ -97,7 +94,7 @@ function App() {
             <Route path="/signin" element={<Navigate replace to="/dashboard" />} />
             <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} realTimeCallBack = {realTimeCallBack}/> } />
             <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} />} />
-            <Route path = "/journal" element = {<Journal activeUser = {activeUser} />} />
+            <Route path = "/journal" element = {<JournalEntry activeUser = {activeUser} />} />
             <Route path = "/about" element = {<About />} />
             <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentStatData = {currentStatData} /> } />
             <Route path = "/settings" element = { <Settings activeUser = {activeUser} />} />

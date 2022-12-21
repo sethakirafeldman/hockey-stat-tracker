@@ -19,6 +19,20 @@ body {
   opacity: 0;
 }
 
+.fade-in {
+	animation: fadein 2s;
+  	opacity: 1;
+}
+
+@keyframes fadein {
+  from {
+  	opacity: 0;
+  }
+  to {
+ 	opacity: 1;
+  }
+}
+
 .nav-btn {
   color: white;
   display: block;

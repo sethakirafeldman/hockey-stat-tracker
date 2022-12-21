@@ -157,7 +157,7 @@ export default function Graphs({ activeUser, currentStatData }) {
 
       
     return (
-        <Box sx ={{pb:20}}>
+        <Box className = {`fade-in`} sx ={{pb:20}}>
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
         <section id ="line-container">
         <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Over Time</Typography>

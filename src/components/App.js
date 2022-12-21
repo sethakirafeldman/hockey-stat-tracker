@@ -27,7 +27,6 @@ function App() {
   const {user} = UserAuth();
   const [activeUser, setActiveUser] = useState({});
   const [currentStatData, setCurrentStatData] = useState([]);
-  const [waitingForUser, setWaitingForUser] = useState(true);
 
   const addUser = async () => {
     let uniqid = uuid();
@@ -65,7 +64,6 @@ function App() {
                 name: playerData.name,
                 player_id: playerData.player_id,
               });
-            setWaitingForUser(false);
           }
           else {
             addUser();

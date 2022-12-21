@@ -11,6 +11,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 
 //firebase
 import { db } from "../../firebase";
@@ -57,7 +58,8 @@ export default function JournalDisplay ({activeUser}) {
     }, [activeUser]);
 
     return (
-    <>
+
+    <Box sx = {{overflow:'auto', width:'100%'}}>
     <AlertSnack 
         openSnack = {editSuccess} 
         onClose = {()=> setEditSuccess(false)} 
@@ -71,15 +73,15 @@ export default function JournalDisplay ({activeUser}) {
         type = {"success"} 
         text = {"Entry deleted."} 
     />
-     <TableContainer sx = {{ display: "flex", justifyContent: 'center'}}
+     <TableContainer sx = {{ display: "flex", justifyContent: 'center', width:'auto'}}
      component ={Paper}
      >
         <Table
-            sx = {{ minWidth: 350, maxWidth: 650, ml:2, mr:2}}
+            sx = {{ minWidth: 350, maxWidth: 650, ml:1, mr:1}}
             aria-label="journal table"
         >
         <TableHead sx = {{ bgcolor: 'primary.light', color: 'text.primary'}}>
-        <TableRow>
+        <TableRow sx = {{bgcolor: 'contrastText'}}>
          <TableCell sx = {{color:'white', padding: 1}} align="left">Date</TableCell>
          <TableCell sx = {{color:'white', padding: 1}} align="left">Before</TableCell>
          <TableCell sx = {{color:'white', padding: 1}} align="left">After</TableCell>
@@ -92,7 +94,7 @@ export default function JournalDisplay ({activeUser}) {
             <TableRow
                 name = {row.entryId}
                 key = {row.entryId}
-                sx={{ '&:last-child td, &:last-child th': {border: 0} }}
+                sx={{ '&:last-child td, &:last-child th': {border: 0}}}
             >
             <TableCell 
                 name = {row.dateField} 
@@ -112,12 +114,12 @@ export default function JournalDisplay ({activeUser}) {
                 {convertToEmoticons(row.postGame)}
             </TableCell>
             <TableCell
-                sx = {{textAlign: "center", maxWidth: "10vw", bgcolor: "white", padding: 1}} 
+                sx = {{textAlign: "center", maxWidth: "2em", bgcolor: "white", padding: 1}} 
                 align="center">
             {row.leagueField}
             </TableCell>
             <TableCell  
-                sx = {{textAlign: "left", maxWidth: "10vw", bgcolor: "white", padding: 1, whiteSpace: "nowrap", textOverflow:"ellipsis", overflow: 'hidden' }} 
+                sx = {{textAlign: "left", maxWidth: "23vw", bgcolor: "white", padding: 1, whiteSpace: "nowrap", textOverflow:"ellipsis", overflow: 'hidden' }}  
                 align="center">
                 {row.textField}
             </TableCell>
@@ -134,11 +136,11 @@ export default function JournalDisplay ({activeUser}) {
             </TableRow>
         ))
         :
-        null
+        <p>no data</p>
         }
         </TableHead>
         </Table>
      </TableContainer>
-     </>
+     </Box>
     )
 }

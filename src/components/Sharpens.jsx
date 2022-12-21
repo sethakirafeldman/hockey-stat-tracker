@@ -39,8 +39,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from "../firebase";
 
-export default function Sharpens (props) {
-    
+export default function Sharpens ({activeUser}) {
     
     const [sharpenVal, setSharpenVal] = useState('1/2');
     const [notesVal, setNotesVal] = useState('');
@@ -67,7 +66,7 @@ export default function Sharpens (props) {
 
         try {
             await setDoc(doc(db, "sharpens", uniqid), {
-                player_id: props.activeUser.player_id,
+                player_id: activeUser.player_id,
                 cut: sharpenVal,
                 notes: notesVal,
                 date: dateValue,
@@ -105,7 +104,7 @@ export default function Sharpens (props) {
     useEffect(()=> {
         // check prev entries
         try {
-            const q = query(collection(db, "sharpens"), where("player_id", "==", props.activeUser.player_id));
+            const q = query(collection(db, "sharpens"), where("player_id", "==", activeUser.player_id));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const cutArr = [];
 
@@ -123,8 +122,6 @@ export default function Sharpens (props) {
                 cutArr.push(doc.data());
             });
 
-
-
             cutArr.sort((a, b) => {
                 return new Date(b.date) - new Date(a.date);
             });
@@ -139,10 +136,12 @@ export default function Sharpens (props) {
             console.log(err);
         }
 
-    }, [props.activeUser]);
+    }, [activeUser]);
 
     return (
-    <Box sx ={{pb: 20, ml:1, mr:1}}>
+    <Box 
+        className = {`fade-in`}
+        sx ={{pb: 20, ml:1, mr:1}}>
 
         <AlertSnack  
             openSnack = {warnDelete} 

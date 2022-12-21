@@ -128,7 +128,7 @@ export default function RealTimeList(props) {
             {pointsHistory ? pointsHistory.map((row) => (
               <TableRow
                 key={row.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
               >
                 <TableCell sx = {{padding: 1}} component="th" scope="row">{row.date}</TableCell>
                 <TableCell sx = {{padding: 1}} align="left">{row.goals}</TableCell>

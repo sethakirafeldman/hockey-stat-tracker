@@ -37,8 +37,8 @@ export default function NavBar(props) {
 
     const menuRef = useRef();
     
-    const [anchorElNav, setAnchorElNav] = React.useState();
-    const [anchorElUser, setAnchorElUser] = React.useState();
+    const [anchorElNav, setAnchorElNav] = React.useState(false);
+    const [anchorElUser, setAnchorElUser] = React.useState(false);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(true);
@@ -60,7 +60,7 @@ export default function NavBar(props) {
 
     const handleSignOut = async () =>{
         try {
-            window.location.reload(); // takes back to sign in page
+            // window.location.reload(); // takes back to sign in page
             handleCloseNavMenu();
             handleCloseUserMenu();
             await logOut()
@@ -93,7 +93,7 @@ export default function NavBar(props) {
           >Stat Tracker   
           </Typography>
            
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none'} }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -148,7 +148,7 @@ export default function NavBar(props) {
           > 
           Stat Tracker  
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', lg:'flex' } }}>
             {Object.values(pageObjs).map((page) => (
               <Link to = {page.path} className = 'nav-btn'
                   key={page.name}
@@ -173,8 +173,8 @@ export default function NavBar(props) {
                   horizontal: 'right'}}
                 // keepMounted
                 transformOrigin=
-                  {{vertical: 'top', 
-                  horizontal: 'right'}}
+                  {{vertical: 'center', 
+                  horizontal: 'center'}}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >

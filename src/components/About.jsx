@@ -10,7 +10,10 @@ import Box from '@mui/material/Box';
 
 export default function About() {
     return (
-        <Box sx ={{display: "flex", flexDirection: "column", textAlign: "center" }}>
+        <Box 
+            className = {`fade-in`}
+            sx ={{display: "flex", flexDirection: "column", textAlign: "center" }}
+        >
         <Paper 
             elevation = {3} 
             square 

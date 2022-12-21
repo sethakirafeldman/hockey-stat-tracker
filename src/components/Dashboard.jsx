@@ -1,14 +1,21 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import StatEntry from "./StatEntry";
 import RealTimeList from "./RealTimeList";
+import { useLocation } from 'react-router-dom';
+
 
 import {Box, Typography, Paper } from '@mui/material';
 
 export default function Dashboard({activeUser, currentDate, realTimeCallBack}) {
    
+    const pageLocation = useLocation();
+
     return (
         <>
-        <Box sx = {{flexDirection: 'column', alignItems:"center", justifyContent:"center"}}>
+        <Box 
+            className = {`fade-in`}
+            sx = {{flexDirection: 'column', alignItems:"center", justifyContent:"center"}}>
+           
         <Paper 
             elevation = {3} 
             square 

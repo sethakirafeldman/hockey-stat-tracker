@@ -85,12 +85,10 @@ function App() {
           <Routes>
             <Route path = "/signin" element = {<SignUp user = {user} />} />
             <Route path= "/*" element={<Navigate to="/signin" />} />
-            {/* <Route path= "/settings" element={<Navigate to="/signin" />} /> */}
-              {/* <Route path="/dashboard" element={<Navigate replace to="/signin" />} />    */}
           </Routes>
           :
           <Routes>
-            {/* <Route path="/" element={<Navigate replace to="/dashboard" />} /> */}
+            <Route path="/" element={<Navigate replace to="/dashboard" />} />
             <Route path="/signin" element={<Navigate replace to="/dashboard" />} />
             <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} realTimeCallBack = {realTimeCallBack}/> } />
             <Route path = "/sharpenings" element = { <SharpenDisplay activeUser = {activeUser} />} />

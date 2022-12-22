@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import EditorPopUp from "./EditorPopUp";
+import StatEditor from "./StatEditor";
+import AlertSnack from '../AlertSnack';
 
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 // material ui
@@ -14,9 +15,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
-import AlertSnack from './AlertSnack';
-
-export default function RealTimeList(props) {
+export default function StatDisplay({activeUser, realTimeCallBack}) {
     
   const [pointsHistory, setPointsHistory] = useState([]);
   const [warnDelete, setWarnDelete] = useState(false);
@@ -48,7 +47,7 @@ export default function RealTimeList(props) {
 
     useEffect(() => {
         try {
-            const q = query(collection(db, "points-history"), where("player_id", "==", props.activeUser.player_id));
+            const q = query(collection(db, "points-history"), where("player_id", "==", activeUser.player_id));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
               const ptsArr = [];
               querySnapshot.docChanges().forEach((change) => {
@@ -68,7 +67,7 @@ export default function RealTimeList(props) {
                   return new Date(b.date) - new Date(a.date);
               });
               setPointsHistory(ptsArr);
-              props.realTimeCallBack(ptsArr); // this gets sent to graphs
+              realTimeCallBack(ptsArr); // this gets sent to graphs
             });
 
             return () => {
@@ -80,7 +79,7 @@ export default function RealTimeList(props) {
             // console.log(err)
         }
     // eslint-disable-next-line
-    }, [props.activeUser]);  
+    }, [activeUser]);  
 
     return (
         <Box sx = {{overflow:'auto'}}>
@@ -135,7 +134,7 @@ export default function RealTimeList(props) {
                 <TableCell sx = {{padding: 1}} align="left">{row.assists}</TableCell>
                 <TableCell sx = {{padding: 1}} align="left">{row.plusMinus}</TableCell>
                 <TableCell sx = {{padding: 1}} align="left">{row.league}</TableCell>
-                <TableCell sx = {{padding: 1}}><EditorPopUp entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
+                <TableCell sx = {{padding: 1}}><StatEditor entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
               </TableRow>
             )) 
             :

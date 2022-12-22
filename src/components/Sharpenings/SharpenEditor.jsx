@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 //mui
 import {Button} from "@mui/material";
@@ -17,7 +17,7 @@ import Tooltip from '@mui/material/Tooltip';
 import FormControl from '@mui/material/FormControl';
 import { InputLabel } from '@mui/material';
 
-export default function SharpEditor( {entryId, cutHistory} ) {
+export default function SharpenEditor( {entryId, cutHistory} ) {
   
     const ref = useRef();
     const closeMenu = () => ref.current.close();

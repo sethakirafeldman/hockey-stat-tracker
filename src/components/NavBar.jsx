@@ -37,8 +37,8 @@ export default function NavBar(props) {
 
     const menuRef = useRef();
     
-    const [anchorElNav, setAnchorElNav] = React.useState(false);
-    const [anchorElUser, setAnchorElUser] = React.useState(false);
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(true);
@@ -49,12 +49,12 @@ export default function NavBar(props) {
     };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(false);
+        setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
-        setAnchorElUser(false);
-    };    
+        setAnchorElUser(null)
+    }
 
     const {user, logOut} = UserAuth();
 
@@ -63,6 +63,7 @@ export default function NavBar(props) {
             // window.location.reload(); // takes back to sign in page
             handleCloseNavMenu();
             handleCloseUserMenu();
+            localStorage.clear();
             await logOut()
         }
         catch (err) {
@@ -73,7 +74,7 @@ export default function NavBar(props) {
     const LoggedInBar = () => {
       return (
         <AppBar position="sticky">
-        <Container maxWidth="xl">
+        <Container maxWidth="xxl">
         <Toolbar disableGutters>
         <img width = "100px" id = "logo" alt = "logo" src = {logo} />
           <Typography
@@ -108,7 +109,6 @@ export default function NavBar(props) {
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              // getContentAnchorEl={null}
               anchorOrigin={{vertical: 'top', horizontal: 'left'}}
               transformOrigin={{vertical: 'bottom', horizontal: 'left'}}
               open={Boolean(anchorElNav)}
@@ -118,13 +118,14 @@ export default function NavBar(props) {
               }}
             >
             {Object.values(pageObjs).map((page) => (
-              <MenuItem key = {page.name }>
-                <Link style = {{textDecoration: 'none'}} to = {page.path} className = 'nav-menu'
-                    key={page.name}
-                    onClick={handleCloseNavMenu}
-                >{page.name}
-                </Link>
-              </MenuItem>
+              <Link 
+                style = {{textDecoration: 'none', color:'black', width:'100%'}} to = {page.path}
+                key={page.name}
+                onClick={handleCloseNavMenu}
+              >
+                <MenuItem>{page.name}</MenuItem>
+              </Link>
+          
             ) )}
             
             </Menu>
@@ -148,7 +149,7 @@ export default function NavBar(props) {
           > 
           Stat Tracker  
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', lg:'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', lg:'flex'}}}>
             {Object.values(pageObjs).map((page) => (
               <Link to = {page.path} className = 'nav-btn'
                   key={page.name}
@@ -157,28 +158,30 @@ export default function NavBar(props) {
               </Link>
             ) )}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, textAlign:'right' }}>
             {/* user menu */}
             <Tooltip title="Open Settings">
-              <span><IconButton onClick={handleOpenUserMenu} sx={{ p: 1, mr:.5 }} ref={menuRef}>
-                <Avatar alt={`${user.displayName} profile image`} src={user.photoURL} />
+              <span><IconButton id ="user-menu" onClick={handleOpenUserMenu} sx={{ p: 1, mr:.5 }} ref={menuRef}>
+                <Avatar alt={`${user.displayName} profile image`} src= {user.photoURL} />
               </IconButton></span>
               </Tooltip>
               <Menu
                 sx={{ mt: '45px'}}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
+                // anchorPosition = {{right:1, top: 0}}
                 anchorOrigin=
                   {{vertical: 'top', 
                   horizontal: 'right'}}
-                // keepMounted
                 transformOrigin=
                   {{vertical: 'center', 
                   horizontal: 'center'}}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-              <MenuItem> <Link style = {{textDecoration: 'none', color: 'black'}} to = "/settings" onClick={handleCloseUserMenu}>Settings</Link></MenuItem>
+              <Link style = {{textDecoration: 'none', color: 'black'}} to = "/settings" onClick={handleCloseUserMenu}>
+                <MenuItem>Settings</MenuItem>
+              </Link>
               <MenuItem onClick ={handleSignOut}>Log Out</MenuItem>
             </Menu>
             

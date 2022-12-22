@@ -1,10 +1,10 @@
 import '../App.css';
 import SignUp from "./SignUp";
 import NavBar from "./NavBar";
-import Dashboard from "./Dashboard";
-import Sharpens from "./Sharpens";
+import Dashboard from "./Stats/Dashboard";
+import SharpenDisplay from "./Sharpenings/SharpenDisplay";
 import About from "./About";
-import Graphs from "./Graphs";
+import Graphs from "./Stats/Graphs";
 import Footer from "./Footer";
 import Settings from "./Settings";
 import JournalEntry from "./Journal/JournalEntry";
@@ -84,8 +84,8 @@ function App() {
         {!user ? 
           <Routes>
             <Route path = "/signin" element = {<SignUp user = {user} />} />
-            <Route path= "*" element={<Navigate to="/signin" />} />
-            <Route path= "/settings" element={<Navigate to="/signin" />} />
+            <Route path= "/*" element={<Navigate to="/signin" />} />
+            {/* <Route path= "/settings" element={<Navigate to="/signin" />} /> */}
               {/* <Route path="/dashboard" element={<Navigate replace to="/signin" />} />    */}
           </Routes>
           :
@@ -93,7 +93,7 @@ function App() {
             {/* <Route path="/" element={<Navigate replace to="/dashboard" />} /> */}
             <Route path="/signin" element={<Navigate replace to="/dashboard" />} />
             <Route path = "/dashboard" element = {<Dashboard activeUser = {activeUser} realTimeCallBack = {realTimeCallBack}/> } />
-            <Route path = "/sharpenings" element = { <Sharpens activeUser = {activeUser} />} />
+            <Route path = "/sharpenings" element = { <SharpenDisplay activeUser = {activeUser} />} />
             <Route path = "/journal" element = {<JournalEntry activeUser = {activeUser} />} />
             <Route path = "/about" element = {<About />} />
             <Route path = "/graphs" element = { <Graphs activeUser = {activeUser} currentStatData = {currentStatData} /> } />

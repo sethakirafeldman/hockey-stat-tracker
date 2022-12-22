@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
+import {storeLocally, getLocalStorage} from "../../utils";
 
 import { Line, Doughnut  } from 'react-chartjs-2';
 
 //mui
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material'; 
+import { Box } from '@mui/material';
 
 import {
     Chart as ChartJS,
@@ -36,6 +37,7 @@ import {
 
 
 export default function Graphs({ activeUser, currentStatData }) {
+
     const [statsInOrder, setStatsInOrder] = useState({});
     const [pointTotals, setPointTotals] = useState({
         goals: '',
@@ -50,8 +52,14 @@ export default function Graphs({ activeUser, currentStatData }) {
         return total;
     };
 
+    // in here I can do something to store the sorted data in local storage
+    // to persist on refresh.
+
     useEffect( () => {
         try {
+            if (currentStatData.length > 0) {
+
+            
             // sort currentStatData by date
             currentStatData.sort((a, b) => {
                 return new Date(a.date) - new Date(b.date)
@@ -80,11 +88,27 @@ export default function Graphs({ activeUser, currentStatData }) {
                 goals: sum(tempGoal),
                 assists: sum(tempAssist)
             });
+            }
+            else if (currentStatData.length < 1) {
+
+                let localData = getLocalStorage();
+                setStatsInOrder(getLocalStorage());    
+                console.log(getLocalStorage());
+                setPointTotals({
+                    goals: sum(localData.graphGoals),
+                    assists: sum(localData.graphAssists)
+                });
+            }
         }
         catch (err) {
             console.log(err)
         }
     }, [currentStatData])
+
+    // sends current data to local storage
+    useEffect(() => {
+        storeLocally(statsInOrder);
+    }, [statsInOrder])
 
     // chart data
     const pointsData = {

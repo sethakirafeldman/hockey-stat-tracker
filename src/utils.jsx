@@ -32,4 +32,14 @@ const convertToEmoticons = (emoteVal) => {
     }
 };
 
-export {getCurrentDate, convertToEmoticons}
+const storeLocally = (arr) => {
+    arr = JSON.stringify(arr);
+    window.localStorage.setItem("temp", arr);
+};
+
+const getLocalStorage = () => {
+    // console.log(window.localStorage.getItem("temp"));
+    return JSON.parse(window.localStorage.getItem("temp"));
+};
+
+export {getCurrentDate, convertToEmoticons, storeLocally, getLocalStorage}

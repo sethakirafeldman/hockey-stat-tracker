@@ -1,7 +1,6 @@
 import React from 'react';
 import StatEntry from "./StatEntry";
-import RealTimeList from "./RealTimeList";
-
+import StatDisplay from "./StatDisplay";
 
 import {Box, Typography, Paper } from '@mui/material';
 
@@ -32,7 +31,7 @@ export default function Dashboard({activeUser, currentDate, realTimeCallBack}) {
             </Typography>
             </Paper>
             <StatEntry activeUser = {activeUser} />
-            <RealTimeList activeUser = {activeUser} realTimeCallBack = {realTimeCallBack} />
+            <StatDisplay activeUser = {activeUser} realTimeCallBack = {realTimeCallBack} />
         
          </Box>
         </>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState}  from 'react';
-import SharpEditor from "./SharpEditor";
+import SharpenEditor from "./SharpenEditor";
 import dayjs from 'dayjs'
-import AlertSnack from './AlertSnack';
+import AlertSnack from '../AlertSnack';
 
 import uuid from 'react-uuid';
 
@@ -24,7 +24,7 @@ import FormControl from '@mui/material/FormControl';
 import Divider from '@mui/material/Divider';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import {getCurrentDate} from '../utils';
+import {getCurrentDate} from '../../utils';
 
 //mui modal
 import Dialog from '@mui/material/Dialog';
@@ -37,9 +37,9 @@ import Typography from '@mui/material/Typography';
 // firebase
 import { doc, setDoc } from "firebase/firestore"; 
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
-export default function Sharpens ({activeUser}) {
+export default function SharpenDisplay ({activeUser}) {
     
     const [sharpenVal, setSharpenVal] = useState('1/2');
     const [notesVal, setNotesVal] = useState('');
@@ -272,7 +272,7 @@ export default function Sharpens ({activeUser}) {
                 <TableCell align="left">{`${row.cut}"`}</TableCell>
                 <TableCell align="left">{row.notes}</TableCell>
                 <TableCell>
-                    <SharpEditor 
+                    <SharpenEditor 
                         entryId = {row.id}
                         cutHistory = {cutHistory}
                         />

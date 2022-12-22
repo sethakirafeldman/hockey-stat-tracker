@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import uuid from 'react-uuid';
 import dayjs from 'dayjs';
-import AlertSnack from "./AlertSnack";
+import AlertSnack from "../AlertSnack";
 
 //mui
 import TextField from '@mui/material/TextField';
@@ -18,9 +18,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 //firebase
 import { doc, setDoc } from "firebase/firestore"; 
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
-import {getCurrentDate} from '../utils';
+import {getCurrentDate} from '../../utils';
 
 export default function StatEntry( {activeUser} ) {
 

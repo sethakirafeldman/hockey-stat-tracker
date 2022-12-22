@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 //mui
 import {Button} from "@mui/material";
@@ -13,7 +13,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Tooltip from '@mui/material/Tooltip';
 
-export default function EditorPopUp(props) {
+export default function StatEditor({entryId, pointsHistory}) {
 
     const ref = useRef();
     const closeMenu = () => ref.current.close();
@@ -29,8 +29,8 @@ export default function EditorPopUp(props) {
     });
     
     useEffect( () => {
-        props.pointsHistory.forEach((item) => {
-            if (item.id === props.entryId) {
+        pointsHistory.forEach((item) => {
+            if (item.id === entryId) {
                 setEditValues({
                     date: item.date,
                     goals: item.goals,
@@ -53,7 +53,7 @@ export default function EditorPopUp(props) {
             setEditValues( {
                 ...editValues,
                 [event.target.name]: event.target.value,
-                entryId: props.entryId
+                entryId: entryId
             });        
         }     
     };
@@ -94,7 +94,7 @@ export default function EditorPopUp(props) {
 
     const handleDelete = async (event) => {  
         try {  
-            await deleteDoc(doc(db, "points-history", props.entryId));    
+            await deleteDoc(doc(db, "points-history", entryId));    
         }
         catch {
 

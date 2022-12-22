@@ -16,7 +16,6 @@ export default function SignUp({user}) {
     const handleGoogleSignIn = async () => {
         try {
             await googleSignIn();
-            // setSignedIn(true);
         } 
         catch (err){
             console.log(err);

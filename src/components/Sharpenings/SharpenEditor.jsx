@@ -85,16 +85,6 @@ export default function SharpenEditor( {entryId, cutHistory} ) {
     // closeOnEscape
     >
     <span> 
-        <TextField 
-            sx = {{width: '100%', pb: 1}}
-            label ="Date"
-            variant = "outlined"
-            name = "date"
-            type = "date"
-            value = {editValues.date}
-            onChange = {handleEdit}
-        />
-
         <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel 
             id="cut-selector-edit">Cut</InputLabel>
@@ -126,6 +116,15 @@ export default function SharpenEditor( {entryId, cutHistory} ) {
             name = "notes"
             multiline
             value = {editValues.notes}
+            onChange = {handleEdit}
+        />
+        <TextField 
+            sx = {{width: '100%', pb: 1}}
+            label ="Date"
+            variant = "outlined"
+            name = "date"
+            type = "date"
+            value = {editValues.date}
             onChange = {handleEdit}
         />
         <Tooltip title = 'Submit Change'>

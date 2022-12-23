@@ -149,7 +149,6 @@ const handleSubmit = (event) => {
             max: 15,
             type: 'number'
           }}
-          autoFocus = {true}
           id="outlined-basic" 
           label="Goals" 
           variant="outlined" 

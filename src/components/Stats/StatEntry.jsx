@@ -149,14 +149,12 @@ const handleSubmit = (event) => {
             max: 15,
             type: 'number'
           }}
-          autoFocus = {true}
           id="outlined-basic" 
           label="Goals" 
           variant="outlined" 
           type = "number" 
           value = {goalValue}
           required
-          onFocus = {(event) => event.target.select()}
           onKeyDown = {handleKey.standard}
           onChange = {handleGoals}
         />
@@ -173,7 +171,6 @@ const handleSubmit = (event) => {
           type = "number" 
           required
           value = {assistValue}
-          onFocus = {(event) => event.target.select()}
           onKeyDown = {handleKey.standard}
           onChange = {handleAssists} 
         />
@@ -189,7 +186,6 @@ const handleSubmit = (event) => {
           variant="outlined" 
           type = "number"
           value = {plusMinus}
-          onFocus = {(event) => event.target.select()}
           onKeyDown = {handleKey.alternate}
           onChange = {handlePlusMinus} 
         />
@@ -201,7 +197,6 @@ const handleSubmit = (event) => {
             type = "string" 
             name = "league"
             value = {leagueVal}
-            onFocus = {(event) => event.target.select()}
             onChange = {handleLeague}
         />
         <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -127,7 +127,6 @@ export default function StatEditor({entryId, pointsHistory}) {
                     type = "number" 
                     name = "goals"
                     value = {editValues.goals}
-                    onFocus = {(event) => event.target.select()}
                     onKeyDown = {handleKey.standard}
                     onChange = {handleEdit}
                 />
@@ -145,7 +144,6 @@ export default function StatEditor({entryId, pointsHistory}) {
                     type = "number" 
                     name = "assists"
                     value = {editValues.assists}
-                    onFocus = {(event) => event.target.select()}
                     onKeyDown = {handleKey.standard}
                     onChange = {handleEdit}
                 />
@@ -163,7 +161,6 @@ export default function StatEditor({entryId, pointsHistory}) {
                     type = "number" 
                     name = "plusMinus"
                     value = {editValues.plusMinus}
-                    onFocus = {(event) => event.target.select()}
                     onKeyDown = {handleKey.alternate}
                     onChange = {handleEdit}
                 />
@@ -175,7 +172,6 @@ export default function StatEditor({entryId, pointsHistory}) {
                     type = "string" 
                     name = "league"
                     value = {editValues.league}
-                    onFocus = {(event) => event.target.select()}
                     onChange = {handleEdit}
                 />
 

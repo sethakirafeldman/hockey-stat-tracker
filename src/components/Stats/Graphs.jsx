@@ -225,7 +225,7 @@ export default function Graphs({ activeUser, currentStatData }) {
         </Paper>
         {statsInOrder.dateLabels.length > 0 > 0 ? // need logic to only show when there is data in local or passed in
             <>
-            <Paper elevation = {6} sx = {{margin: 'auto', width: '30%', mb: '2', p:2}}> 
+            <Paper elevation = {6} sx = {{margin: 'auto', width: '30%', mb: 2, p:2}}> 
                 <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Average</Typography>
                 <Typography sx = {{mt: 2, fontSize: '2em'}} variant="body" gutterBottom>{plusMinusAverage}</Typography>
             </Paper>

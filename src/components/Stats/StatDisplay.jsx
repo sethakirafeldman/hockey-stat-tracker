@@ -82,6 +82,7 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
     }, [activeUser]);  
 
     return (
+      
         <Box sx = {{overflow:'auto'}}>
           <AlertSnack  
             openSnack = {warnDelete} 
@@ -96,12 +97,12 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
             type = {"success"} 
             text = {"Entry successfully edited."} 
           />
-
+         {pointsHistory.length > 0 ? 
+        <>
         <h3>Points to Date</h3>
         <TableContainer 
-        sx = {{ display: 'flex', justifyContent: 'center', width:'auto'}}
-        component={Paper}>
-
+          sx = {{ display: 'flex', justifyContent: 'center', width:'auto'}}
+          component={Paper}>
         <Table
         sx = {{ minWidth: 350, maxWidth: 650, ml:1, mr:1}}
         aria-label="stats table">
@@ -124,7 +125,7 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
               <TableCell sx = {{fontWeight: 'bold', padding: 1}} align="left"></TableCell>
               <TableCell sx = {{fontWeight: 'bold', padding: 1}} align="left">{calcTotals.total(pointsHistory)}</TableCell>
             </TableRow>
-            {pointsHistory ? pointsHistory.map((row) => (
+            {pointsHistory.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
@@ -137,12 +138,15 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
                 <TableCell sx = {{padding: 1}}><StatEditor entryId = {row.id} pointsHistory = {pointsHistory} /></TableCell>
               </TableRow>
             )) 
-            :
-            null
-        }
+            }
           </TableBody>
         </Table>
       </TableContainer>
+      </>
+      :
+      null
+      }    
       </Box>
+
     )
 }

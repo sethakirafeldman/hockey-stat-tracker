@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {storeLocally, getLocalStorage} from "../../utils";
 
-import { Line, Doughnut  } from 'react-chartjs-2';
+import { Line, Doughnut } from 'react-chartjs-2';
 
 //mui
-import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import { Box, Typography, Link, Paper } from '@mui/material';
 
 import {
     Chart as ChartJS,
@@ -38,11 +37,19 @@ import {
 
 export default function Graphs({ activeUser, currentStatData }) {
 
-    const [statsInOrder, setStatsInOrder] = useState({});
-    const [pointTotals, setPointTotals] = useState({
-        goals: '',
-        assists: ''
+    const [statsInOrder, setStatsInOrder] = useState({
+        dateLabels: [],
+        graphGoals: [],
+        graphAssists: [],
+        graphPlusMinus: [],
     });
+
+    const [pointTotals, setPointTotals] = useState({
+        goals: 0,
+        assists: 0,
+    });
+
+    const [plusMinusAverage, setPlusMinusAverage] = useState(0);
 
     const sum = (arr) => {
         let total = 0;
@@ -52,53 +59,80 @@ export default function Graphs({ activeUser, currentStatData }) {
         return total;
     };
 
-    // in here I can do something to store the sorted data in local storage
-    // to persist on refresh.
+    const pmAverage = (arr) => {
+        let result = 0;
+        let negNum = 0;
+        let posNum = 0;
+        if (arr.length > 1) {
+            arr.forEach((val) =>{
+                if (val < 0) {
+                     negNum += Number(val);
+                 }
+                 else {
+                     posNum += Number(val);
+                 }
+             });
+            result = (posNum + negNum ) / 2
+            setPlusMinusAverage(result);
+        }
+        else { // when arr is only one value
+            setPlusMinusAverage(arr[0]);
+        }
+     
+        
+    };
+
 
     useEffect( () => {
         try {
             if (currentStatData.length > 0) {
+                // console.log('retrieving data from parent component')
+                // sorts currentStatData by date
+                currentStatData.sort((a, b) => {
+                    return new Date(a.date) - new Date(b.date)
+                });
 
-            
-            // sort currentStatData by date
-            currentStatData.sort((a, b) => {
-                return new Date(a.date) - new Date(b.date)
-            });
+                let tempDate = [];
+                let tempGoal = [];
+                let tempAssist = [];
+                let tempPlusMinus = [];
+             
+                Object.values(currentStatData).forEach((item) => {
+                    tempDate.push(item.date);
+                    tempGoal.push(item.goals);
+                    tempAssist.push(item.assists);
+                    tempPlusMinus.push(item.plusMinus);
+                });
 
-            let tempDate = [];
-            let tempGoal = [];
-            let tempAssist = [];
-            let tempPlusMinus = [];
+                setStatsInOrder({
+                    dateLabels: tempDate,
+                    graphGoals: tempGoal,
+                    graphAssists: tempAssist,
+                    graphPlusMinus: tempPlusMinus
+                });
 
-            Object.values(currentStatData).forEach((item) => {
-                tempDate.push(item.date);
-                tempGoal.push(item.goals);
-                tempAssist.push(item.assists);
-                tempPlusMinus.push(item.plusMinus);
-            });
-
-            setStatsInOrder({
-                dateLabels: tempDate,
-                graphGoals: tempGoal,
-                graphAssists: tempAssist,
-                graphPlusMinus: tempPlusMinus
-            });
-
-            setPointTotals({
-                goals: sum(tempGoal),
-                assists: sum(tempAssist)
-            });
-            }
-            else if (currentStatData.length < 1) {
-
-                let localData = getLocalStorage();
-                setStatsInOrder(getLocalStorage());    
-                console.log(getLocalStorage());
                 setPointTotals({
-                    goals: sum(localData.graphGoals),
-                    assists: sum(localData.graphAssists)
+                    goals: sum(tempGoal),
+                    assists: sum(tempAssist)
                 });
             }
+
+            // if currentData not handed in from parent comp, check for local storage
+            else if (currentStatData.length ===  0) { 
+                const localData = getLocalStorage();
+                if (localData === null) {
+                    // allow graphs page to render if no local data.
+                }
+
+                else {
+                    // console.log('retrieving data from local storage')
+                    setStatsInOrder(localData);
+                    setPointTotals({
+                        goals: sum(localData.graphGoals),
+                        assists: sum(localData.graphAssists),
+                    }); 
+                }
+            }    
         }
         catch (err) {
             console.log(err)
@@ -107,7 +141,11 @@ export default function Graphs({ activeUser, currentStatData }) {
 
     // sends current data to local storage
     useEffect(() => {
-        storeLocally(statsInOrder);
+        if (Object.keys(statsInOrder).length > 0 || statsInOrder.dateLabels.length > 0) {
+            pmAverage(statsInOrder.graphPlusMinus);
+            storeLocally(statsInOrder);  
+        }
+        
     }, [statsInOrder])
 
     // chart data
@@ -157,83 +195,103 @@ export default function Graphs({ activeUser, currentStatData }) {
         ],
       };
 
-    //   const plusMinusOverTime = {
-        
-    //     // labels: statsInOrder.dateLabels,
-    //     datasets: [
-    //         {
-    //             label: '+/-',
-    //             data: [
-    //                 {
-    //                     // y: statsInOrder.dateLabels,
-    //                     // x:  statsInOrder.graphPlusMinus,
-    //                     x: [1],
-    //                     y: parseInt(statsInOrder.graphPlusMinus[0])
-    //                 }
-    //             ], 
-               
-    //             backgroundColor: 'brown',
-    //         } 
-    //     ],
-        
-        
-    //   };
+      const plusMinusOverTime = {
+        labels: statsInOrder.dateLabels,
+        datasets: [
+          {
+            label: "+/-",
+            data: statsInOrder.graphPlusMinus,
+            fill: false,
+            backgroundColor: "blue",
+            borderColor: "blue",
+            showLine: true,
+            spanGaps: true,
+            pointRadius: 4
+          }
+        ]    
+      };
 
-      
     return (
         <Box className = {`fade-in`} sx ={{pb:20}}>
+        <Paper
+            elevation = {3} 
+            square 
+            sx = {{p:2, m:2, mt:2, mb:2, textAlign:'center', borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}>
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
-        <section id ="line-container">
-        <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Over Time</Typography>
-        <Line 
-            data = {pointsData} 
-            options = {{
-                layout: {
-                    autoPadding:true,
-                },
-                tension: .5,
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        min: 0,
-                        max: 7,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    },
-
-                    x: {
-                        beginAtZero: true,
-                    }
-                }
-            }}
-        />
-        </section>
-        <section id = "doughnut-container">
-            <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Distribution</Typography>
-            <Doughnut 
-            data = {doughData} 
-            options = {{
-                responsive: true,
-            }}
+        <Typography sx = {{m: 1, textAlign:"left", width: "60%", lineHeight: "1.5", mb: 2}} variant="p" gutterBottom>
+            Here, you will find some visualizations of your stat data entered on your <Link href = "/dashboard">dashboard</Link>.
+            These will be generated using the data you provided, and will not appear until your first entry. 
+        </Typography>
+        </Paper>
+        {statsInOrder.dateLabels.length > 0 > 0 ? // need logic to only show when there is data in local or passed in
+            <>
+            <Paper elevation = {6} sx = {{margin: 'auto', width: '30%', mb: '2', p:2}}> 
+                <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Average</Typography>
+                <Typography sx = {{mt: 2, fontSize: '2em'}} variant="body" gutterBottom>{plusMinusAverage}</Typography>
+            </Paper>
+            <Paper elevation = {6} sx = {{margin: 'auto', width: '30%', mb: 2, p:2}}>
+                <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Distribution</Typography>
+                <Doughnut 
+                data = {doughData} 
+                options = {{
+                    responsive: true,
+                }}
             />
-        </section>
+            </Paper>
+            <Paper elevation = {6} sx= {{ margin:'auto', width:'80%', maxWidth: '1000px', p:2, mb:2}}>
+            <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Over Time</Typography>
+            <Line 
+                data = {pointsData} 
+                options = {{
+                    layout: {
+                        autoPadding:true,
+                    },
+                    tension: .5,
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 7,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        },
 
-        {/* <section id = "bar-container"> */}
-            {/* <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Over Time</Typography> */}
-            {/* <Scatter  
-                data = {plusMinusOverTime}
-                // options = {{
-                //     scales: {
-                //         x: {
-                //             type: 'linear',
-                //             position: 'bottom'
-                //         }
-                //     }
-                // }}
-            /> */}
-        {/* </section> */}
+                        x: {
+                            beginAtZero: true,
+                        }
+                    }
+                }}
+            />
+            </Paper>
+            <Paper elevation = {6} sx= {{margin:'auto', width:'80%', maxWidth: '1000px', p:2, mb:2}}>
+                <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Over Time</Typography>
+                <Line 
+                data = {plusMinusOverTime} 
+                options = {{
+                    layout: {
+                        autoPadding:true, 
+                    },
+                    tension: 0,
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            min: -7,
+                            max: 7,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }}
+                />
+            </Paper>
+            </>
+        : 
+            <Typography>Waiting for data...</Typography>
+        }
         </Box>
     )
 }

@@ -91,18 +91,6 @@ footer {
   }
 }
 
-#line-container {
-  margin: auto;
-  width: 80%;
-  max-width: 1000px;
-}
-
-#doughnut-container {
-  margin:auto;
-  width: 30%;
-  margin-bottom: 2em;
-}
-
 @media screen and (max-width: 650px) {
   #doughnut-container {
     width: 50%;

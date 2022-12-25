@@ -144,11 +144,12 @@ export default function JournalEntry({ activeUser }) {
     <Paper 
         elevation = {3} 
         square 
-        sx = {{p:2, m:2, mt:2, mb:2, borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
+        sx = {{p:2, m:2, mt:2, mb:2, textAlign:'center', borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
     >
         <Typography sx = {{m: 1}} variant="h4" gutterBottom>Journal</Typography>
-        <Typography sx = {{m: 1, textAlign:"center", width: "60%", lineHeight: "1.5", mb: 2}} variant="p" gutterBottom>
-            Hockey is as much a mental game as it is a physical one. Here, you may log how your game went. Something memorable happen?
+        <Typography sx = {{m: 1, textAlign:"left", width: "60%", lineHeight: "1.5", mb: 2}} variant="p" gutterBottom>
+            Hockey is as much a mental game as it is a physical one. 
+            Here, you may log how your game went. Something memorable happen?
             This is the place to put it to paper.
         </Typography>
         <Dialog open = {open} onClose={handleClose}> 

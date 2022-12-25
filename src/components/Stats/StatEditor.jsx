@@ -91,10 +91,12 @@ export default function StatEditor({entryId, pointsHistory}) {
         })();
         closeMenu();
     };
-
+    
     const handleDelete = async (event) => {  
         try {  
             await deleteDoc(doc(db, "points-history", entryId));    
+            // clear item from local storage here. 
+            localStorage.clear();
         }
         catch {
 

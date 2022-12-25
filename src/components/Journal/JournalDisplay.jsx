@@ -73,6 +73,8 @@ export default function JournalDisplay ({activeUser}) {
         type = {"success"} 
         text = {"Entry deleted."} 
     />
+
+    { journalHistory.length > 0 ?
      <TableContainer sx = {{ display: "flex", justifyContent: 'center', width:'auto'}}
      component ={Paper}
      >
@@ -90,7 +92,7 @@ export default function JournalDisplay ({activeUser}) {
          <TableCell sx = {{color:'white', padding: 1}} align="left">View / Edit</TableCell>
         </TableRow>
 
-        {journalHistory ? journalHistory.map((row) => (
+        {journalHistory.map((row) => (
             <TableRow
                 name = {row.entryId}
                 key = {row.entryId}
@@ -135,12 +137,14 @@ export default function JournalDisplay ({activeUser}) {
             </TableCell>
             </TableRow>
         ))
-        :
-        <p>no data</p>
+
         }
         </TableHead>
         </Table>
      </TableContainer>
+    : 
+    null
+    }
      </Box>
     )
 }

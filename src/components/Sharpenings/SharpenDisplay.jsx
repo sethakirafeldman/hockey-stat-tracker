@@ -21,7 +21,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import Divider from '@mui/material/Divider';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {getCurrentDate} from '../../utils';
@@ -167,14 +166,11 @@ export default function SharpenDisplay ({activeUser}) {
         <Paper
             elevation = {3} 
             square 
-            sx = {{p:2, m:4, mt:2, borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
+            sx = {{p:2, m:4, mt:2, textAlign:'left', borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
         >
-        <Typography variant="h4" gutterBottom sx = {{mt: 2}}>Sharpenings</Typography>
-        <div className ="text-area">
-        <p>Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.</p>
-        <p>Not sure about what hollow to use? Check out this guide below</p>
-        <p>Standard cut is usually 1/2", but may depend on the shop.</p>
-        </div>
+        <Typography variant="h4" gutterBottom sx = {{mt: 2, textAlign:'center'}}>Sharpenings</Typography>
+        <Typography sx = {{lineHeight:'1.5'}}variant = "body">Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.
+        Not sure about what hollow to use? Check out this guide below. The standard cut is usually 1/2", but may depend on the shop.</Typography>
         </Paper> 
         
         <Box component ="img"
@@ -183,7 +179,6 @@ export default function SharpenDisplay ({activeUser}) {
             alt="sharpening diagram"
         />
         <Typography sx= {{fontSize: ".5em"}}>Source: <a href="https://www.sourceforsports.ca/pages/skate-sharpening">https://www.sourceforsports.ca/pages/skate-sharpening</a> </Typography>
-        <Divider sx ={{mb:3, mt: 3}}/>
 
         <Dialog open = {open} onClose={handleClose}> 
         <DialogTitle>Enter Sharpenings</DialogTitle>
@@ -248,9 +243,10 @@ export default function SharpenDisplay ({activeUser}) {
         </DialogActions>
         </Dialog>    
           
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <Button sx ={{mt:2}} variant="outlined" onClick={handleClickOpen}>
         Enter Sharpenings
         </Button>
+          {cutHistory.length > 0 ?
             <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto'}}>
             <Table sx = {{ minWidth: 300, maxWidth: 650}}  aria-label="sharpen table">
             <TableHead sx = {{bgcolor: 'primary.light', color: 'text.secondary'}}>
@@ -263,7 +259,7 @@ export default function SharpenDisplay ({activeUser}) {
             </TableHead>
             <TableBody>
 
-            {cutHistory ? cutHistory.map((row)=> (
+            {cutHistory.map((row)=> (
                 <TableRow
                     key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -279,12 +275,13 @@ export default function SharpenDisplay ({activeUser}) {
                 </TableCell>
                 </TableRow>   
             ))
-            :
-            null
             }           
             </TableBody>
             </Table>
           </TableContainer>
+          :
+          null
+          }
           
     </Box>
     )

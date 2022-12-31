@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import uuid from 'react-uuid';
 import dayjs from 'dayjs';
 
+import {summaryTheme} from '../../theme';
+
 import JournalDisplay from "./JournalDisplay";
 import AlertSnack from ".././AlertSnack";
 
@@ -144,7 +146,7 @@ export default function JournalEntry({ activeUser }) {
     <Paper 
         elevation = {3} 
         square 
-        sx = {{p:2, m:2, mt:2, mb:2, textAlign:'center', borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
+        sx = {summaryTheme.textContent}
     >
         <Typography sx = {{m: 1}} variant="h4" gutterBottom>Journal</Typography>
         <Typography sx = {{m: 1, textAlign:"left", width: "60%", lineHeight: "1.5", mb: 2}} variant="p" gutterBottom>

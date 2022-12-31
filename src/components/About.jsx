@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {summaryTheme} from '../theme';
+
 //mui
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -17,7 +19,7 @@ export default function About() {
         <Paper 
             elevation = {3} 
             square 
-            sx = {{p:2, m:2, mt: 2, borderRadius: 1, borderColor:"primary.main", borderWidth: 2 , width: "50%", margin: 'auto'}}
+            sx = {summaryTheme.textContent}
         >
         <Typography variant="h4" gutterBottom sx = {{mt: 2}}>About</Typography>
         <Typography variant="body1" gutterBottom>
@@ -47,6 +49,8 @@ export default function About() {
             <ListItemText>2022-12-10: Added Journal feature</ListItemText>
             <ListItemText>2022-12-18: Journal feature expanded, styling.</ListItemText>
             <ListItemText>2022-12-24: Added +/- line graph, average +/-</ListItemText>
+            <ListItemText>2022-12-30: Pagination for tables.</ListItemText>
+
         </List>
         </Paper>
         <Paper elevation ={3} sx ={{p:2, m:4, mt: 2, width:"50%", margin: "auto", textAlign:"left"}}>

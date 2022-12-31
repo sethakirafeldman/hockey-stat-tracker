@@ -3,6 +3,8 @@ import StatEntry from "./StatEntry";
 import StatDisplay from "./StatDisplay";
 import Link from '@mui/material/Link';
 
+import {summaryTheme} from '../../theme';
+
 import {Box, Typography, Paper } from '@mui/material';
 
 export default function Dashboard({activeUser, currentDate, realTimeCallBack}) {
@@ -14,12 +16,11 @@ export default function Dashboard({activeUser, currentDate, realTimeCallBack}) {
         <Box 
             className = {`fade-in`}
             sx = {{flexDirection: 'column', alignItems:"center", justifyContent:"center"}}>
-           
         <Paper 
             elevation = {3} 
             square 
-            sx = {{p:2, m:2, mt:2, mb: 2, textAlign:'left', borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
-        >
+            sx = {summaryTheme.textContent}
+            >
             <Typography variant = 'body' sx = {{textAlign:'center'}}>
             <Typography variant="h4" gutterBottom sx = {{mt: 2, textAlign:'center'}}>Dashboard</Typography>
 
@@ -37,7 +38,6 @@ export default function Dashboard({activeUser, currentDate, realTimeCallBack}) {
             </Paper>
             <StatEntry activeUser = {activeUser} />
             <StatDisplay activeUser = {activeUser} realTimeCallBack = {realTimeCallBack} />
-        
          </Box>
         </>
     )

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {storeLocally, getLocalStorage} from "../../utils";
+import {summaryTheme} from '../../theme';
 
 import { Line, Doughnut } from 'react-chartjs-2';
 
@@ -81,7 +82,6 @@ export default function Graphs({ activeUser, currentStatData }) {
      
         
     };
-
 
     useEffect( () => {
         try {
@@ -216,14 +216,14 @@ export default function Graphs({ activeUser, currentStatData }) {
         <Paper
             elevation = {3} 
             square 
-            sx = {{p:2, m:2, mt:2, mb:2, textAlign:'center', borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}>
+            sx = {summaryTheme.textContent} >
         <Typography sx = {{mt: 2}} variant="h4" gutterBottom>Graphs</Typography>
         <Typography sx = {{m: 1, textAlign:"left", width: "60%", lineHeight: "1.5", mb: 2}} variant="p" gutterBottom>
             Here, you will find some visualizations of your stat data entered on your <Link href = "/dashboard">dashboard</Link>.
             These will be generated using the data you provided, and will not appear until your first entry. 
         </Typography>
         </Paper>
-        {statsInOrder.dateLabels.length > 0 > 0 ? // need logic to only show when there is data in local or passed in
+        {statsInOrder.dateLabels.length > 0 ? // need logic to only show when there is data in local or passed in
             <>
             <Paper elevation = {6} sx = {{margin: 'auto', width: '30%', mb: 2, p:2}}> 
                 <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Average</Typography>
@@ -268,24 +268,24 @@ export default function Graphs({ activeUser, currentStatData }) {
             <Paper elevation = {6} sx= {{margin:'auto', width:'80%', maxWidth: '1000px', p:2, mb:2}}>
                 <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Over Time</Typography>
                 <Line 
-                data = {plusMinusOverTime} 
-                options = {{
-                    layout: {
-                        autoPadding:true, 
-                    },
-                    tension: 0,
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    scales: {
-                        y: {
-                            min: -7,
-                            max: 7,
-                            ticks: {
-                                stepSize: 1
+                    data = {plusMinusOverTime} 
+                    options = {{
+                        layout: {
+                            autoPadding:true, 
+                        },
+                        tension: 0,
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        scales: {
+                            y: {
+                                min: -7,
+                                max: 7,
+                                ticks: {
+                                    stepSize: 1
+                                }
                             }
                         }
-                    }
-                }}
+                    }}
                 />
             </Paper>
             </>

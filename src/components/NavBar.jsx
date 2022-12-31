@@ -76,7 +76,9 @@ export default function NavBar(props) {
         <AppBar position="sticky">
         <Container maxWidth="xxl">
         <Toolbar disableGutters>
+        <Box sx = {{display: { xs: 'none', md: 'flex' }}}>
         <img width = "100px" id = "logo" alt = "logo" src = {logo} />
+        </Box> 
           <Typography
             variant="h6"
             noWrap
@@ -131,6 +133,9 @@ export default function NavBar(props) {
             </Menu>
 
           </Box>
+          <Box sx = {{display: { xs: 'flex', md: 'none' }}}>
+            <img width = "100px" id = "logo" alt = "logo" src = {logo} />
+          </Box> 
           <Typography
             variant="h5"
             component="a"

@@ -3,6 +3,8 @@ import SharpenEditor from "./SharpenEditor";
 import dayjs from 'dayjs'
 import AlertSnack from '../AlertSnack';
 
+import {summaryTheme, tableTheme} from '../../theme';
+
 import uuid from 'react-uuid';
 
 //mui
@@ -13,14 +15,18 @@ import {Button, Paper} from "@mui/material";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+
+import {
+    Table, 
+    TableBody, 
+    TableCell, TableRow, 
+    TableContainer, 
+    TableHead, 
+    TablePagination, 
+    TableFooter 
+} from '@mui/material';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {getCurrentDate} from '../../utils';
@@ -45,12 +51,7 @@ export default function SharpenDisplay ({activeUser}) {
     const [dateValue, setDateValue] = useState(getCurrentDate());
 
     const [cutHistory, setCutHistory] = useState([]);
-
     const [open, setOpen] = useState(false);
-
-    const [editSuccess, setEditSuccess] = useState(false);
-    const [warnDelete, setWarnDelete] = useState(false);
-    const [entryAdded, setEntryAdded] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -58,6 +59,26 @@ export default function SharpenDisplay ({activeUser}) {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    //snackbar
+    const [editSuccess, setEditSuccess] = useState(false);
+    const [warnDelete, setWarnDelete] = useState(false);
+    const [entryAdded, setEntryAdded] = useState(false);
+
+    // pagination
+    const [count, setCount] = useState(5);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [trimRows, setTrimRows] = useState();
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+    
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     };
 
     const addEntry = async () => {
@@ -137,6 +158,20 @@ export default function SharpenDisplay ({activeUser}) {
 
     }, [activeUser]);
 
+    // pagination update
+    useEffect(() => {
+        setCount(cutHistory.length);
+        let trimmed;
+        if (rowsPerPage > 0 && rowsPerPage < cutHistory.length ) {
+            trimmed = cutHistory.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+            setTrimRows(trimmed);
+        }
+
+        else {
+            setTrimRows(cutHistory);
+        }
+      }, [rowsPerPage, page, cutHistory]);
+
     return (
     <Box 
         className = {`fade-in`}
@@ -166,10 +201,10 @@ export default function SharpenDisplay ({activeUser}) {
         <Paper
             elevation = {3} 
             square 
-            sx = {{p:2, m:4, mt:2, textAlign:'left', borderRadius: 1, borderColor:"primary.main", borderWidth: 2, width: "50%", margin: 'auto'}}
+            sx = {summaryTheme.textContent}
         >
         <Typography variant="h4" gutterBottom sx = {{mt: 2, textAlign:'center'}}>Sharpenings</Typography>
-        <Typography sx = {{lineHeight:'1.5'}}variant = "body">Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.
+        <Typography sx = {{lineHeight:'1.5'}} variant = "body">Here, you may enter your skate sharpenings to keep track of when you last went to the pro shop.
         Not sure about what hollow to use? Check out this guide below. The standard cut is usually 1/2", but may depend on the shop.</Typography>
         </Paper> 
         
@@ -248,35 +283,55 @@ export default function SharpenDisplay ({activeUser}) {
         </Button>
           {cutHistory.length > 0 ?
             <TableContainer sx = {{ mt: 2, display: 'flex', justifyContent: 'center', width:'auto'}}>
-            <Table sx = {{ minWidth: 300, maxWidth: 650}}  aria-label="sharpen table">
+            <Table sx = {{ minWidth: 300, maxWidth: 650}} aria-label="sharpen table">
             <TableHead sx = {{bgcolor: 'primary.light', color: 'text.secondary'}}>
             <TableRow>
-                <TableCell sx = {{color:'white', whiteSpace: 'nowrap'}}>Date (YYYY-MM-DD)</TableCell>
-                <TableCell sx = {{color:'white'}} align="left">Cut</TableCell>
-                <TableCell sx = {{color:'white'}} align = "left">Notes</TableCell>
+                <TableCell sx = {tableTheme.headingStyle}>Date (YYYY-MM-DD)</TableCell>
+                <TableCell sx = {tableTheme.headingStyle} align="left">Cut</TableCell>
+                <TableCell sx = {tableTheme.headingStyle} align = "left">Notes</TableCell>
                 <TableCell></TableCell>
             </TableRow>    
             </TableHead>
             <TableBody>
-
-            {cutHistory.map((row)=> (
+            {trimRows.map((row)=> (
                 <TableRow
                     key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 > 
-                <TableCell component="th" scope="row">{row.date}</TableCell>
-                <TableCell align="left">{`${row.cut}"`}</TableCell>
-                <TableCell align="left">{row.notes}</TableCell>
+                <TableCell sx = {tableTheme.cellStyle} component="th" scope="row">{row.date}</TableCell>
+                <TableCell sx = {tableTheme.cellStyle} align="left">{`${row.cut}"`}</TableCell>
+                <TableCell sx = {tableTheme.cellStyle} align="left">{row.notes}</TableCell>
                 <TableCell>
                     <SharpenEditor 
                         entryId = {row.id}
                         cutHistory = {cutHistory}
-                        />
+                    />
                 </TableCell>
                 </TableRow>   
             ))
             }           
             </TableBody>
+             {/* pagination area */}
+            <TableFooter>
+            <TableRow>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 15, { label: 'All', value: -1 }]}
+                colSpan={10}
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                SelectProps={{
+                inputProps: {
+                    'aria-label': 'rows per page',
+                },
+                native: true,
+                }}
+            >
+            </TablePagination>
+            </TableRow>
+            </TableFooter>
             </Table>
           </TableContainer>
           :

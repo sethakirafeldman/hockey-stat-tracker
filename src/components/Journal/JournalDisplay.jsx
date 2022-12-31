@@ -5,13 +5,18 @@ import JournalEditor from "./JournalEditor";
 import {convertToEmoticons} from "../../utils";
 
 // mui
-import Table from '@mui/material/Table';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+
+import {
+    Table, 
+    TableBody, 
+    TableCell, TableRow, 
+    TableContainer, 
+    TableHead, 
+    TablePagination, 
+    TableFooter 
+} from '@mui/material';
 
 //firebase
 import { db } from "../../firebase";
@@ -22,6 +27,21 @@ export default function JournalDisplay ({activeUser}) {
     const [journalHistory, setJournalHistory] = useState([]);
     const [editSuccess, setEditSuccess] = useState(false);
     const [warnDelete, setWarnDelete] = useState(false);
+
+    // pagination
+    const [count, setCount] = useState(5);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [trimRows, setTrimRows] = useState();
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+    
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     useEffect(() => {
         try {
@@ -57,6 +77,20 @@ export default function JournalDisplay ({activeUser}) {
         }
     }, [activeUser]);
 
+     // pagination update
+     useEffect(() => {
+        setCount(journalHistory.length);
+        let trimmed;
+        if (rowsPerPage > 0 && rowsPerPage < journalHistory.length ) {
+            trimmed = journalHistory.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+            setTrimRows(trimmed);
+        }
+
+        else {
+            setTrimRows(journalHistory);
+        }
+      }, [rowsPerPage, page, journalHistory]);
+
     return (
 
     <Box sx = {{overflow:'auto', width:'100%'}}>
@@ -91,8 +125,10 @@ export default function JournalDisplay ({activeUser}) {
          <TableCell sx = {{color:'white', padding: 1}} align="left">Journal Entry</TableCell>
          <TableCell sx = {{color:'white', padding: 1}} align="left">View / Edit</TableCell>
         </TableRow>
+        </TableHead>
 
-        {journalHistory.map((row) => (
+        <TableBody>
+        {trimRows.map((row) => (
             <TableRow
                 name = {row.entryId}
                 key = {row.entryId}
@@ -137,9 +173,29 @@ export default function JournalDisplay ({activeUser}) {
             </TableCell>
             </TableRow>
         ))
-
         }
-        </TableHead>
+        </TableBody>
+
+        <TableFooter>
+            <TableRow>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 15, { label: 'All', value: -1 }]}
+                colSpan={10}
+                count={count}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                SelectProps={{
+                inputProps: {
+                    'aria-label': 'rows per page',
+                },
+                native: true,
+                }}
+            >
+            </TablePagination>
+            </TableRow>
+            </TableFooter>
         </Table>
      </TableContainer>
     : 

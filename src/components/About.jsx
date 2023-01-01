@@ -36,7 +36,7 @@ export default function About() {
             {' '}for its backend. 
         </Typography>
         </Paper>
-        <Paper elevation ={3} sx ={{p:2, m:4, mt: 2, width:"50%", margin: "auto", textAlign: "left"}}>
+        <Paper elevation ={3} sx ={{p:2, mt: 2, ml: 2, mr:2, width:"fitContent", margin: "auto", textAlign: "left"}}>
         <Typography variant="h5" gutterBottom sx = {{mt: 2, textAlign:"center"}}>Change Notes</Typography>
         <List>
             <ListItemText>2022-11-07: changed edit buttons to icons and added descending sort for data tables.</ListItemText>

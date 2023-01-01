@@ -68,6 +68,23 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
         total += Number(entry.assists) + Number(entry.goals);
       });
       return Number(total);
+    },
+    plusMinus: (arr) => {
+        let result = 0;
+        let negNum = 0;
+        let posNum = 0;
+        if (arr.length > 1) {
+            arr.forEach((entry) =>{
+              entry < 0 ? negNum += Number(entry.plusMinus)
+              :
+              posNum += Number(entry.plusMinus)
+            });
+            result = (posNum + negNum ) / 2
+            return Math.floor(result);
+        }
+        else { // when arr is only one value
+            return arr[0]
+        } 
     }
   };
 
@@ -140,9 +157,8 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
          {pointsHistory.length > 0 ? 
         <>
         <Box sx = {{display:'flex', justifyContent:'center', alignItems:'center', mt:1, mb:1}}>
-        <Accordion component = {Paper} sx ={{width:'fitContent'}}>
+        <Accordion component = {Paper} sx ={{width:'fitContent' }}>
         <AccordionSummary
-          sx = {{textAlign:'center'}}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="career-stats-expand"
           id="career-stats-accordion"
@@ -151,9 +167,10 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
          </AccordionSummary>
             <AccordionDetails >
             <Paper sx = {{display:'flex', flexDirection:'column', padding:1}}>
-              <Typography>Total Goals: <strong>{calcTotals.goals(pointsHistory)}</strong></Typography>
-              <Typography>Total Assists: <strong>{calcTotals.assists(pointsHistory)}</strong></Typography>
-              <Typography>Total Points: <strong>{calcTotals.total(pointsHistory)}</strong></Typography>
+              <Typography>Total Goals | <strong>{calcTotals.goals(pointsHistory)}</strong></Typography>
+              <Typography>Total Assists | <strong>{calcTotals.assists(pointsHistory)}</strong></Typography>
+              <Typography>Average +/- | <strong>{calcTotals.plusMinus(pointsHistory)}</strong></Typography>
+              <Typography>Total Points | <strong>{calcTotals.total(pointsHistory)}</strong></Typography>
               </Paper>
             </AccordionDetails>
         </Accordion>

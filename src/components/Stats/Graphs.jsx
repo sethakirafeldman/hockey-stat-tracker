@@ -50,37 +50,12 @@ export default function Graphs({ activeUser, currentStatData }) {
         assists: 0,
     });
 
-    const [plusMinusAverage, setPlusMinusAverage] = useState(0);
-
     const sum = (arr) => {
         let total = 0;
         for (let value in arr) {
             total += parseInt(arr[value]);
         }
         return total;
-    };
-
-    const pmAverage = (arr) => {
-        let result = 0;
-        let negNum = 0;
-        let posNum = 0;
-        if (arr.length > 1) {
-            arr.forEach((val) =>{
-                if (val < 0) {
-                     negNum += Number(val);
-                 }
-                 else {
-                     posNum += Number(val);
-                 }
-             });
-            result = (posNum + negNum ) / 2
-            setPlusMinusAverage(result);
-        }
-        else { // when arr is only one value
-            setPlusMinusAverage(arr[0]);
-        }
-     
-        
     };
 
     useEffect( () => {
@@ -142,7 +117,6 @@ export default function Graphs({ activeUser, currentStatData }) {
     // sends current data to local storage
     useEffect(() => {
         if (Object.keys(statsInOrder).length > 0 || statsInOrder.dateLabels.length > 0) {
-            pmAverage(statsInOrder.graphPlusMinus);
             storeLocally(statsInOrder);  
         }
         
@@ -225,10 +199,6 @@ export default function Graphs({ activeUser, currentStatData }) {
         </Paper>
         {statsInOrder.dateLabels.length > 0 ? // need logic to only show when there is data in local or passed in
             <>
-            <Paper elevation = {6} sx = {{margin: 'auto', width: '30%', mb: 2, p:2}}> 
-                <Typography sx = {{mt: 2}} variant="h6" gutterBottom>+/- Average</Typography>
-                <Typography sx = {{mt: 2, fontSize: '2em'}} variant="body" gutterBottom>{plusMinusAverage}</Typography>
-            </Paper>
             <Paper elevation = {6} sx = {{margin: 'auto', width: '30%', mb: 2, p:2}}>
                 <Typography sx = {{mt: 2}} variant="h6" gutterBottom>Points Distribution</Typography>
                 <Doughnut 

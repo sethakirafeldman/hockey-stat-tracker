@@ -115,7 +115,7 @@ export default function StatEditor({entryId, pointsHistory}) {
                 <EditIcon sx ={{"&:hover":{color:"#1989fa"}}}></EditIcon>
             )}
             position="left center"
-    
+            nested
             >
             <span> 
                 <TextField

@@ -93,8 +93,6 @@ export default function SharpenEditor( {entryId, cutHistory} ) {
     )}
     position="left"
     nested
-    // closeOnDocumentClick
-    // closeOnEscape
     >
     <span> 
         <FormControl variant="outlined" sx={{ m: 1, minWidth: 120 }}>

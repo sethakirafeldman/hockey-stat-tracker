@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import dayjs from 'dayjs';
+import DeleteConfirmation from '../General/DeleteConfirmation';
 
 import {convertToEmoticons} from "../../utils";
 
@@ -37,10 +38,11 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 //firebase
 import { db } from "../../firebase";
-import { setDoc, doc, deleteDoc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 
 export default function JournalEditor ({activeUser, journalHistory, entryId}) {
     const [editText, setEditText] = useState(false);
+    const [showConfirmation,setShowConfirmation ] = useState(false);
 
     // dialog
     const [open, setOpen] = useState(false);
@@ -118,14 +120,8 @@ export default function JournalEditor ({activeUser, journalHistory, entryId}) {
         }
     };
 
-    const handleDelete = async () => {
-        try {  
-            await deleteDoc(doc(db, "journal", currentDisplay.entryId)); 
-        }
-        catch {
-
-        }
-        handleClose();
+    const handleConfirmDelete = () => {
+        setShowConfirmation(true);
     }
 
     const handleEdit = () => {
@@ -151,6 +147,12 @@ export default function JournalEditor ({activeUser, journalHistory, entryId}) {
 
     return (
         <>
+           <DeleteConfirmation 
+                onClose = {()=> setShowConfirmation(false)}
+                openConfirm = {showConfirmation}
+                entryId = {currentDisplay.entryId}
+                dbName = {"journal"}
+            /> 
             <PreviewIcon
                 onClick = {showEditor}
             />
@@ -198,7 +200,6 @@ export default function JournalEditor ({activeUser, journalHistory, entryId}) {
             <>
          
             <Box sx ={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
-            {/* <Typography sx ={{margin:'auto', padding: 1}}>Edit Entry</Typography> */}
             <InputLabel sx = {{fontSize: ".75em"}} id="pregame-edit">Before</InputLabel>
             <ToggleButtonGroup
                 sx ={{m:1}}
@@ -267,7 +268,7 @@ export default function JournalEditor ({activeUser, journalHistory, entryId}) {
             </IconButton>
             <Box sx ={{display: 'flex', justifyContent:'space-between', padding: 1}}>
                 <Tooltip title = "delete forever">
-                <DeleteForeverIcon sx= {{m: 1, color:'red'}} onClick = {handleDelete}></DeleteForeverIcon>
+                <DeleteForeverIcon sx= {{m: 1, color:'red'}} onClick = {handleConfirmDelete}></DeleteForeverIcon>
                 </Tooltip>
                 {!editText ?
                     <Tooltip title = "edit entry">

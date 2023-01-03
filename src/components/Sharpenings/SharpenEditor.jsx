@@ -1,8 +1,10 @@
 import React, {useRef, useEffect, useState} from 'react';
 import Popup from 'reactjs-popup';
+import DeleteConfirmation from '../General/DeleteConfirmation';
+
 import 'reactjs-popup/dist/index.css';
 
-import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../../firebase";
 
 //mui
@@ -19,6 +21,8 @@ import { InputLabel } from '@mui/material';
 
 export default function SharpenEditor( {entryId, cutHistory} ) {
   
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
     const ref = useRef();
     const closeMenu = () => ref.current.close();
 
@@ -68,12 +72,20 @@ export default function SharpenEditor( {entryId, cutHistory} ) {
         closeMenu();
     };
 
-    const deleteItem = async (event) => {        
-        await deleteDoc(doc(db, "sharpens", entryId));
+    const handleConfirmDelete = async (event) => {        
+        // await deleteDoc(doc(db, "sharpens", entryId));
+        setShowConfirmation(true);
+
     };
 
     return (
-    
+    <>
+      <DeleteConfirmation 
+            onClose = {()=> setShowConfirmation(false)}
+            openConfirm = {showConfirmation}
+            entryId = {entryId}
+            dbName = {"sharpens"}
+        /> 
     <Popup
     ref = {ref}
     trigger={open => (
@@ -131,9 +143,10 @@ export default function SharpenEditor( {entryId, cutHistory} ) {
         <Button sx = {{width: '50%'}} onClick = {handleEditSubmit} type = "submit" variant = "outlined"><CheckIcon/></Button>
         </Tooltip>
         <Tooltip title = 'Delete Permanently'>
-        <Button sx = {{color:'red', width: '50%'}} variant = "outlined" type = "button" onClick = {deleteItem}><DeleteForeverIcon/></Button>
+        <Button sx = {{color:'red', width: '50%'}} variant = "outlined" type = "button" onClick = {handleConfirmDelete}><DeleteForeverIcon/></Button>
         </Tooltip>
     </span>
 </Popup>
+</>
 )
 }

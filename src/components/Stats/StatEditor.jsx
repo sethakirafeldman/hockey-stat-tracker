@@ -1,8 +1,10 @@
 import React, {useRef, useEffect, useState} from 'react';
 import Popup from 'reactjs-popup';
+import DeleteConfirmation from '../General/DeleteConfirmation';
+
 import 'reactjs-popup/dist/index.css';
 
-import { doc, setDoc, deleteDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../../firebase";
 
 //mui
@@ -14,6 +16,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Tooltip from '@mui/material/Tooltip';
 
 export default function StatEditor({entryId, pointsHistory}) {
+
+    const [showConfirmation,setShowConfirmation ] = useState(false);
 
     const ref = useRef();
     const closeMenu = () => ref.current.close();
@@ -49,7 +53,6 @@ export default function StatEditor({entryId, pointsHistory}) {
             event.preventDefault();
         }
         else {
-
             setEditValues( {
                 ...editValues,
                 [event.target.name]: event.target.value,
@@ -92,20 +95,20 @@ export default function StatEditor({entryId, pointsHistory}) {
         closeMenu();
     };
     
-    const handleDelete = async (event) => {  
-        try {  
-            await deleteDoc(doc(db, "points-history", entryId));    
-            // clear item from local storage here. 
-            localStorage.clear();
-        }
-        catch {
-
-        }
-
+    const handleConfirmDelete = () => {  
+        setShowConfirmation(true);
     };
 
     return( 
         <>
+        
+        <DeleteConfirmation 
+            onClose = {()=> setShowConfirmation(false)}
+            openConfirm = {showConfirmation}
+            entryId = {entryId}
+            dbName = {"points-history"}
+        /> 
+    
         <Popup
             ref = {ref}
             trigger={open => (
@@ -191,10 +194,14 @@ export default function StatEditor({entryId, pointsHistory}) {
                     <Button onClick = {handleEditSubmit} type = "submit" variant = "outlined" sx = {{width: '50%'}}><CheckIcon/></Button>
                 </Tooltip>
                 <Tooltip title = "Delete Permanently">
-                    <Button variant = "outlined" type = "button" onClick = {handleDelete} sx = {{color:'red', width: '50%'}} ><DeleteForeverIcon/></Button>
+                    <Button variant = "outlined" type = "button" onClick = {handleConfirmDelete} sx = {{color:'red', width: '50%'}} >
+                        <DeleteForeverIcon/>
+                    </Button>     
                 </Tooltip>
             </span>
+         
         </Popup>
+
         </>
     )
 };

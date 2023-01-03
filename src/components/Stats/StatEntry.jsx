@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import uuid from 'react-uuid';
 import dayjs from 'dayjs';
-import AlertSnack from "../AlertSnack";
+import AlertSnack from "../General/AlertSnack";
 
 //mui
 import TextField from '@mui/material/TextField';

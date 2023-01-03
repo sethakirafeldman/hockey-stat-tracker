@@ -1,7 +1,7 @@
 import React, {useEffect, useState}  from 'react';
 import SharpenEditor from "./SharpenEditor";
 import dayjs from 'dayjs'
-import AlertSnack from '../AlertSnack';
+import AlertSnack from '../General/AlertSnack';
 
 import {summaryTheme, tableTheme} from '../../theme';
 

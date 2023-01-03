@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import AlertSnack from ".././AlertSnack";
+import AlertSnack from "../General/AlertSnack";
 import JournalEditor from "./JournalEditor";
 
 import {convertToEmoticons} from "../../utils";

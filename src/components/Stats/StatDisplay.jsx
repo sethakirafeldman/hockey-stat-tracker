@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import StatEditor from "./StatEditor";
-import AlertSnack from '../AlertSnack';
+import AlertSnack from '../General/AlertSnack';
 
 import {tableTheme} from '../../theme';
 
@@ -94,8 +94,12 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
               const ptsArr = [];
               querySnapshot.docChanges().forEach((change) => {
+                // const entryStr = change.doc._document.data.value.mapValue.fields.id.stringValue;
                 if (change.type === "modified") {
+                  // console.log(entryStr);
                     setEditSuccess(true);
+                   
+                    // add class to row
                 }
 
                 else if (change.type === "removed") {
@@ -191,17 +195,8 @@ export default function StatDisplay({activeUser, realTimeCallBack}) {
               <TableCell sx = {tableTheme.headingStyle}></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody >
-            {/* <TableRow sx = {{bgcolor: 'contrastText'}}>
-              <TableCell sx = {tableTheme.cellStyleBold} component="th" scope="row">Total</TableCell>
-              {/* <TableCell sx = {tableTheme.cellStyleBold} align="left">{calcTotals.goals(pointsHistory)}</TableCell> */}
-              {/* <TableCell sx = {tableTheme.cellStyleBold} align="left">{calcTotals.assists(pointsHistory)}</TableCell> */}
-              {/* <TableCell sx = {tableTheme.cellStyleBold} align="left"></TableCell>
-              <TableCell sx = {tableTheme.cellStyleBold} align="left"></TableCell>
-              <TableCell sx = {tableTheme.cellStyleBold} align="left">{calcTotals.total(pointsHistory)}</TableCell>
-            </TableRow> */}
-            
-              {trimRows.map((row) => ( 
+          <TableBody >            
+            {trimRows.map((row) => ( 
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}

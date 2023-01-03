@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import {summaryTheme} from '../../theme';
 
 import JournalDisplay from "./JournalDisplay";
-import AlertSnack from ".././AlertSnack";
+import AlertSnack from "../General/AlertSnack";
 
 //mui
 import Typography from '@mui/material/Typography';

@@ -58,10 +58,10 @@ export default function JournalEditor ({activeUser, journalHistory, entryId}) {
         player_id: activeUser.player_id
     });
 
-    const trimExcess = (str) => {
-        str = str.replace(/\s+/g, ' ').trim()
-        return str;
-    };
+    // const trimExcess = (str) => {
+    //     str = str.replace(/\s+/g, ' ').trim()
+    //     return str;
+    // };
 
     useEffect(() =>{
         journalHistory.forEach((item)=> {
@@ -251,7 +251,7 @@ export default function JournalEditor ({activeUser, journalHistory, entryId}) {
                 onChange = {handleChange.text} 
                 fullWidth multiline 
                 variant="outlined" 
-                value = {trimExcess(currentDisplay.textField)}
+                value = {currentDisplay.textField}
             />
             </Box>
               </>  
